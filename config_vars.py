@@ -1,0 +1,1 @@
+MONGODB_URI = 'mongodb://cas:cas@54.165.58.169/castest'
