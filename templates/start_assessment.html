@@ -34,7 +34,7 @@
 </style>
 </head>
 
-<body class="landing-page sidebar-collapse">
+<!-- <body class="landing-page sidebar-collapse">
   
   <div class="container">
    <h2 align="center">Details</h2><br /><br />
@@ -90,7 +90,7 @@
 
     <form class="m-2">
             <input type="button" class="btn-sm btn btn-primary add-row" value="+">
-            <!-- <input type="button" class="load" value="Enter"> -->
+            
         </form>
         <div class="table-responsive-md table-responsive-lg table-responsive-sm">
         <table id='tablemain' class="table">
@@ -106,41 +106,7 @@
                 </tr>
             </thead>
             <tbody>
-              <!-- <tr >
-                <td>
-                  <input type='text' class='sno form-control'></input>
-                </td>
-                <td>
-                  <input type='number' class='age form-control'></input>
-                </td>
-                <td>
-                  <div class='form-check'>
-                    <input class='gender form-check-input' type='radio' name='inlineRadioOptions' value="Male">
-                    <label class='form-check-label'for='inlineRadio1' >Male</label>
-                  </div>
-                  <div class='form-check '>
-                    <input class='gender form-check-input' type='radio' name='inlineRadioOptions' value="Female">
-                    <label class='form-check-label' for='inlineRadio2'>Female</label>
-                  </div>
-                  <div class='form-check '>
-                    <input class='gender form-check-input' type='radio' name='inlineRadioOptions' value="Third_Gender">
-                    <label class='form-check-label' for='inlineRadio2'>Third Gender</label>
-                  </div>
-                </td>
-                <td>
-                  <div class='form-check '>
-                    <input class='agecond form-check-input' type='radio' name='inlineRadioOptions1' value="Yes">
-                    <label class='form-check-label' for='inlineRadio2'>Yes</label>
-                    </div>
-                    <div class='form-check '>
-                      <input class='agecond form-check-input' type='radio' name='inlineRadioOptions1' value="No">
-                      <label class='form-check-label' for='inlineRadio2'>No</label>
-                    </div>
-                  </td>
-                    <td>
-                      <button type='button' class='btn btn-primary'>Start Assesment</button>
-                    </td>
-                  </tr> -->
+              
             </tbody>
         </table>
       </div>
@@ -158,7 +124,148 @@
 
    
   </div>
+ -->
 
+ <body class="login-page sidebar-collapse">
+    <div class="container">
+      <div id="ques_data" style="display: block;">
+        <div class="row" style="margin-top: 75px;">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="card card-login">
+              <div class="card-header card-header-rose text-center">
+                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">COLLECT HOUSEHOLD SUMMARY</h4>
+                <p style="padding-left: 7%; padding-right: 7%; text-align: justify; text-justify: inter-word;"></p>
+              </div>
+              <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
+              <div class="container">
+                <div class="row">
+                    <div class=" col-6">
+                      <div class="form-group">
+                    <label for="exampleFormControlInput1">District</label>
+                    <select name="districts" id="districts" class="form-control input-lg">
+                     <option value="">Select District</option>
+                   </select>
+                  </div>
+                    
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                    <label for="exampleFormControlInput1">Taluq</label>
+                    <select name="taluq" id="taluq" class="form-control input-lg">
+                    <option value="">Select Taluq</option>
+                   </select> 
+                  </div>
+                    </div>
+                     <div class="col-6">
+                      <div class="form-group">
+                    <label for="formGroupExampleInput">Village / Ward</label>
+                    <input type="text" class="form-control" >
+                  </div>
+
+                    </div>
+                     <div class="col-6">
+                      <div class="form-group">
+                    <label for="exampleFormControlSelect1">Locale</label>
+                    <select class="form-control">
+                       <option>Select Locale</option>
+                      <option>Urban</option>
+                      <option>Local</option>
+                      
+                    </select>
+                  </div>
+
+                    </div>
+                    <div class="col-12 mt-4">
+                      
+
+                     <center> <button type="submit" class="btn btn-rose btn-raised mb-2 household">Create Household</button></center>
+                 
+                    </div>  
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row family_data" style="margin-top: 25px;">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="card card-login">
+              <div class="card-header card-header-rose text-center">
+                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">COLLECT INDIVIDUAL SUMMARY AT HOME</h4>
+                <p style="padding-left: 7%; padding-right: 7%; text-align: justify; text-justify: inter-word;"></p>
+              </div>
+              <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
+              <div class="container" id='tablemain'>
+
+                <div class="row">
+                    <div class=" col-6">
+                      <div class="form-group">
+                    <label for="exampleFormControlInput1">Name</label>
+                    <input type="text" name="name[]" class="form-control">
+                  </div>
+                    
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                    <label for="exampleFormControlInput1">Gender</label>
+                    <select class="form-control" name="gender[]">
+                       <option>Select</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      
+                    </select>
+                  </div>
+                    </div>
+                     <div class="col-6">
+                      <div class="form-group">
+                    <label for="formGroupExampleInput">Age between 15 and 30?</label>
+                   <select class="form-control" name="age[]">
+                       <option>Select</option>
+                      <option>Yes</option>
+                      <option>No</option>
+                      
+                    </select>
+                  </div>
+
+                    </div>
+                     <div class="col-6 mt-3">                   
+                    
+                   <button class="btn btn-rose btn-raised start_assesment_btn" >Start Assessment</button>
+                    </div>
+
+
+                  </div>
+                 
+                </div>
+               
+
+              </div>
+            </div>
+            <center>  <input type="button" class="btn btn-rose btn-raised add-row"  value="ADD ANOTHER FAMILY MEMBER"></center>
+          </div>
+        </div>
+     
+
+      <div class="row" style="margin-top: 15px; margin-bottom: 50px;">
+        <div class="col-md-6 ml-auto mr-auto text-center save_household">
+           <!--<a href="/home">-->
+            <button class="btn btn-rose btn-raised " onclick="loadValues()">Save Household</button>
+            <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center>
+          <!--</a>-->
+          <br>
+          <a href="/home">Go To Home</a>
+          <!--<br>
+          <a href="/logout">Logout</a> -->
+        </div>
+      </div>
+
+    </div>
+
+
+    </div>
 
 <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
@@ -643,48 +750,128 @@ var html_code = '';
 
 var no_rows = 0;
 
-function addrow(){
+// function addrow(){
 
-row = "<tr id=tasklist><td>" + "<input type='text' class='sno"+no_rows+"'></input>" + "</td><td>" + "<input type='number' class='age"+no_rows+"'></input>" + "</td><td>" + "<div class='form-check'><input class='gender' type='radio' name='gender"+no_rows+"' value='Male'><label class='form-check-label'for='gender"+no_rows+"'>Male</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Female'><label class='form-check-label' for='gender"+no_rows+"'>Female</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Third Gender'><label class='form-check-label' for='gender"+no_rows+"'>Third Gender</label></div>" + "</td><td>" + "<div class='agecond form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='Yes'><label class='form-check-label' for='agecond"+no_rows+"'>Yes</label></div><div class='form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='No'><label class='form-check-label' for='agecond"+no_rows+"'>No</label></div>" + "</td><td>" + "<button type='button' class='btn btn-primary start_assesment_btn' >Start Assesment</button>" +"</td></tr>";
-        $("table > tbody").append(row);
+// row = '<div class="row"><div class="col-6">+<div class="form-group">' +
+//                     '<label for="exampleFormControlInput1">Name</label>' +
+//                     '<input type="text" name="name[]" class="form-control">' +
+//                     '</div>' +
+                    
+//                     '</div>'+
+//                     '<div class="col-6">'+
+//                       '<div class="form-group">'+
+//                     '<label for="exampleFormControlInput1">Gender</label>'+
+//                     '<select class="form-control" name="gender[]">'+
+//                        '<option>Select</option>'+
+//                       '<option>Male</option>'+
+//                       '<option>Female</option>'+
+                      
+//                     '</select>'+
+//                   '</div>'+
+//                     '</div>'+
+//                      '<div class="col-6">'+
+//                       '<div class="form-group">'+
+//                     '<label for="formGroupExampleInput">Age between 15 and 30?</label>'+
+//                    '<select class="form-control" name="age[]">'+
+//                        '<option>Select</option>'+
+//                       '<option>Yes</option>'+
+//                       '<option>No</option>'+
+                      
+//                     '</select>'+
+//                   '</div>'+
+
+//                     '</div>'+
+//                      '<div class="col-6 mt-3">'+                   
+                    
+//                    '<button class="btn btn-rose btn-raised" >Start Assessment</button>'+
+//                     '</div></div>';
+//         $("#tablemain").append(row);
         
-            ++no_rows;
+//             // ++no_rows;
 
-}
+// }
 
 $(".add-row").click(function () {
-  var mainTable = $('#tablemain');
-var tr = mainTable.find('tbody tr');
-if(tr.length < 10){
-        row = "<tr id=tasklist><td>" + "<input type='text' class='sno"+no_rows+"'></input>" + "</td><td>" + "<input type='number' class='age"+no_rows+"'></input>" + "</td><td>" + "<div class='form-check'><input class='gender' type='radio' name='gender"+no_rows+"' value='Male'><label class='form-check-label'for='gender"+no_rows+"'>Male</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Female'><label class='form-check-label' for='gender"+no_rows+"'>Female</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Third Gender'><label class='form-check-label' for='gender"+no_rows+"'>Third Gender</label></div>" + "</td><td>" + "<div class='agecond form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='Yes'><label class='form-check-label' for='agecond"+no_rows+"'>Yes</label></div><div class='form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='No'><label class='form-check-label' for='agecond"+no_rows+"'>No</label></div>" + "</td><td>" + "<button type='button'  class='btn btn-primary start_assesment_btn '>Start Assesment</button>" +"</td></tr>";
-        $("table > tbody").append(row);
+//   var mainTable = $('#tablemain');
+// var tr = mainTable.find('tbody tr');
+// if(tr.length < 10){
+//         row = "<tr id=tasklist><td>" + "<input type='text' class='sno"+no_rows+"'></input>" + "</td><td>" + "<input type='number' class='age"+no_rows+"'></input>" + "</td><td>" + "<div class='form-check'><input class='gender' type='radio' name='gender"+no_rows+"' value='Male'><label class='form-check-label'for='gender"+no_rows+"'>Male</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Female'><label class='form-check-label' for='gender"+no_rows+"'>Female</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Third Gender'><label class='form-check-label' for='gender"+no_rows+"'>Third Gender</label></div>" + "</td><td>" + "<div class='agecond form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='Yes'><label class='form-check-label' for='agecond"+no_rows+"'>Yes</label></div><div class='form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='No'><label class='form-check-label' for='agecond"+no_rows+"'>No</label></div>" + "</td><td>" + "<button type='button'  class='btn btn-primary start_assesment_btn '>Start Assesment</button>" +"</td></tr>";
+//         $("table > tbody").append(row);
         
-            ++no_rows;
+//             ++no_rows;
 
-          }
-          else{
-            alert("Limit Only 10 Rows");
-          }
+//           }
+//           else{
+//             alert("Limit Only 10 Rows");
+//           }
+
+var inps = document.getElementsByName('name[]');
+if(inps.length < 10){
+
+row = '<div class="row mt-5"><div class="col-6"><div class="form-group">' +
+                    '<label for="exampleFormControlInput1">Name</label>' +
+                    '<input type="text" name="name[]" class="form-control">' +
+                    '</div>' +
+                    
+                    '</div>'+
+                    '<div class="col-6">'+
+                      '<div class="form-group">'+
+                    '<label for="exampleFormControlInput1">Gender</label>'+
+                    '<select class="form-control" name="gender[]">'+
+                       '<option>Select</option>'+
+                      '<option>Male</option>'+
+                      '<option>Female</option>'+
+                      
+                    '</select>'+
+                  '</div>'+
+                    '</div>'+
+                     '<div class="col-6">'+
+                      '<div class="form-group">'+
+                    '<label for="formGroupExampleInput">Age between 15 and 30?</label>'+
+                   '<select class="form-control" name="age[]">'+
+                       '<option>Select</option>'+
+                      '<option>Yes</option>'+
+                      '<option>No</option>'+
+                      
+                    '</select>'+
+                  '</div>'+
+
+                    '</div>'+
+                     '<div class="col-6 mt-3">'+                   
+                    
+                   '<button class="btn btn-rose btn-raised start_assesment_btn" >Start Assessment</button>'+
+                    '</div></div>';
+        $("#tablemain").append(row);
+
+      }
+      else{
+
+         alert("Limit Only 10 Rows");
+      }
+
     });
+
 
 $(".save_household").click(function(){
     $(".start_assesment_btn").css('display', 'block');
   });
 
-    $('.load').click(function () {
-       loadValues();
-    });
+//     $('.load').click(function () {
+//        loadValues();
+//     });
  $('.household').click(function () {
        famil_details();
-       addrow();
+       
     });
 $(".household").css("display","block");
 $(".family_data").css("display","none");
+$(".save_household").css("display","none");
+$(".start_assesment_btn").css('display', 'none');
 
  $(document).on('change', '#districts', function(){
   var districts_id = $(this).val();
   select_taluq(districts_id);
-  console.log(districts_id);
+  // console.log(districts_id);
  });
  
 });
@@ -693,23 +880,27 @@ $(".family_data").css("display","none");
 
 function loadValues(){
 
-  var mainTable = $('#tablemain');
-var tr = mainTable.find('tbody tr');
-console.log(tr.length)
-tr.each(function(){
-tmpArr=[];
-$(this).find('td').each(function(){
+//   var mainTable = $('#tablemain');
+// var tr = mainTable.find('tbody tr');
+// console.log(tr.length)
+// tr.each(function(){
+// tmpArr=[];
+// $(this).find('td').each(function(){
 
-var values=$(this).find('input[type=text], input[type=number], select, input[type=radio]:checked').val();
-tmpArr.push(values);
+// var values=$(this).find('input[type=text], input[type=number], select, input[type=radio]:checked').val();
+// tmpArr.push(values);
 
-});
-mainArr.push(tmpArr);
-});
-console.log(mainArr);
+// });
+// mainArr.push(tmpArr);
+// });
+// console.log(mainArr);
+var inps = document.getElementsByName('name[]');
+for (var i = 0; i <inps.length; i++) {
+var inp=inps[i];
+    console.log("pname["+i+"].value="+inp.value);
+}
 
-
-
+// console.log(values);
 }
 
 function famil_details(){
@@ -717,6 +908,7 @@ function famil_details(){
 $(".family_data").css("display","block");
 $(".household").css("display","none");
 
+$(".save_household").css("display","block");
 
 
 }
