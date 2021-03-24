@@ -853,7 +853,7 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
         <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton1" onclick="goToAssessment()">START INDIVIDUAL ASSESSMENT</button>
+    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton1" onclick="goToAssessment()">START INTERVEW</button>
           </a>
   </div>
 
@@ -933,7 +933,7 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
            <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton2" onclick="goToAssessment()">START INDIVIDUAL ASSESSMENT</button>
+    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton2" onclick="goToAssessment()">START INTERVEW</button>
           </a>
   </div>
 
@@ -1012,7 +1012,7 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
           <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton3" onclick="goToAssessment()">START INDIVIDUAL ASSESSMENT</button>
+    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton3" onclick="goToAssessment()">START INTERVEW</button>
           </a>
   </div>
 
@@ -1091,7 +1091,7 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
           <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton4" onclick="goToAssessment()">START INDIVIDUAL ASSESSMENT</button>
+    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton4" onclick="goToAssessment()">START INTERVEW</button>
           </a>
   </div>
 
@@ -1171,7 +1171,7 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
           <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton5" onclick="goToAssessment()">START INDIVIDUAL ASSESSMENT</button>
+    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton5" onclick="goToAssessment()">START INTERVIEW</button>
           </a>
   </div>
 
