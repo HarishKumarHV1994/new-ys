@@ -57,6 +57,10 @@ def start_assessment():
 
 
 
+@app.route('/ysAssessment')
+def ncd_yuvaspandana():
+	data = get_ys_json()
+	return template('templates/assessment_ys_home.tpl', data=data)
 
 
 @app.route('/<filename:re:.*\.*>')
