@@ -11,7 +11,7 @@ import os
 # from config_vars import *
 #from all_functions import *
 #from offline_functions import *
-# from ncd_data_json import *
+from ys_data_json import *
 
 app = Bottle(__name__)
 
@@ -50,10 +50,15 @@ def start_assessment():
     # to be created
 	return static_file('assessment_report.html', root='templates/')
 
+@route('/ysAssessment')
+def ncd_yuvaspandana():
+	data = get_ys_json()
+	return template('templates/assessment_ys_home.tpl', data=data)
+
 # @route('/ncdStress')
 # def ncd_stress():
-# 	data = get_stress_json()
-# 	return template('templates/assessment_stress_home.tpl', data=data)
+# 	data = get_ys_json()
+# 	return template('templates/templates/assessment_ys_home.tpl', data=data)
 
 
 

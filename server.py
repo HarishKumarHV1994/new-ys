@@ -11,7 +11,7 @@ import os
 # from config_vars import *
 #from all_functions import *
 #from offline_functions import *
-# from ncd_data_json import *
+from ys_data_json import *
 
 app = Bottle(__name__)
 
@@ -44,6 +44,7 @@ def start_assessment():
 	#data = get_stress_json()
     # to be created
 	return static_file('start_assessment.html', root='templates/')
+
 @app.route('/assessment_report')
 def start_assessment():
 	#data = get_stress_json()
