@@ -28,6 +28,11 @@ def root():
 	# return template('templates/login.tpl', msg='')
 	return static_file('login.html', root='templates/')
 
+@app.route('/login')
+def root():
+	# return template('templates/login.tpl', msg='')
+	return static_file('ysLanding.html', root='templates/')
+
 # @route('/ncdlanding')
 # def root():
 # 	# return template('templates/login.tpl', msg='')
