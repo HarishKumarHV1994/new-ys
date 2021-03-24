@@ -39,6 +39,28 @@ def home():
     # to be created
 	return static_file('home.html', root='templates/')
 
+@app.route('/ysHome')
+def ncd_home():
+	#data = get_stress_json()
+    # to be created
+	return static_file('ysHome.html', root='templates/')
+
+@app.route('/ysHousehold')
+def ncd_stress():
+	#data = get_stress_json()
+	return template('templates/ys_household.tpl')
+
+@app.route('/ysSurveyorStatus')
+def ncd_stress():
+	#data = get_stress_json()
+	return template('templates/ys_surveyStatus.tpl')
+
+@app.route('/yshouseholdContinue')
+def ncd_stress():
+	#data = get_stress_json()
+	return template('templates/ys_household_continue.tpl')
+
+
 @app.route('/start_assessment')
 def start_assessment():
 	#data = get_stress_json()
