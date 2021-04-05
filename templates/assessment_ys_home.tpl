@@ -191,7 +191,7 @@
            <!--<a href="/home">-->
              <button class="btn btn-rose btn-raised" style="" >SAVE FOR LATER</button>
                       
-            <center> <p  style="font-weight: 400; padding-left: 15px; font-size: 0.8em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
+            <center> <p  style="font-weight: 800; padding-left: 15px; font-size: 1.0em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
           
         </div>
