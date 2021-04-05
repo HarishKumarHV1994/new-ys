@@ -313,6 +313,13 @@ function select_radio_na(qid){
     num_of_times_radio_element.classList.remove("btn-rose")
 }
 
+function markAnswered(qid,type){
+    var question_id = json_data.data[parseInt(qid)]['qid']
+    document.getElementById('q_'+question_id+'_q').style.color='green'
+    document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
+    
+    
+}
 function select_radio_num_Of_times(qid){
     
     var question_id = json_data.data[parseInt(qid)]['qid']
@@ -1228,10 +1235,4 @@ function on_submit(){
 	}
 
 }
-
-
-
-
-
-
 
