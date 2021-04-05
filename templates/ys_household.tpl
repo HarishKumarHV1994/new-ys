@@ -767,7 +767,7 @@ table.center {
     <select name="locale" id="locale" class="form-control">
        <option>Select</option>
       <option>Urban</option>
-      <option>Local</option>
+      <option>Rural</option>
       
     </select>
   </div>
