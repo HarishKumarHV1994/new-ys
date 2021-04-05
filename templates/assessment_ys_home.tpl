@@ -94,7 +94,7 @@
 
       
 
-      <div id="ques_data" style="display: block;">                
+      <div id="ques_data" style="display: block;">                   
       
       % for x in data['sections']:
           % question_index=0
@@ -189,9 +189,9 @@
                 
               <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-            <button class="btn btn-rose btn-raised" style="" onclick="validatesection('{{x['name']}}')">Validate Section</button>
+             <button class="btn btn-rose btn-raised" style="" >SAVE FOR LATER</button>
                       
-            <center> <p  style="font-weight: 400; padding-left: 15px; font-size: 0.8em; display: block; color: red;">Please click here to make sure you have entered or selected right information for all the mandatory questions in this section
+            <center> <p  style="font-weight: 400; padding-left: 15px; font-size: 0.8em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
           
         </div>
