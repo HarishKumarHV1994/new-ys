@@ -214,6 +214,8 @@ function checkValid(field_id, field_range){
     var val = document.getElementById(field_id).value
     //alert('val'+val)
     //alert('field_range'+field_range)
+    var res = field_id.split("_");
+    question_id=res[1]
     
     var flag=true
     
@@ -286,8 +288,8 @@ function checkValid(field_id, field_range){
     }
     
     if(flag==true){
-        document.getElementById('q_76_q').style.color='green'
-        document.getElementById('q_76_k_q').style.color = 'block'
+        document.getElementById('q_'+question_id+'_q').style.color='green'
+        document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
     }
     if(flag==false){
         alert('Please enter values <='+field_range)
@@ -298,6 +300,10 @@ function checkValid(field_id, field_range){
 
 function select_radio_na(qid){
     var question_id = json_data.data[parseInt(qid)]['qid']
+    
+    document.getElementById('q_'+question_id+'_q').style.color='green'
+    document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
+    
     var radio_element = document.getElementById('q'+question_id+'_rad')
     radio_element.classList.add("btn-rose")
     document.getElementById('q_'+question_id+'_data').style.display = 'none'
@@ -310,6 +316,10 @@ function select_radio_na(qid){
 function select_radio_num_Of_times(qid){
     
     var question_id = json_data.data[parseInt(qid)]['qid']
+    
+    document.getElementById('q_'+question_id+'_q').style.color='green'
+    document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
+    
     var na_radio_element = document.getElementById('q'+question_id+'_rad')
     var num_of_times_radio_element = document.getElementById('q'+question_id+'_num_of_times')
     num_of_times_radio_element.classList.add("btn-rose")
@@ -322,6 +332,9 @@ function select_radio_num_Of_times(qid){
 function select_radio(qid, element_id){
 
 	var question_id = json_data.data[parseInt(qid)]['qid']
+    
+    document.getElementById('q_'+question_id+'_q').style.color='green'
+    document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
    //alert(question_id)   
     var radio_element = document.getElementById('q'+question_id+'_'+element_id)
 	var element_count = json_data.data[parseInt(qid)]['ans'].length
@@ -460,6 +473,9 @@ function select_radio(qid, element_id){
             json_data.data[parseInt(qid+1)].selection_val = 'none'
         }  
     }
+    
+     
+    
     
     //Religion
     if(qid == 11){
@@ -1212,6 +1228,8 @@ function on_submit(){
 	}
 
 }
+
+
 
 
 
