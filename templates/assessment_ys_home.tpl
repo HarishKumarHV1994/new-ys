@@ -21,13 +21,18 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <script src="js/ys.js"></script>
+  <script src="js/ys.js"></script>           
 
-  <script type="text/javascript">
+  <script type="text/javascript">    
     $(document).ready(function(){
 
-      /*document.getElementById('q_5_q').style.display = 'none'
-      document.getElementById('q_5_ig').style.display = 'none'*/
+      document.getElementById('q99.1_num_of_times').style.display = 'none'
+      document.getElementById('q99.2_num_of_times').style.display = 'none'
+      document.getElementById('q99.4_num_of_times').style.display = 'none'
+      document.getElementById('q99.5_num_of_times').style.display = 'none'
+      document.getElementById('q99.6_num_of_times').style.display = 'none'
+      document.getElementById('q99.7_num_of_times').style.display = 'none'
+      
 
       /*document.getElementById('q_17_q').style.display = 'none'
       document.getElementById('q_17_ig').style.display = 'none'
@@ -72,21 +77,24 @@
       document.getElementById('q_43_ig').style.display = 'none'
 
       document.getElementById('q_45_q').style.display = 'none'
-      document.getElementById('q_45_ig').style.display = 'none'*/
+      document.getElementById('q_45_ig').style.display = 'none'
+      
+     
+      */
 
     })  
-  </script>
+  </script> 
 
 </head>
 
-<body class="login-page sidebar-collapse">  
+<body class="login-page sidebar-collapse">         
   
   <!-- <div class="page-header header-filter" style="background-image: url(''); background-size: cover; background-position: top center;"> -->
     <div class="container">
 
       
 
-      <div id="ques_data" style="display: block;">    
+      <div id="ques_data" style="display: block;">                
       
       % for x in data['sections']:
           % question_index=0
@@ -101,8 +109,7 @@
                 % for y in data['data']:
                   % if y['section'] == x['name']:
                     <p id="q_{{y['qid']}}_q" style="font-weight: 400; padding-left: 15px; font-size: 1em; display: block;">
-                      {{y['qid']}}. {{!y['ques']['english']}} 
-                     
+                        {{y['qid']}}. {{!y['ques']['english']}} 
                     </p>    
                   
                   <p id="q_{{y['qid']}}_k_q" style="font-weight: 400; padding-left: 15px; font-size: 1em; display: block;">
@@ -119,39 +126,48 @@
 
                       % if y['qtype'] == 'num':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" maxlength="10000000" onkeyup="checkValid('q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 100%;"> 
+                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" maxlength="10000000" onkeyup="checkValid('q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;"> 
                       % end
+                        
+                      % if y['qtype'] == 'num_na':
+                        <p id="q_{{y['qid']}}_msg"></p> 
+                        <button class="btn btn-round" id="q{{y['qid']}}_rad" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio_na('{{question_index}}')"><b>Not Applicable</b></button>
+                        <button class="btn btn-round" id="q{{y['qid']}}_num_of_times" style="margin-bottom: 4px; white-space:normal;" style="display: none;" onclick="select_radio_num_Of_times('{{question_index}}')"><b>I want to enter number of times</b></button>
+                        <p id="q_{{y['qid']}}_orbreak"><br>Or<br></p>
+                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="Number of times" maxlength="10000000" onkeyup="checkValid('q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;">  
+                      % end
+                        
                       
                       % if y['qtype'] == 'bp':
                         <p id="q_{{y['qid']}}_sys_msg"></p>
                         <label for="q_{{y['qid']}}_sys_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Systolic:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_sys_data" name="q_{{y['qid']}}.1_data"  placeholder="Systolic" style="width: 100%;">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_sys_data" name="q_{{y['qid']}}.1_data"  placeholder="Systolic" style="width: 50%;">
                         <p id="q_{{y['qid']}}.dia_msg"></p>
                         <label for="q_{{y['qid']}}_dia_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Diastolic:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 100%;">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 50%;">
                       % end
                       
                       % if y['qtype'] == 'pair_num_yymm':
                         <p id="q_{{y['qid']}}_yy_msg"></p>
                         <label for="q_{{y['qid']}}_yy_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Years:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_yy_data" name="q_{{y['qid']}}_yy_data"  placeholder="Years 0 to 100" style="width: 100%;" min="0" max="60">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_yy_data" name="q_{{y['qid']}}_yy_data"  placeholder="Years 0 to 100" style="width: 50%;" min="0" max="60" onkeyup="checkValid('q_{{y['qid']}}_yy_data', '99')">
                         <p id="q_{{y['qid']}}_mm_msg"></p>
                         <label for="q_{{y['qid']}}_mm_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Months:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Months 0 to 12" style="width: 100%;" min="0" max="11">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Months 0 to 12" style="width: 50%;" min="0" max="11" onkeyup="checkValid('q_{{y['qid']}}_mm_data', '11')">
                       % end
                         
                       % if y['qtype'] == 'time':
                         <p id="q_{{y['qid']}}_hh_msg"></p>
                         <label for="q_{{y['qid']}}_hh_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Hours:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_hh_data" name="q_{{y['qid']}}_hh_data"  placeholder="Hours 0 to 24" style="width: 100%;" min="0" max="23">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_hh_data" name="q_{{y['qid']}}_hh_data"  placeholder="Hours 0 to 24" style="width: 50%;" min="0" max="23" onkeyup="checkValid('q_{{y['qid']}}_hh_data', '23')">
                         <p id="q_{{y['qid']}}_mm_msg"></p>
                         <label for="q_{{y['qid']}}_mm_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Minutes:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Minutes 0 to 59" style="width: 100%;" min="0" max="59">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Minutes 0 to 59" style="width: 50%;" min="0" max="59" onkeyup="checkValid('q_{{y['qid']}}_mm_data', '59')">
                       % end
 
                       % if y['qtype'] == 'date':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="date" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;">
+                        <input type="date" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 50%;">
                       % end
 
                       % if y['qtype'] == 'radio':
