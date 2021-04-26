@@ -1214,8 +1214,9 @@ table.center {
           <!--</a>-->
           <br>
           <a href="/ysHome">Go To Home</a>
-          <!--<br>
-          <a href="/logout">Logout</a> -->
+          <br>
+          <br>
+          <a href="/logout">Logout</a>
         </div>
       </div>
               
