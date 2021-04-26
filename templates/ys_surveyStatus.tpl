@@ -175,7 +175,9 @@ table {
           <!--</a>-->
           
           <a href="/ysHome">Go To Home</a>
-          
+          <br>
+          <br>
+          <a href="/logout">Logout</a>
         </div>
       </div>
               
