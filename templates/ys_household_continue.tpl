@@ -918,8 +918,9 @@ table {
         <br>
             <br>
           <a href="/ysSurveyorStatus">Go Back</a>
-          <!--<br>
-          <a href="/logout">Logout</a> -->
+          <br>
+          <br>
+          <a href="/logout">Logout</a>
         </div>
       </div>
               
