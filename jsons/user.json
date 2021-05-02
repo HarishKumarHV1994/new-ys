@@ -1,0 +1,16 @@
+{"users":[{
+      "userid": "id",
+      "username": "name",
+      "password": "password",
+      "role": "role",
+      "lastLoginTimestamp":"timestamp",
+      "lastLoginLocation":"lat-long",
+      "numberOfHouseholdsCompleted":12,
+      "numberOfHouseholdsINProgress":12,
+      "totalNumberOfHouseholdsCreated":13,
+     "numberOfMembersCompleted":12,
+      "numberOfMembersINProgress":12,
+      "totalNumberOfMembersCreated":13
+    
+    }]
+}

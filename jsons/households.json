@@ -1,0 +1,21 @@
+{"households":[{
+      "householdID": "HH_1",
+      "district": "district",
+      "taluka": "taluka",
+      "villageOrward": "villageOrward",
+      "locale":"locale",
+      "created_timestamp":"timestamp",
+      "modified_timestamp":"timestamp",
+      "createdLocation":"lat-long",
+      "createdUserId":"user_id",
+      "memberInterviewStatus":"TobeStarted/INProgress/Completed",
+      "members":[{
+        "memberId":"HH_1_IND_1",
+        "name":"Male",
+        "agein15to30":"true",
+        "memberInterviewStatus":"TobeStarted/INProgress/Completed"
+        }
+        
+      ]
+    }]
+}

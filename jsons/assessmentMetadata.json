@@ -1,0 +1,11 @@
+{"assessmentMetaData":{
+      "memberId":"memberId",
+      "userid": "id",
+      "startTime":"timestamp",
+      "memberInterviewStatus":"TobeStarted/INProgress/Completed",
+      "createdLocation":"lat-long",
+      "completeLocation":"lat-long",
+      "completedTime":"timestamp",
+     "updatedTime":"timestamp"
+    }
+}
