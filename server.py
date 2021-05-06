@@ -23,27 +23,26 @@ app = Bottle(__name__)
 def index(name):
     return template('<b>Hello {{name}}</b>!', name=name)
 
+#Do not use
 @app.route('/')
 def root():
 	# return template('templates/login.tpl', msg='')
 	return static_file('login.html', root='templates/')
 
+#Use this
 @app.route('/login')
 def root():
 	# return template('templates/login.tpl', msg='')
 	return static_file('ysLanding.html', root='templates/')
 
-# @route('/ncdlanding')
-# def root():
-# 	# return template('templates/login.tpl', msg='')
-# 	return static_file('ncdlanding.html', root='templates/')
-
+#Do not use this
 @app.route('/home')
 def home():
 	#data = get_stress_json()
     # to be created
 	return static_file('home.html', root='templates/')
 
+#Use this
 @app.route('/ysHome')
 def ncd_home():
 	#data = get_stress_json()
@@ -66,25 +65,7 @@ def ncd_stress():
 	return template('templates/ys_household_continue.tpl')
 
 
-@app.route('/start_assessment')
-def start_assessment():
-	#data = get_stress_json()
-    # to be created
-	return static_file('start_assessment.html', root='templates/')
-
-@app.route('/assessment_report')
-def start_assessment():
-	#data = get_stress_json()
-    # to be created
-	return static_file('assessment_report.html', root='templates/')
-
-# @route('/ncdStress')
-# def ncd_stress():
-# 	data = get_stress_json()
-# 	return template('templates/assessment_stress_home.tpl', data=data)
-
-
-
+#Use this
 @app.route('/ysAssessment')
 def ncd_yuvaspandana():
 	data = get_ys_json()
