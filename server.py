@@ -59,6 +59,11 @@ def ncd_stress():
 	#data = get_stress_json()
 	return template('templates/ys_surveyStatus.tpl')
 
+@app.route('/ysSupervisorView')
+def ncd_stress():
+	#data = get_stress_json()
+	return template('templates/ys_supervisorStatus.tpl')
+
 @app.route('/yshouseholdContinue')
 def ncd_stress():
 	#data = get_stress_json()
