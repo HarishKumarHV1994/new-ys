@@ -31,16 +31,677 @@
 var status;
 var sno = [];
 var load;
-var no_rows = 0;
+var no_rows;
 var row;
 var mainArr = [];
 var tmpArr = [];
-    
-    
+var members = [];
+var latitude;
+var longitude;
+var timestamp;
 
 $(document).ready(function(){
+ var user_name = localStorage.getItem("user_name");
+ var num_rows = localStorage.getItem("no_rows");
+ var householdid = localStorage.getItem("householdId");
+ var household_members = $.parseJSON(localStorage.getItem("household_members"));
+
+  // if(household_members){
     
-    document.getElementById('member2').style.display = 'none'
+  //   console.log(household_members.members.length);
+  // }
+  if(!user_name){
+    window.location.href = "/login";
+  }
+     
+  if(num_rows){
+     
+    no_rows = num_rows;
+    // alert(no_rows);
+
+    if(no_rows==0){
+
+      // alert(options_element_1);
+        $.each(household_members.members , function(index, item) { 
+          if(item.memberId == 'IND_1'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton1').style.display = 'block';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+
+          }
+    
+        });
+            
+            document.getElementById('member1').style.display = 'block';
+             document.getElementById('member2').style.display = 'none';
+            document.getElementById('member3').style.display = 'none';
+            document.getElementById('member4').style.display = 'none';
+            document.getElementById('member5').style.display = 'none';
+           
+        
+    }
+    
+    if(no_rows==1){
+
+       $.each(household_members.members , function(index, item) { 
+           if(item.memberId == 'IND_1'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton1').style.display = 'block';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_2'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton2').style.display = 'block';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+
+          }
+
+          
+    
+
+          });
+
+            
+            document.getElementById('member1').style.display = 'block';
+
+            document.getElementById('member2').style.display = 'block';
+           
+            document.getElementById('member3').style.display = 'none';
+            document.getElementById('member4').style.display = 'none';
+            document.getElementById('member5').style.display = 'none';
+            
+    }
+    
+    if(no_rows==2){
+
+
+       $.each(household_members.members , function(index, item) { 
+           if(item.memberId == 'IND_1'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton1').style.display = 'block';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_2'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton2').style.display = 'block';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_3'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'block';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton3').style.display = 'block';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+
+          }
+
+         
+
+          });
+
+            document.getElementById('member1').style.display = 'block';
+
+            document.getElementById('member2').style.display = 'block';
+
+             document.getElementById('member3').style.display = 'block';
+
+            document.getElementById('member4').style.display = 'none';
+            document.getElementById('member5').style.display = 'none';
+           
+    }
+    
+    if(no_rows==3){
+
+       $.each(household_members.members , function(index, item) { 
+           if(item.memberId == 'IND_1'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton1').style.display = 'block';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_2'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton2').style.display = 'block';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_3'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'block';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton3').style.display = 'block';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_4'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'block';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton4').style.display = 'block';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+
+          }
+
+          
+
+          });
+
+       document.getElementById('member1').style.display = 'block';
+
+            document.getElementById('member2').style.display = 'block';
+
+             document.getElementById('member3').style.display = 'block';
+
+              document.getElementById('member4').style.display = 'block';
+
+            document.getElementById('member5').style.display = 'none';
+            
+    }
+    
+    if(no_rows==4){
+
+       $.each(household_members.members , function(index, item) { 
+           if(item.memberId == 'IND_1'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton1').style.display = 'none';
+              document.getElementById('assessmentbutton1').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton1').style.display = 'block';
+              document.getElementById('assessmentbutton1').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'none';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_2'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton1').style.display = 'block';
+              document.getElementById('completeassessmentbutton1').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton2').style.display = 'none';
+              document.getElementById('assessmentbutton2').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton2').style.display = 'block';
+              document.getElementById('assessmentbutton2').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton2').style.display = 'none';
+              document.getElementById('completeassessmentbutton2').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_3'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'block';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton3').style.display = 'none';
+              document.getElementById('assessmentbutton3').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton3').style.display = 'block';
+              document.getElementById('assessmentbutton3').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton3').style.display = 'none';
+              document.getElementById('completeassessmentbutton3').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_4'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'block';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton4').style.display = 'none';
+              document.getElementById('assessmentbutton4').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton4').style.display = 'block';
+              document.getElementById('assessmentbutton4').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton4').style.display = 'none';
+              document.getElementById('completeassessmentbutton4').style.display = 'none';
+
+            }
+
+          }
+
+          if(item.memberId == 'IND_5'){
+            
+            if(item.memberInterviewStatus == 'InProgress'){
+               document.getElementById('notassessmentbutton5').style.display = 'none';
+              document.getElementById('assessmentbutton5').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton5').style.display = 'block';
+              document.getElementById('completeassessmentbutton5').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+               document.getElementById('notassessmentbutton5').style.display = 'none';
+              document.getElementById('assessmentbutton5').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton5').style.display = 'none';
+              document.getElementById('completeassessmentbutton5').style.display = 'block';
+
+            }
+            if(item.memberInterviewStatus == 'TobeStarted'){
+               document.getElementById('notassessmentbutton5').style.display = 'none';
+              document.getElementById('assessmentbutton5').style.display = 'block';
+              document.getElementById('inprogressassessmentbutton5').style.display = 'none';
+              document.getElementById('completeassessmentbutton5').style.display = 'none';
+
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+               document.getElementById('notassessmentbutton5').style.display = 'block';
+              document.getElementById('assessmentbutton5').style.display = 'none';
+              document.getElementById('inprogressassessmentbutton5').style.display = 'none';
+              document.getElementById('completeassessmentbutton5').style.display = 'none';
+
+            }
+
+          }
+    
+
+          });
+
+            document.getElementById('member1').style.display = 'block';
+
+            document.getElementById('member2').style.display = 'block';
+
+             document.getElementById('member3').style.display = 'block';
+
+              document.getElementById('member4').style.display = 'block';
+
+            document.getElementById('member5').style.display = 'block';
+
+            // var agevalue = $('#agegoup_1').find(":selected").val();
+            // var agevalue2 = $('#agegoup_2').find(":selected").val();
+            // var agevalue3 = $('#agegoup_3').find(":selected").val();
+            // var agevalue4 = $('#agegoup_4').find(":selected").val();
+            // var agevalue5 = $('#agegoup_5').find(":selected").val();
+            // if(agevalue == 'Yes'){
+            //   document.getElementById('assessmentbutton1').style.display = 'block';
+            //   document.getElementById('notassessmentbutton1').style.display = 'none';
+            // }
+            // else{
+            //   document.getElementById('notassessmentbutton1').style.display = 'block';
+            //    document.getElementById('assessmentbutton1').style.display = 'none';
+            // }
+            // if(agevalue2 == 'Yes'){
+            //   document.getElementById('assessmentbutton2').style.display = 'block';
+            //   document.getElementById('notassessmentbutton2').style.display = 'none';
+            // }
+            // else{
+            //   document.getElementById('notassessmentbutton2').style.display = 'block';
+            //   document.getElementById('assessmentbutton2').style.display = 'none';
+            // }
+            // if(agevalue3 == 'Yes'){
+            //   document.getElementById('assessmentbutton3').style.display = 'block';
+            //   document.getElementById('notassessmentbutton3').style.display = 'none';
+            // }
+            // else{
+            //   document.getElementById('notassessmentbutton3').style.display = 'block';
+            //   document.getElementById('assessmentbutton3').style.display = 'none';
+            // }
+            // if(agevalue4 == 'Yes'){
+            //   document.getElementById('assessmentbutton4').style.display = 'block';
+            //   document.getElementById('notassessmentbutton4').style.display = 'none';
+            // }
+            // else{
+            //   document.getElementById('notassessmentbutton4').style.display = 'block';
+            //   document.getElementById('assessmentbutton4').style.display = 'none';
+            // }
+            // if(agevalue5 == 'Yes'){
+            //   document.getElementById('assessmentbutton5').style.display = 'block';
+            //    document.getElementById('notassessmentbutton5').style.display = 'none';
+            // }
+            // else{
+            //   document.getElementById('notassessmentbutton5').style.display = 'block';
+            //    document.getElementById('assessmentbutton5').style.display = 'none';
+            // }
+           
+
+           
+        
+            
+          
+    }
+
+    document.getElementById('savehouseholdbutton').style.display = 'none'
+    document.getElementById('familymemberbutton').style.display = 'none'
+    
+  }
+  else{
+    no_rows = 0;
+     document.getElementById('member2').style.display = 'none'
     document.getElementById('member3').style.display = 'none'
     document.getElementById('member4').style.display = 'none'
     document.getElementById('member5').style.display = 'none'
@@ -50,6 +711,34 @@ $(document).ready(function(){
     document.getElementById('assessmentbutton3').style.display = 'none'
     document.getElementById('assessmentbutton4').style.display = 'none'
     document.getElementById('assessmentbutton5').style.display = 'none'
+
+    document.getElementById('notassessmentbutton1').style.display = 'none'
+    document.getElementById('notassessmentbutton2').style.display = 'none'
+    document.getElementById('notassessmentbutton3').style.display = 'none'
+    document.getElementById('notassessmentbutton4').style.display = 'none'
+    document.getElementById('notassessmentbutton5').style.display = 'none'
+
+    document.getElementById('inprogressassessmentbutton1').style.display = 'none'
+    document.getElementById('inprogressassessmentbutton2').style.display = 'none'
+    document.getElementById('inprogressassessmentbutton3').style.display = 'none'
+    document.getElementById('inprogressassessmentbutton4').style.display = 'none'
+    document.getElementById('inprogressassessmentbutton5').style.display = 'none'
+
+    document.getElementById('completeassessmentbutton1').style.display = 'none'
+    document.getElementById('completeassessmentbutton2').style.display = 'none'
+    document.getElementById('completeassessmentbutton3').style.display = 'none'
+    document.getElementById('completeassessmentbutton4').style.display = 'none'
+    document.getElementById('completeassessmentbutton5').style.display = 'none'
+
+
+  }
+  if(householdid){
+      $('#householdId').val(householdid);
+  }
+ 
+
+
+   
    
       
 
@@ -509,7 +1198,7 @@ var html_code = '';
 }
 
 
-var no_rows = 0;
+// var no_rows = 0;
 
 function addrow(){
 
@@ -554,8 +1243,565 @@ $(".family_data").css("display","none");
   select_taluq(districts_id);
   console.log(districts_id);
  });
+
+  
+
+$("#savehouseholdbutton").click(function(){
+  // alert("jquery function");
+
+  // console.log(latitude);
+
+    var districts = document.getElementById('districts').value
+    var taluq = document.getElementById('taluq').value
+    var locale = document.getElementById('locale').value
+    var village = document.getElementById('village').value
+
+    if(districts == ''){
+      alert("Select District");
+      return false;
+    }
+    else if(village == ''){
+      alert("Enter Village");
+      return false;
+    }
+   else if(locale == ''){
+      alert("Select Locale");
+      return false;
+    }
+    else {
+
+    // alert("Other");
+    var ind_id_1 = document.getElementById('ind_id_1').value
+    var ind_id_2 = document.getElementById('ind_id_2').value
+    var ind_id_3 = document.getElementById('ind_id_3').value
+    var ind_id_4 = document.getElementById('ind_id_4').value
+    var ind_id_5 = document.getElementById('ind_id_5').value
+
+    var ind_name_1 = document.getElementById('ind_name_1').value
+    var ind_name_2 = document.getElementById('ind_name_2').value
+    var ind_name_3 = document.getElementById('ind_name_3').value
+    var ind_name_4 = document.getElementById('ind_name_4').value
+    var ind_name_5 = document.getElementById('ind_name_5').value
+
+    var ind_gender_1 = document.getElementById('ind_gender_1').value
+    var ind_gender_2 = document.getElementById('ind_gender_2').value
+    var ind_gender_3 = document.getElementById('ind_gender_3').value
+    var ind_gender_4 = document.getElementById('ind_gender_4').value
+    var ind_gender_5 = document.getElementById('ind_gender_5').value
+
+    var options_element_1 = document.getElementById('agegoup_1').value
+    var options_element_2 = document.getElementById('agegoup_2').value
+    var options_element_3 = document.getElementById('agegoup_3').value
+    var options_element_4 = document.getElementById('agegoup_4').value
+    var options_element_5 = document.getElementById('agegoup_5').value
+   
+   
+    if(no_rows==0){
+     if(options_element_1 != '' && ind_name_1 != '' && ind_gender_1 != '') {
+          if(options_element_1 == 'Yes'){
+            document.getElementById('assessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          
+        }
+        else{
+          alert("Fill All the Fields of Member 1");
+          members = [];
+          return false;
+        }
+        
+    }
+    
+    if(no_rows==1){
+        if(options_element_1 != '' && ind_name_1 != '' && ind_gender_1 != '') {
+          if(options_element_1 == 'Yes'){
+            document.getElementById('assessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 1");
+          members = [];
+          return false;
+        }
+        if(options_element_2 != '' && ind_name_2 != '' && ind_gender_2 != '') {
+          if(options_element_2 == 'Yes'){
+            document.getElementById('assessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 2");
+          members = [];
+          return false;
+        }
+    }
+    
+    if(no_rows==2){
+         
+      if(options_element_1 != '' && ind_name_1 != '' && ind_gender_1 != '') {
+          if(options_element_1 == 'Yes'){
+            document.getElementById('assessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 1");
+          members = [];
+          return false;
+        }
+        if(options_element_2 != '' && ind_name_2 != '' && ind_gender_2 != '') {
+          if(options_element_2 == 'Yes'){
+            document.getElementById('assessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 2");
+          members = [];
+          return false;
+        }
+        if(options_element_3 != '' && ind_name_3 != '' && ind_gender_3 != '') {
+           if(options_element_3 == 'Yes'){
+            document.getElementById('assessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 3");
+          members = [];
+          return false;
+        }
+    }
+    
+    if(no_rows==3){
+        if(options_element_1 != '' && ind_name_1 != '' && ind_gender_1 != '') {
+          if(options_element_1 == 'Yes'){
+            document.getElementById('assessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 1");
+          members = [];
+          return false;
+        }
+        if(options_element_2 != '' && ind_name_2 != '' && ind_gender_2 != '') {
+          if(options_element_2 == 'Yes'){
+            document.getElementById('assessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 2");
+          members = [];
+          return false;
+        }
+        if(options_element_3 != '' && ind_name_3 != '' && ind_gender_3 != '') {
+           if(options_element_3 == 'Yes'){
+            document.getElementById('assessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 3");
+          members = [];
+          return false;
+        }
+        if(options_element_4 != '' && ind_name_4 != '' && ind_gender_4 != '') {
+          if(options_element_4 == 'Yes'){
+            document.getElementById('assessmentbutton4').style.display = 'block';
+            members.push({"memberId":ind_id_4,"name":ind_name_4,"gender":ind_gender_4,"agein15to30":options_element_4,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton4').style.display = 'block';
+            members.push({"memberId":ind_id_4,"name":ind_name_4,"gender":ind_gender_4,"agein15to30":options_element_4,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 4");
+          members = [];
+          return false;
+        }
+    }
+    
+    if(no_rows==4){
+         if(options_element_1 != '' && ind_name_1 != '' && ind_gender_1 != '') {
+          if(options_element_1 == 'Yes'){
+            document.getElementById('assessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton1').style.display = 'block';
+            members.push({"memberId":ind_id_1,"name":ind_name_1,"gender":ind_gender_1,"agein15to30":options_element_1,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 1");
+          members = [];
+          return false;
+        }
+        if(options_element_2 != '' && ind_name_2 != '' && ind_gender_2 != '') {
+          if(options_element_2 == 'Yes'){
+            document.getElementById('assessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton2').style.display = 'block';
+            members.push({"memberId":ind_id_2,"name":ind_name_2,"gender":ind_gender_2,"agein15to30":options_element_2,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 2");
+          members = [];
+          return false;
+        }
+        if(options_element_3 != '' && ind_name_3 != '' && ind_gender_3 != '') {
+           if(options_element_3 == 'Yes'){
+            document.getElementById('assessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton3').style.display = 'block';
+            members.push({"memberId":ind_id_3,"name":ind_name_3,"gender":ind_gender_3,"agein15to30":options_element_3,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 3");
+          members = [];
+          return false;
+        }
+        if(options_element_4 != '' && ind_name_4 != '' && ind_gender_4 != '') {
+          if(options_element_4 == 'Yes'){
+            document.getElementById('assessmentbutton4').style.display = 'block';
+            members.push({"memberId":ind_id_4,"name":ind_name_4,"gender":ind_gender_4,"agein15to30":options_element_4,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton4').style.display = 'block';
+            members.push({"memberId":ind_id_4,"name":ind_name_4,"gender":ind_gender_4,"agein15to30":options_element_4,"memberInterviewStatus":"TobeStarted"});
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 4");
+          members = [];
+          return false;
+        }
+        if(options_element_5 != '' && ind_name_5 != '' && ind_gender_5 != '') {
+          if(options_element_5 == 'Yes'){
+            document.getElementById('assessmentbutton5').style.display = 'block';
+            members.push({"memberId":ind_id_5,"name":ind_name_5,"gender":ind_gender_5,"agein15to30":options_element_5,"memberInterviewStatus":"TobeStarted"});
+          }
+          else{
+            document.getElementById('notassessmentbutton5').style.display = 'block';
+            members.push({"memberId":ind_id_5,"name":ind_name_5,"gender":ind_gender_5,"agein15to30":options_element_5,"memberInterviewStatus":"TobeStarted"});
+
+          }
+        }
+        else{
+          alert("Fill All the Fields of Member 5");
+          members = [];
+          return false;
+        }
+    }
+    
+    document.getElementById('savehouseholdbutton').style.display = 'none'
+    document.getElementById('familymemberbutton').style.display = 'none'
+  }
+
+
+latlongtimestamp();
+
+setTimeout(function() {
+               
+           
+var latlong = latitude+","+longitude;
+
+var household = {
+      "householdId": "",  
+      "district": districts,
+      "taluka": taluq,
+      "villageOrward": village,
+      "locale":locale,
+      "created_timestamp":timestamp,
+      "modified_timestamp":"timestamp",
+      "createdLocation":latlong,
+      "createdUserId":localStorage.getItem("userid"),
+      "householdInterviewStatus":"TobeStarted", 
+      "members":members
+
+}
+console.log(household);
+
+$.ajax({
+        type: "POST",
+        url: '/householdSubmit',
+        data: JSON.stringify(household),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+
+            $('#householdId').val(json.householdId);
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+ },
+2000);
+
+
+});
+
+
+$("#familymemberbutton").click(function(){
+    no_rows=no_rows+1
+    
+      if(no_rows==1 && document.getElementById('member2').style.display == 'none'){
+          document.getElementById('member2').style.display = 'block'
+      }
+    
+     if(no_rows==2 && document.getElementById('member3').style.display == 'none'){
+          document.getElementById('member3').style.display = 'block'
+      }
+    
+     if(no_rows==3 && document.getElementById('member4').style.display == 'none'){
+          document.getElementById('member4').style.display = 'block'
+      }
+    
+     if(no_rows==4 && document.getElementById('member5').style.display == 'none'){
+          document.getElementById('member5').style.display = 'block'
+         document.getElementById('familymemberbutton').style.display = 'none'
+      }
+   
+      
+});
+
+$(".inprogressassessmentbutton").click(function(){
+memberId = "";
+var id = $(this).attr('id');
+// alert(id);
+if(id == 'inprogressassessmentbutton1'){
+  memberId = "1";
+}
+else if(id == 'inprogressassessmentbutton2'){
+  memberId = "2";
+}
+else if(id == 'inprogressassessmentbutton3'){
+  memberId = "3";
+}
+else if(id == 'inprogressassessmentbutton4'){
+  memberId = "4";
+}
+else if(id == 'inprogressassessmentbutton5'){
+  memberId = "5";
+}
+else{
+  alert("memberId getting Error!")
+}
+
+householdId = $('#householdId').val();
+
+latlongtimestamp();
+
+setTimeout(function() {
+               
+           
+var latlong = latitude+","+longitude;
+var household = "HH_"+householdId;
+var member = "IND_"+memberId
+
+var assessmentMetaData={
+      "householdId":household,
+      "memberId":member,
+      "userid": localStorage.getItem("userid"),
+      "updatedTime":timestamp      
+            
+
+}
+
+
+// alert(no_rows);
+console.log(assessmentMetaData);
+
+$.ajax({
+        type: "POST",
+        url: '/update_assessmentSubmit',
+        data: JSON.stringify(assessmentMetaData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            var url = "/ysAssessment?memberId=" + memberId + "&householdId=" + householdId;
+            window.location.href = url;
+            console.log("Success");
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+
+
+},
+2000);
+
+
+
+
+
+  });
+
+$(".assessmentbutton").click(function(){
+memberId = "";
+var id = $(this).attr('id');
+// alert(id);
+if(id == 'assessmentbutton1'){
+  memberId = "1";
+}
+else if(id == 'assessmentbutton2'){
+  memberId = "2";
+}
+else if(id == 'assessmentbutton3'){
+  memberId = "3";
+}
+else if(id == 'assessmentbutton4'){
+  memberId = "4";
+}
+else if(id == 'assessmentbutton5'){
+  memberId = "5";
+}
+else{
+  alert("memberId getting Error!")
+}
+
+householdId = $('#householdId').val();
+// alert(householdId);
+
+latlongtimestamp();
+
+localStorage.setItem('no_rows',no_rows);
+localStorage.setItem('householdId',householdId);
+
+setTimeout(function() {
+               
+           
+var latlong = latitude+","+longitude;
+var household = "HH_"+householdId;
+var member = "IND_"+memberId
+
+var assessmentMetaData={
+      "householdId":household,
+      "memberId":member,
+      "userid": localStorage.getItem("userid"),
+      "startTime":timestamp, 
+      "memberInterviewStatus":"TobeStarted",
+      "createdLocation":latlong, 
+      "completeLocation":"", 
+      "completedTime":"",
+     "updatedTime":""
+
+}
+
+
+// alert(no_rows);
+console.log(assessmentMetaData);
+
+$.ajax({
+        type: "POST",
+        url: '/assessmentSubmit',
+        data: JSON.stringify(assessmentMetaData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            
+            var url = "/ysAssessment?memberId=" + memberId + "&householdId=" + householdId;
+            window.location.href = url;
+            console.log("Success");
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+
+
+},
+2000);
+
+
+
+});
  
 });
+
+function handle_errors(error) {  
+    console.log(error);
+}
+function handle_geolocation_query(position){  
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    timestamp = position.timestamp; 
+    // alert(latitude);
+}
+function latlongtimestamp() {
+  
+navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,{timeout:1000});
+    
+}     
 
 
 
@@ -590,104 +1836,6 @@ $(".household").css("display","none");
 }
     
 
-function addFamilyMember(){
-    no_rows=no_rows+1
-    
-      if(no_rows==1 && document.getElementById('member2').style.display == 'none'){
-          document.getElementById('member2').style.display = 'block'
-      }
-    
-     if(no_rows==2 && document.getElementById('member3').style.display == 'none'){
-          document.getElementById('member3').style.display = 'block'
-      }
-    
-     if(no_rows==3 && document.getElementById('member4').style.display == 'none'){
-          document.getElementById('member4').style.display = 'block'
-      }
-    
-     if(no_rows==4 && document.getElementById('member5').style.display == 'none'){
-          document.getElementById('member5').style.display = 'block'
-         document.getElementById('familymemberbutton').style.display = 'none'
-      }
-   
-      
-}
-
-function activateAssessmentButtons(){
-    
-    
-    var options_element_1 = document.getElementById('agegoup_1').value
-    var options_element_2 = document.getElementById('agegoup_2').value
-    var options_element_3 = document.getElementById('agegoup_3').value
-    var options_element_4 = document.getElementById('agegoup_4').value
-    var options_element_5 = document.getElementById('agegoup_5').value
-   
-   
-    if(no_rows==0){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        
-    }
-    
-    if(no_rows==1){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==2){
-         
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton22').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==3){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-        if(options_element_4 == 'Yes') {
-            document.getElementById('assessmentbutton4').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==4){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-        if(options_element_4 == 'Yes') {
-            document.getElementById('assessmentbutton4').style.display = 'block'
-        }
-        if(options_element_5 == 'Yes') {
-            document.getElementById('assessmentbutton5').style.display = 'block'
-        }
-    }
-    
-    document.getElementById('savehouseholdbutton').style.display = 'none'
-    
-}
     
     
 </script>
@@ -725,8 +1873,9 @@ table.center {
                       <tr>
                           <th width="50%">
                   <div class="col-lg-2 col-sm-6">
-      <div class="form-group">
-    <label for="districts">District</label>
+      <div class="form-group ">
+      <input name="householdId" type="hidden" class="form-control" id="householdId">
+    <label for="districts" class="control-label">District</label>
     <select name="districts" id="districts" class="form-control input-lg">
      <option value="">Select</option>
    </select>
@@ -752,10 +1901,11 @@ table.center {
                       <tr>
                           <th width="50%">
                   <div class="col-lg-3 col-sm-6">
-      <div class="form-group">
+      <div class="form-group ">
     <label for="village">Village / Ward</label>
-    <input name="village" type="text" class="form-control" >
+    <input name="village" type="text" class="form-control " id="village">
   </div>
+ 
 
     </div>
                               </th>
@@ -765,9 +1915,9 @@ table.center {
       <div class="form-group">
     <label for="locale">Locale</label>
     <select name="locale" id="locale" class="form-control">
-       <option>Select</option>
-      <option>Urban</option>
-      <option>Rural</option>
+       <option value="">Select</option>
+      <option value="Urban">Urban</option>
+      <option value="Rural">Rural</option>
       
     </select>
   </div>
@@ -807,7 +1957,8 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="ind_name_1">Name</label>
-    <input name="ind_name_1" type="text" class="form-control" >
+    <input name="ind_name_1" type="text" class="form-control" id="ind_name_1">
+    <input name="ind_id_1" type="hidden" class="form-control" id="ind_id_1" value="IND_1">
   </div>
     
     </div>
@@ -818,10 +1969,10 @@ table.center {
       <div class="form-group">
     <label for="ind_gender_1">Gender</label>
     <select name="ind_gender_1" id="ind_gender_1" class="form-control input-lg">
-    <option>Select</option>
-      <option>Male</option>
-      <option>Female</option>
-        <option>Third Gender</option>
+    <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+        <option value="Third_Gender">Third Gender</option>
    </select> 
   </div>
                   
@@ -837,10 +1988,10 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="agegoup_1">Age between 15 and 30?</label>
-    <select name="agegoup_1" id="agegoup_1"  class="form-control">
-       <option>Select</option>
-      <option>Yes</option>
-      <option>No</option>
+    <select name="agegoup_1" id="agegoup_1"  class="form-control agebetween">
+       <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
       
     </select>
   </div>
@@ -852,8 +2003,11 @@ table.center {
                   
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
-        <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton1" onclick="goToAssessment()">START INTERVEW</button>
+        <a>
+    <button class="btn btn-rose btn-raised assessmentbutton" style="" id="assessmentbutton1" >START INTERVEW</button>
+    <button class="btn btn-info btn-raised notassessmentbutton" style="" id="notassessmentbutton1" >NOT APPLICABLE</button>
+     <button class="btn btn-rose btn-raised inprogressassessmentbutton" style="" id="inprogressassessmentbutton1" >CONTINUE INTERVIEW </button>
+    <button class="btn btn-success btn-raised completeassessmentbutton" style="" id="completeassessmentbutton1" >COMPLETE</button>
           </a>
   </div>
 
@@ -887,7 +2041,8 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="ind_name_2">Name</label>
-    <input name="ind_name_2" type="text" class="form-control" >
+    <input name="ind_name_2" type="text" class="form-control" id="ind_name_2">
+    <input name="ind_id_2" type="hidden" class="form-control" id="ind_id_2" value="IND_2">
   </div>
     
     </div>
@@ -898,10 +2053,10 @@ table.center {
       <div class="form-group">
     <label for="ind_gender_2">Gender</label>
     <select name="ind_gender_2" id="ind_gender_2" class="form-control input-lg">
-    <option>Select</option>
-      <option>Male</option>
-      <option>Female</option>
-        <option>Third Gender</option>
+    <<option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+        <option value="Third_Gender">Third Gender</option>
    </select> 
   </div>
                   
@@ -917,10 +2072,10 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="agegoup_2">Age between 15 and 30?</label>
-    <select name="agegoup_2" id="agegoup_2"  class="form-control">
-       <option>Select</option>
-      <option>Yes</option>
-      <option>No</option>
+    <select name="agegoup_2" id="agegoup_2"  class="form-control agebetween">
+        <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
       
     </select>
   </div>
@@ -932,8 +2087,11 @@ table.center {
                   
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
-           <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton2" onclick="goToAssessment()">START INTERVEW</button>
+           <a>
+    <button class="btn btn-rose btn-raised assessmentbutton" style="" id="assessmentbutton2" >START INTERVEW</button>
+    <button class="btn btn-info btn-raised notassessmentbutton" style="" id="notassessmentbutton2" >NOT APPLICABLE</button>
+    <button class="btn btn-rose btn-raised inprogressassessmentbutton" style="" id="inprogressassessmentbutton2" >CONTINUE INTERVIEW </button>
+    <button class="btn btn-success btn-raised completeassessmentbutton" style="" id="completeassessmentbutton2" >COMPLETE</button>
           </a>
   </div>
 
@@ -966,7 +2124,8 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="ind_name_3">Name</label>
-    <input name="ind_name_3" type="text" class="form-control" >
+    <input name="ind_name_3" type="text" class="form-control" id="ind_name_3">
+    <input name="ind_id_3" type="hidden" class="form-control" id="ind_id_3" value="IND_3">
   </div>
     
     </div>
@@ -977,10 +2136,10 @@ table.center {
       <div class="form-group">
     <label for="ind_gender_3">Gender</label>
     <select name="ind_gender_3" id="ind_gender_3" class="form-control input-lg">
-    <option>Select</option>
-      <option>Male</option>
-      <option>Female</option>
-        <option>Third Gender</option>
+    <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+        <option value="Third_Gender">Third Gender</option>
    </select> 
   </div>
                   
@@ -996,10 +2155,10 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="agegoup_3">Age between 15 and 30?</label>
-    <select name="agegoup_3" id="agegoup_3"  class="form-control">
-       <option>Select</option>
-      <option>Yes</option>
-      <option>No</option>
+    <select name="agegoup_3" id="agegoup_3"  class="form-control agebetween">
+        <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
       
     </select>
   </div>
@@ -1011,8 +2170,11 @@ table.center {
                   
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
-          <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton3" onclick="goToAssessment()">START INTERVEW</button>
+          <a>
+    <button class="btn btn-rose btn-raised assessmentbutton" style="" id="assessmentbutton3" >START INTERVEW</button>
+    <button class="btn btn-info btn-raised notassessmentbutton" style="" id="notassessmentbutton3" >NOT APPLICABLE</button>
+    <button class="btn btn-rose btn-raised inprogressassessmentbutton" style="" id="inprogressassessmentbutton3" >CONTINUE INTERVIEW </button>
+    <button class="btn btn-success btn-raised completeassessmentbutton" style="" id="completeassessmentbutton3" >COMPLETE</button>
           </a>
   </div>
 
@@ -1045,7 +2207,8 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="ind_name_4">Name</label>
-    <input name="ind_name_4" type="text" class="form-control" >
+    <input name="ind_name_4" type="text" class="form-control" id="ind_name_4">
+    <input name="ind_id_4" type="hidden" class="form-control" id="ind_id_4" value="IND_4">
   </div>
     
     </div>
@@ -1056,10 +2219,10 @@ table.center {
       <div class="form-group">
     <label for="ind_gender_4">Gender</label>
     <select name="ind_gender_4" id="ind_gender_4" class="form-control input-lg">
-    <option>Select</option>
-      <option>Male</option>
-      <option>Female</option>
-        <option>Third Gender</option>
+   <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+        <option value="Third_Gender">Third Gender</option>
    </select> 
   </div>
                   
@@ -1075,10 +2238,10 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="agegoup_4">Age between 15 and 30?</label>
-    <select name="agegoup_4" id="agegoup_4"  class="form-control">
-       <option>Select</option>
-      <option>Yes</option>
-      <option>No</option>
+    <select name="agegoup_4" id="agegoup_4"  class="form-control agebetween">
+       <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
       
     </select>
   </div>
@@ -1090,8 +2253,11 @@ table.center {
                   
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
-          <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton4" onclick="goToAssessment()">START INTERVEW</button>
+          <a>
+    <button class="btn btn-rose btn-raised assessmentbutton" style="" id="assessmentbutton4" >START INTERVEW</button>
+    <button class="btn btn-info btn-raised notassessmentbutton" style="" id="notassessmentbutton4" >NOT APPLICABLE</button>
+    <button class="btn btn-rose btn-raised inprogressassessmentbutton" style="" id="inprogressassessmentbutton4" >CONTINUE INTERVIEW </button>
+    <button class="btn btn-success btn-raised completeassessmentbutton" style="" id="completeassessmentbutton4" >COMPLETE</button>
           </a>
   </div>
 
@@ -1125,7 +2291,8 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="ind_name_5">Name</label>
-    <input name="ind_name_5" type="text" class="form-control" >
+    <input name="ind_name_5" type="text" class="form-control" id="ind_name_5">
+    <input name="ind_id_5" type="hidden" class="form-control" id="ind_id_5" value="IND_5">
   </div>
     
     </div>
@@ -1136,10 +2303,10 @@ table.center {
       <div class="form-group">
     <label for="ind_gender_5">Gender</label>
     <select name="ind_gender_5" id="ind_gender_5" class="form-control input-lg">
-    <option>Select</option>
-      <option>Male</option>
-      <option>Female</option>
-        <option>Third Gender</option>
+    <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+        <option value="Third_Gender">Third Gender</option>
    </select> 
   </div>
                   
@@ -1155,10 +2322,10 @@ table.center {
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
     <label for="agegoup_5">Age between 15 and 30?</label>
-    <select name="agegoup_5" id="agegoup_5"  class="form-control">
-       <option>Select</option>
-      <option>Yes</option>
-      <option>No</option>
+    <select name="agegoup_5" id="agegoup_5"  class="form-control agebetween">
+       <option value="">Select</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
       
     </select>
   </div>
@@ -1170,8 +2337,11 @@ table.center {
                   
                   <div class="col-lg-2 col-sm-6">
       <div class="form-group">
-          <a href="/ysAssessment">
-    <button class="btn btn-rose btn-raised" style="" id="assessmentbutton5" onclick="goToAssessment()">START INTERVIEW</button>
+          <a>
+    <button class="btn btn-rose btn-raised assessmentbutton" style="" id="assessmentbutton5" >START INTERVIEW</button>
+    <button class="btn btn-info btn-raised notassessmentbutton" style="" id="notassessmentbutton5" >NOT APPLICABLE</button>
+    <button class="btn btn-rose btn-raised inprogressassessmentbutton" style="" id="inprogressassessmentbutton5" >CONTINUE INTERVIEW </button>
+    <button class="btn btn-success btn-raised completeassessmentbutton" style="" id="completeassessmentbutton5" >COMPLETE</button>
           </a>
   </div>
 
@@ -1209,7 +2379,7 @@ table.center {
               <div class="row" style="margin-top: 15px; margin-bottom: 50px;">
         <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-            <button id="savehouseholdbutton" class="btn btn-rose btn-raised" style="" onclick="activateAssessmentButtons()">SAVE HOUSEHOLD</button>
+            <button id="savehouseholdbutton" class="btn btn-rose btn-raised" style="" >SAVE HOUSEHOLD</button>
             <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center>
           <!--</a>-->
           <br>

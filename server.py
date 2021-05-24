@@ -1,6 +1,6 @@
 import bottle
 from bottle import *
-#from pymongo import MongoClient
+import pymongo
 #from bson.json_util import dumps
 from datetime import datetime
 import time
@@ -83,3 +83,7 @@ def enable_cors():
 	response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
 # run(host='localhost', port=8080)
+
+# db.users.insert({"userid": 1,"username": "test1","password": "test@123","role": "Surveyor","lastLoginTimestamp":"","lastLoginLocation":"","numberOfHouseholdsCompleted":0,"numberOfHouseholdsINProgress":0,"totalNumberOfHouseholdsCreated":0,"numberOfMembersCompleted":0,"numberOfMembersINProgress":0,"totalNumberOfMembersCreated":0})
+# db.users.insert({"userid": 2,"username": "test2","password": "test@123","role": "Data_Superviser","lastLoginTimestamp":"","lastLoginLocation":"","numberOfHouseholdsCompleted":0,"numberOfHouseholdsINProgress":0,"totalNumberOfHouseholdsCreated":0,"numberOfMembersCompleted":0,"numberOfMembersINProgress":0,"totalNumberOfMembersCreated":0})
+# db.users.insert({"userid": 3,"username": "test3","password": "test@123","role": "Superviser","lastLoginTimestamp":"","lastLoginLocation":"","numberOfHouseholdsCompleted":0,"numberOfHouseholdsINProgress":0,"totalNumberOfHouseholdsCreated":0,"numberOfMembersCompleted":0,"numberOfMembersINProgress":0,"totalNumberOfMembersCreated":0})

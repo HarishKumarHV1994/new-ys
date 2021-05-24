@@ -69,11 +69,11 @@
                   
     <div class="form-group">
     <label for="exampleFormControlSelect1">User Type</label>
-    <select class="form-control" id="exampleFormControlSelect1" >
-      <option>Select Type</option>
-      <option>Surveyor</option>
-      <option>Data Superviser</option>
-      <option>Superviser</option>
+    <select class="form-control"  id="user_type">
+      <option value="">Select Type</option>
+      <option value="Surveyor">Surveyor</option>
+      <option value="Data_Superviser">Data Superviser</option>
+      <option value="Superviser">Superviser</option>
      
     </select>
   </div>
@@ -81,7 +81,7 @@
                   
                   <div class="form-group">
     <label for="exampleFormControluser">User Name</label>
-        <input type="text" class="form-control"  >
+        <input type="text" class="form-control" id="user_name" >
   </div>
                   
 
@@ -89,7 +89,7 @@
                   
                   <div class="form-group">
     <label for="exampleFormControlpassword">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" >
+        <input type="password" class="form-control" id="user_password" >
   </div>
                 
                 <!--<p style="font-weight: bold;">Greetings from NIMHANS!</p>-->
@@ -109,7 +109,7 @@
                 <center><p>Please take the assessment only once</p></center> -->
 
                 <!-- <center><button type="submit" class="btn btn-rose btn-link btn-wd btn-lg">Start Assessment</button></center> -->
-                <center><button id="login_btn" class="btn btn-rose btn-raised" onclick="loginfunction()">LOGIN</button></center>
+                <center><button id="login_btn" class="btn btn-rose btn-raised" >LOGIN</button></center>
                 <br>
               </div>
               
@@ -148,6 +148,97 @@
   <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    var latitude;
+    var longitude;
+    var timestamp;
+    const successCallback = (position) => {
+// console.log(position);
+latitude = position.coords.latitude;
+longitude = position.coords.longitude;
+timestamp = position.timestamp;
+// alert(lat +" "+ lon + " "+ timestamp);
+};
+const errorCallback = (error) =>{
+console.log(error);
+}; 
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    $("#spinner").fadeOut("slow");
+    var user_name = localStorage.getItem("user_name");
+  if(user_name){
+    window.location.href = "/ysHome";
+  } 
+   
+$('#login_btn').click(function(){
+
+// alert("hello");
+$("#spinner").fadeIn("slow"); 
+  var formData = new FormData();
+  user_name = $('#user_name').val();
+  user_password = $('#user_password').val();
+  user_type = $('#user_type').val();
+  latlong = latitude+","+longitude
+
+  formData.append("user_name",user_name);
+  formData.append("user_password",user_password);
+  formData.append("user_type",user_type);
+  formData.append("latlong",latlong);
+  formData.append("timestamp", timestamp)
+
+  // console.log(user_name);
+  // console.log(user_password);
+  // console.log(user_type);
+  // console.log(latlong);
+
+  if (!user_name || !user_password) {
+    $("#spinner").fadeOut("slow");
+      alert('Please Enter username and Password!');
+    }
+  if(!user_type){
+    $("#spinner").fadeOut("slow");
+      alert('Please Select User Type!');
+  }
+  
+  else{
+
+   $.ajax({
+        type: "POST",
+        url: '/loginSubmit',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          var json = $.parseJSON(data);
+          // console.log(data);
+          // console.log(json.msg);
+          if (json.msg == "Success"){
+            localStorage.setItem('user_name',user_name);
+            localStorage.setItem('userid',json.userid);
+            window.location.href = "/ysHome";
+          }
+          else{
+            alert("Credentials are InCorrect!")
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+}
+});
+
+
+});
+
+
+
+
+</script>
 </body>
 
 </html>

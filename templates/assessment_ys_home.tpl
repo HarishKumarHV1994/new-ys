@@ -23,7 +23,12 @@
 
   <script src="js/ys.js"></script>           
 
-  <script type="text/javascript">    
+  <script type="text/javascript">   
+  var latitude;
+var longitude;
+var timestamp; 
+var memberId;
+var householdId;
     $(document).ready(function(){
 
       document.getElementById('q99.1_num_of_times').style.display = 'none'
@@ -82,7 +87,160 @@
      
       */
 
-    })  
+
+      $(".save-later").click(function(){
+
+   memberId = GetUrlParameter('memberId');
+   householdId = GetUrlParameter('householdId');
+        latlongtimestamp();
+
+        setTimeout(function() {
+               
+           
+var latlong = latitude+","+longitude;
+var member = "IND_"+memberId;
+var household = "HH_"+householdId;
+
+var assessmentMetaData={
+      "householdId":household,
+      "memberId":member,
+      "userid": localStorage.getItem("userid"),
+      "updatedTime":timestamp
+
+}
+
+
+// alert(no_rows);
+console.log(assessmentMetaData);
+
+$.ajax({
+        type: "POST",
+        url: '/assessmentSaveLater',
+        data: JSON.stringify(assessmentMetaData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            // console.log(members);
+            localStorage.setItem('household_members',JSON.stringify(json));          
+            console.log("Success");
+             window.history.back();
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+
+
+},
+2000);
+
+
+
+
+      });
+
+      $("#final_submit").click(function(){
+
+        memberId = GetUrlParameter('memberId');
+        householdId = GetUrlParameter('householdId');
+
+        latlongtimestamp();
+
+        setTimeout(function() {
+               
+           
+var latlong = latitude+","+longitude;
+var member = "IND_"+memberId;
+var household = "HH_"+householdId;
+
+var assessmentMetaData={
+      "householdId":household,
+      "memberId":member,
+      "userid": localStorage.getItem("userid"),
+      "completeLocation" : latlong,
+      "updatedTime":timestamp
+
+}
+
+// alert(no_rows);
+console.log(assessmentMetaData);
+
+$.ajax({
+        type: "POST",
+        url: '/assessmentFinalSubmit',
+        data: JSON.stringify(assessmentMetaData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            localStorage.setItem('household_members',JSON.stringify(json));
+            window.history.back();
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+
+
+},
+2000);
+
+
+
+      });
+
+
+
+    });
+
+function GetUrlParameter(sParam)
+
+{
+    var sPageURL = window.location.search.substring(1);
+
+    var sURLVariables = sPageURL.split('&');
+
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] == sParam)
+
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+
+    function handle_errors(error) {  
+    console.log(error);
+}
+function handle_geolocation_query(position){  
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    timestamp = position.timestamp; 
+    // alert(latitude);
+}
+function latlongtimestamp() {
+  
+navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,{timeout:1000});
+    
+}     
+  
   </script> 
 
 </head>
@@ -189,7 +347,7 @@
                 
               <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-             <button class="btn btn-rose btn-raised" style="" >SAVE FOR LATER</button>
+             <button class="btn btn-rose btn-raised save-later" style="" >SAVE FOR LATER</button>
                       
             <center> <p  style="font-weight: 800; padding-left: 15px; font-size: 1.0em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
@@ -205,8 +363,8 @@
       <div class="row" style="margin-top: 15px; margin-bottom: 50px;">
         <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-            <button class="btn btn-rose btn-raised" style="" onclick="on_submit()">Submit</button>
-            <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center>
+            <button class="btn btn-rose btn-raised" style="" id="final_submit">Submit</button>
+            <!-- <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center> -->
           <!--</a>-->
           <br>
           <a href="/ysHome">Go To Home</a>
