@@ -98,23 +98,23 @@ table {
                     <tr>
                         
                        <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="households_tobestarted"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                          </td>
                         <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="households_inprogress"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                         </td>
                         <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="households_completed"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                         </td>
                         
                          <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="members_tobestarted"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                          </td>
                         <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="members_inprogress"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                         </td>
                         <td>
-                            <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
+                            <center><p style="font-size: 0.8em;" id="members_completed"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                         </td>
                         
                     </tr>
@@ -147,7 +147,8 @@ table {
               </div>-->
              
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
-                  <table>
+                  <table >
+                    <thead>
                     <tr>
                         <th>
                             <center><p style=" font-size: 0.8em;">ID</p></center>
@@ -184,8 +185,11 @@ table {
                             <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">COMPLETED</span></p></center>
                         </th>
                     </tr>
-                      
-                     <tr>
+                      </thead>
+                      <tbody id="userdataInfo">
+
+                      </tbody>
+                    <!--  <tr>
                         
                         <td>
                             <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">USER_123</span></p></center>
@@ -228,7 +232,7 @@ table {
                             <center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">12</span></p></center>
                         </td>
                     </tr>
-                      
+                       -->
                     
                  
                  
@@ -255,7 +259,7 @@ table {
           <a href="/ysHome">Go To Home</a>
           <br>
           <br>
-          <a href="/logout">Logout</a>
+          <a id="logout">Logout</a>
         </div>
       </div>
               
@@ -284,6 +288,150 @@ table {
   <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+
+  <script>
+$(document).ready(function(){
+  var user_name = localStorage.getItem("user_name");
+  
+  if(!user_name){
+    window.location.href = "/login";
+  }
+
+ var requestData = { 
+      "userid": localStorage.getItem("userid")             
+      }
+      $.ajax({
+        type: "POST",
+        url: '/allusersdataInfo',
+        data: JSON.stringify(requestData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            $("#households_tobestarted").html(json.data.households_tobestarted);
+             $("#households_inprogress").html(json.data.households_inprogress);
+             $("#households_completed").html(json.data.households_completed);
+             $("#members_tobestarted").html(json.data.members_tobestarted);
+             $("#members_inprogress").html(json.data.members_inprogress);
+             $("#members_completed").html(json.data.members_completed);
+
+           
+            console.log("Success");
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+$.ajax({
+        type: "POST",
+        url: '/userdataInfo',
+        data: JSON.stringify(requestData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+          var htmldata = '';
+          var formatedDate = '';
+          var location = '';
+        $.each(json.data , function(index, item) { 
+          
+         
+         if(item.lastLoginTimestamp != ''){
+          var date = new Date(parseInt(item.lastLoginTimestamp));
+
+          month=date.getMonth();
+          console.log(month);
+          month=month+1; //javascript date goes from 0 to 11
+          if (month<10) month="0"+month; //adding the prefix
+
+          year=date.getFullYear();
+          day=date.getDate();
+          hour=date.getHours();
+          minutes=date.getMinutes();
+          seconds=date.getSeconds();
+          formatedDate=day+"/"+month+"/"+year+" "+hour+":"+minutes;
+
+          console.log(formatedDate);
+         }
+         else{
+                formatedDate = 'NA'
+         }
+          if(item.lastLoginLocation != ''){
+            location = '<button class="btn btn-sm btn-info btn-raised map-btn" style="" >View</button><input type="hidden" name="mapview" value="'+item.lastLoginLocation+'"';
+
+          }
+          else{
+              location = 'NA';
+          }
+          
+          var total_tobestarted = parseInt(item.totalNumberOfMembersCreated) - parseInt(item.numberOfMembersINProgress) - parseInt(item.numberOfMembersCompleted);
+          var total_inprogress = parseInt(item.numberOfMembersINProgress);
+          var total_completed = parseInt(item.numberOfMembersCompleted);
+          
+          htmldata += '<tr><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+item.username+'</span></p></center></td><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+formatedDate+'</span></p></center></td><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+location+'</span></p></center></td><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+total_tobestarted+'</span></p></center></td><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+total_inprogress+'</span></p></center></td><td><center><p style="font-size: 0.8em;"><span id="macro_score" style=" font-size: 0.8em;">'+total_completed+'</span></p></center></td></tr>';
+
+
+        });
+
+        $("#userdataInfo").html(htmldata);   
+
+
+            console.log("Success");
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+    $(document).on('click', '.map-btn', function(){
+                var latlong = $(this).closest("tr").find("input[name='mapview']").val();
+                
+                // alert(memberId[1]  +" "+ householdId[1]);
+                var url = "https://www.google.com/maps/@" + latlong + "," + "20z";
+                console.log(url);
+                window.open(url, '_blank');
+              
+
+        });
+
+    $("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
+  });
+
+
+
+});
+
+function format_date(date) {
+  month=date.getMonth();
+  month=month+1; //javascript date goes from 0 to 11
+  if (month<10) month="0"+month; //adding the prefix
+
+  year=date.getFullYear();
+  day=date.getDate();
+  hour=date.getHours();
+  minutes=date.getMinutes();
+  seconds=date.getSeconds();
+
+  return day+"/"+month+"/"+year+" "+hour+":"+minutes+":"+seconds;
+
+}
+
+
+  </script>
 </body>
 
 </html>

@@ -39,10 +39,14 @@ var tmpArr = [];
     
 
 $(document).ready(function(){
-    
+  var user_name = localStorage.getItem("user_name");
+ 
+  if(!user_name){
+    window.location.href = "/login";
+  }  
+  
+ var no_rows = 0;  
    
-   
-      
 
 var country_state_city = [
   {
@@ -454,231 +458,160 @@ var country_state_city = [
   }
 ];
 
+var household = GetUrlParameter('householdId');
+var dist = '';
+var tq = '';
+var district = '';
+var taluq = '';
+var village = '';
+var locale = '';
+var members;
+ console.log(household);
+ var request = { 
+    "userid": localStorage.getItem("userid"),
+    "householdId": household            
+              }
+    $.ajax({
+    type: "POST",
+    url: '/householdInfo',
+    data: JSON.stringify(request),
+    contentType: "application/json",
+    success: function (data) {
+      $("#spinner").fadeOut("slow");
+      // console.log(data);
+      var json = $.parseJSON(data);
+      if (json.msg == "Success"){  
 
 
+       console.log(json.data);
+       dist = json.data.district;
+       tq = json.data.taluka;
+       household = json.data.householdId;
+       village = json.data.villageOrward;
+       locale = json.data.locale;
+       members = json.data.members;
+       size_of_members = members.length;
+       var num_rows = size_of_members - 1;
 
-var myJSON = JSON.stringify(country_state_city);
+       console.log(size_of_members);
+       console.log(members);
 
-$(function(){
-  var html_code = '';
-  var data = JSON.parse(myJSON);
-  html_code += '<option value="">Select</option>';
-  $.each(data, function(key, value){
-    // console.log(value);
+       $('#houseid').val(household);
 
-    html_code += '<option value="'+value.short_name+'">'+value.name+'</option>';
-    // console.log(html_code)
-   });
-  $('#districts').html(html_code);
-});
-// var json = $.parseJSON(country_state_city); 
+      // alert(options_element_1);
+      var htmldata = '';
+        $.each(members , function(index, item) { 
+         
+            index += 1;
+            buttontag = '';
+            if(item.memberInterviewStatus == 'TobeStarted'){
+              buttontag += '<button class="btn btn-rose btn-raised progress-btn" style="" >START INTERVIEW</button>';
+            }
+           if(item.memberInterviewStatus == 'InProgress'){
+              buttontag += '<button class="btn btn-rose btn-raised progress-btn" style="" >CONTINUE INTERVIEW</button>';
+            }
+            if(item.memberInterviewStatus == 'Completed'){
+              buttontag += '<button class="btn btn-success btn-raised progress-btn" style="" disabled>COMPLETE</button>';
+            }
+            if(item.memberInterviewStatus == 'Not Applicable'){
+              buttontag += '<button class="btn btn-info btn-raised progress-btn" style="" disabled>NOT APPLICABLE</button>';
+            }
+            
 
+            htmldata += '<div class="card card-login" id="member1"><center> <h4 class="title"><span id="member">MEMBER'+index+'</span></h4></center><div class="card-body" style="padding-top: 15px; padding-bottom: 15px;"><table><tr><th><center><p style="padding-left: 15px; font-size: 1.0 em;">Name : '+item.name+'</p></center></th><th><center><p style="padding-left: 15px; font-size: 1.0em;">Gender : '+item.gender+'</p></center></th></tr><tr><th><center><p style="padding-left: 15px; font-size: 1.0 em;">Age between 15 and 30? : '+item.agein15to30+'</p></center></th><th><center>'+buttontag+'<input type="hidden" name="memberid" value="'+item.memberId+'"></center></th></tr></table></div></div>'
 
-
-  
-  
-function select_taluq(districts_id){
-var html_code = '';
-  var data = JSON.parse(myJSON);
+          
+    
+        });
+         $("#familydata").html(htmldata);   
+            
+           
    
+
+       var myJSON = JSON.stringify(country_state_city);
+        var data = JSON.parse(myJSON);
+  // console.log(data);
+
   $.each(data, function(key, value){
-    // console.log(value);
-    if(districts_id == value.short_name){
-      console.log(value);
-      $.each(value.taluks, function(key, value){
-    // console.log(value); 
-     html_code += '<option value="'+value.short_name+'">'+value.name+'</option>';
-    // console.log(html_code)
-   });
+    if(value.short_name == dist){
+      district = value.name;
+      console.log
+      $.each(value.taluks,function(key,values){
+        if(values.short_name == tq){
+          taluq = values.name;
+        }
+
+      });
     }
-    // html_code += '<option value="'+value.short_name+'">'+value.name+'</option>';
-    // console.log(html_code)
    });
-   $('#taluq').html(html_code);
 
 
-}
+  
 
 
-var no_rows = 0;
+  console.log(district + " " + taluq);
+  $("#householdid").html("Household : " +household);
+$("#districtid").html("District : " +district);
+$("#taluqid").html("Taluka : " +taluq);
+$("#villageid").html("Village : " +village);
+$("#localeid").html("Locale : " +locale);
+        console.log("Success");
 
-function addrow(){
 
-row = "<tr id=tasklist><td>" + "<input type='text' class='sno"+no_rows+"'></input>" + "</td><td>" + "<input type='number' class='age"+no_rows+"'></input>" + "</td><td colspan='4'>" + "<div class='form-check'><input class='gender' type='radio' name='gender"+no_rows+"' value='Male'><label class='form-check-label'for='gender"+no_rows+"'>Male</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Female'><label class='form-check-label' for='gender"+no_rows+"'>Female</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Third Gender'><label class='form-check-label' for='gender"+no_rows+"'>Third Gender</label></div>" + "</td><td>" + "<div class='agecond form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='Yes'><label class='form-check-label' for='agecond"+no_rows+"'>Yes</label></div><div class='form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='No'><label class='form-check-label' for='agecond"+no_rows+"'>No</label></div>" + "</td><td>" + "<a href='/' class='btn btn-primary start_assesment_btn' >Start Assesment</a>" +"</td></tr>";
-        $("table > tbody").append(row);
-        
-            ++no_rows;
 
-}
+      }
+    },
+    error: function(data){
+    $("#spinner").fadeOut("slow");
+    alert("Technical Error!");
+    }
 
-$(".add-row").click(function () {
-  var mainTable = $('#tablemain');
-var tr = mainTable.find('tbody tr');
-if(tr.length < 10){
-        row = "<tr id=tasklist><td >" + "<input type='text' class='sno"+no_rows+"'></input>" + "</td><td>" + "<input type='number' class='age"+no_rows+"'></input>" + "</td><td colspan='4'>" + "<div class='form-check'><input class='gender' type='radio' name='gender"+no_rows+"' value='Male'><label class='form-check-label'for='gender"+no_rows+"'>Male</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Female'><label class='form-check-label' for='gender"+no_rows+"'>Female</label></div><div class='form-check '><input class='gender' type='radio' name='gender"+no_rows+"' value='Third Gender'><label class='form-check-label' for='gender"+no_rows+"'>Third Gender</label></div>" + "</td><td>" + "<div class='agecond form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='Yes'><label class='form-check-label' for='agecond"+no_rows+"'>Yes</label></div><div class='form-check '><input class='agecond' type='radio' name='agecond"+no_rows+"' value='No'><label class='form-check-label' for='agecond"+no_rows+"'>No</label></div>" + "</td><td>" + "<a href='/' class='btn btn-primary start_assesment_btn' >Start Assesment</a>" +"</td></tr>";
-        $("table > tbody").append(row);
-        
-            ++no_rows;
-
-          }
-          else{
-            alert("Limit Only 10 Rows");
-          }
     });
 
-$(".save_household").click(function(){
-    $(".start_assesment_btn").css('display', 'block');
+      $(document).on('click', '.progress-btn', function(){
+                var memberid = $(this).closest("tr").find("input[name='memberid']").val();
+                var houseid = $('#houseid').val();
+                
+                var memberId = memberid.split("IND_");
+                var householdId = houseid.split("HH_");
+                // alert(memberId[1]  +" "+ householdId[1]);
+                var url = "/ysAssessment?memberId=" + memberId[1] + "&householdId=" + householdId[1];
+            window.location.href = url;
+
+
+       });
+
+      $("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
   });
 
-    $('.load').click(function () {
-       loadValues();
-    });
- $('.household').click(function () {
-       famil_details();
-       addrow();
-    });
-$(".household").css("display","block");
-$(".family_data").css("display","none");
-
- $(document).on('change', '#districts', function(){
-  var districts_id = $(this).val();
-  select_taluq(districts_id);
-  console.log(districts_id);
- });
  
 });
 
+function GetUrlParameter(sParam)
 
+{
+    var sPageURL = window.location.search.substring(1);
 
-function loadValues(){
+    var sURLVariables = sPageURL.split('&');
 
-  var mainTable = $('#tablemain');
-var tr = mainTable.find('tbody tr');
-console.log(tr.length)
-tr.each(function(){
-tmpArr=[];
-$(this).find('td').each(function(){
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
 
-var values=$(this).find('input[type=text], input[type=number], select, input[type=radio]:checked').val();
-tmpArr.push(values);
+        if (sParameterName[0] == sParam)
 
-});
-mainArr.push(tmpArr);
-});
-console.log(mainArr);
-
-
-
+        {
+            return sParameterName[1];
+        }
+    }
 }
 
-function famil_details(){
-
-$(".family_data").css("display","block");
-$(".household").css("display","none");
 
 
 
-}
-    
-
-function addFamilyMember(){
-    no_rows=no_rows+1
-    
-      if(no_rows==1 && document.getElementById('member2').style.display == 'none'){
-          document.getElementById('member2').style.display = 'block'
-      }
-    
-     if(no_rows==2 && document.getElementById('member3').style.display == 'none'){
-          document.getElementById('member3').style.display = 'block'
-      }
-    
-     if(no_rows==3 && document.getElementById('member4').style.display == 'none'){
-          document.getElementById('member4').style.display = 'block'
-      }
-    
-     if(no_rows==4 && document.getElementById('member5').style.display == 'none'){
-          document.getElementById('member5').style.display = 'block'
-         document.getElementById('familymemberbutton').style.display = 'none'
-      }
-   
-      
-}
-
-function activateAssessmentButtons(){
-    
-    
-    var options_element_1 = document.getElementById('agegoup_1').value
-    var options_element_2 = document.getElementById('agegoup_2').value
-    var options_element_3 = document.getElementById('agegoup_3').value
-    var options_element_4 = document.getElementById('agegoup_4').value
-    var options_element_5 = document.getElementById('agegoup_5').value
-   
-   
-    if(no_rows==0){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        
-    }
-    
-    if(no_rows==1){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==2){
-         
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton22').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==3){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-        if(options_element_4 == 'Yes') {
-            document.getElementById('assessmentbutton4').style.display = 'block'
-        }
-    }
-    
-    if(no_rows==4){
-        if(options_element_1 == 'Yes') {
-            document.getElementById('assessmentbutton1').style.display = 'block'
-        }
-        if(options_element_2 == 'Yes') {
-            document.getElementById('assessmentbutton2').style.display = 'block'
-        }
-        if(options_element_3 == 'Yes') {
-            document.getElementById('assessmentbutton3').style.display = 'block'
-        }
-        if(options_element_4 == 'Yes') {
-            document.getElementById('assessmentbutton4').style.display = 'block'
-        }
-        if(options_element_5 == 'Yes') {
-            document.getElementById('assessmentbutton5').style.display = 'block'
-        }
-    }
-    
-    document.getElementById('savehouseholdbutton').style.display = 'none'
-    
-}
     
     
 </script>
@@ -716,34 +649,35 @@ table {
       <div id="ques_data" style="display: block;">
      
         <div class="row" style="margin-top: 75px;">
-          <div class="col-md-6 ml-auto mr-auto">
+          <div class="col-md-6 ml-auto mr-auto" >
             <div class="card card-login">
               <div class="card-header card-header-rose text-center">
                 <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">WHERE IS THE HOME LOCATED?</h4>
                
               </div>
                 
-                <center> <h4 class="title"><span id="member">HOUSEHOLD ID : HH-13</span></h4></center>
+                <center> <h4 class="title" id="householdid"></h4></center>
+                <input type="hidden" name="houseid" id="houseid" value="">
                 
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
                   
                   <table>
                     <tr>
                         <th>
-                            <center><p style="padding-left: 15px; font-size: 1.0 em;">District : Kolar</p></center>
+                            <center><p style="padding-left: 15px; font-size: 1.0em;" id="districtid"></p></center>
                         </th>
                         <th>
-                            <center><p style="padding-left: 15px; font-size: 1.0em;">Taluka : Kolar</p></center>
+                            <center><p style="padding-left: 15px; font-size: 1.0em;" id="taluqid"></p></center>
                         </th>
                         
                     </tr>
                     <tr>
                         
                         <th>
-                            <center><p style="padding-left: 15px; font-size: 1.0 em;">Village : Village</p></center>
+                            <center><p style="padding-left: 15px; font-size: 1.0em;" id="villageid"></p></center>
                         </th>
                         <th>
-                            <center><p style="padding-left: 15px; font-size: 1.0em;">Locale : Rural</p></center>
+                            <center><p style="padding-left: 15px; font-size: 1.0em;" id="localeid"></p></center>
                         </th>
                     </tr>
                     
@@ -769,13 +703,9 @@ table {
               </div>
               
              
-              
-              
+              <div id="familydata"></div>
+              <!-- 
               <div class="card card-login" id="member1">
-              <!--<div class="card-header card-header-rose text-center">
-                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">FAMILY MEMBER</h4>
-               
-              </div>-->
              <center> <h4 class="title"><span id="member">MEMBER 1</span></h4></center>
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
                   
@@ -798,10 +728,6 @@ table {
                             <center><button class="btn btn-green btn-raised" style="" id="assessmentbutton1" >INTERVIEW COMPLETED</button></center>
                         </th>
                     </tr>
-                    
-                 
-                 
-                 
                  
                 </table>
                   
@@ -813,13 +739,10 @@ table {
               
               <br>
               
-              <!--zHere-->
+             
         
               <div class="card card-login" id="member2">
-              <!--<div class="card-header card-header-rose text-center">
-                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">FAMILY MEMBER</h4>
-               
-              </div>-->
+            
              <center> <h4 class="title"><span id="member">MEMBER 2</span></h4></center>
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
                   
@@ -858,12 +781,9 @@ table {
         </div>
               <br>
               
-        <!-- Member 6 -->
+       
               <div class="card card-login" id="member2">
-              <!--<div class="card-header card-header-rose text-center">
-                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">FAMILY MEMBER</h4>
-               
-              </div>-->
+             
              <center> <h4 class="title"><span id="member">MEMBER 3</span></h4></center>
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
                   
@@ -901,8 +821,8 @@ table {
           </div>
         </div>
               
-              <br>
-              <!--New -->
+              <br> -->
+            
               
       
 
@@ -920,7 +840,7 @@ table {
           <a href="/ysSurveyorStatus">Go Back</a>
           <br>
           <br>
-          <a href="/logout">Logout</a>
+          <a id="logout">Logout</a>
         </div>
       </div>
               

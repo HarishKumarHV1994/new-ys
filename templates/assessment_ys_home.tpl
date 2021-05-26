@@ -31,6 +31,19 @@ var memberId;
 var householdId;
     $(document).ready(function(){
 
+      var user_name = localStorage.getItem("user_name");
+  
+  if(!user_name){
+    window.location.href = "/login";
+  }
+
+      memberId = GetUrlParameter('memberId');
+      householdId = GetUrlParameter('householdId');
+      var member = "IND_"+memberId;
+      var household = "HH_"+householdId;
+      $('#houseid').html("Household_ID : "+household);
+      $('#memberid').html("Member_ID : "+member);
+
       document.getElementById('q99.1_num_of_times').style.display = 'none'
       document.getElementById('q99.2_num_of_times').style.display = 'none'
       document.getElementById('q99.4_num_of_times').style.display = 'none'
@@ -202,6 +215,12 @@ $.ajax({
 
       });
 
+      $("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
+  });
+
 
 
     });
@@ -251,7 +270,13 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
     <div class="container">
 
       
-
+      <div class="row">
+        <div class="col-md-3">
+          <span class="card-title" style="float: left;padding-top: 7%;"id="houseid"></span><span class="card-title" style="text-align: right;float: right;padding-top: 7%;" id="memberid"></span>
+        </div>
+       
+        
+      </div>
       <div id="ques_data" style="display: block;">                   
       
       % for x in data['sections']:
@@ -370,7 +395,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
           <a href="/ysHome">Go To Home</a>
             <br>
           <br>
-          <a href="/logout">Logout</a>
+          <a id="logout">Logout</a>
           <!--<br>
           <a href="/logout">Logout</a> -->
         </div>

@@ -257,8 +257,8 @@
           <!--</a>-->
           <br>
           <a href="/home">Go To Home</a>
-          <!--<br>
-          <a href="/logout">Logout</a> -->
+          <br>
+          <a id="logout">Logout</a> 
         </div>
       </div>
 
@@ -913,7 +913,11 @@ $(".save_household").css("display","block");
 
 }
 
+$("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
 
+  });
 
 </script>
   

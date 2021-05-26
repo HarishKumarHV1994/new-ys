@@ -60,13 +60,12 @@ def loginSubmit():
 #Use this
 @route('/ysHome')
 def ncd_home():
-	#data = get_stress_json()
-    # to be created
+	
 	return static_file('ysHome.html', root='templates/')
 
 @route('/ysHousehold')
 def ncd_stress():
-	#data = get_stress_json()
+	
 	return template('templates/ys_household.tpl')
 
 @post('/householdSubmit')
@@ -130,15 +129,7 @@ def householdSubmit():
 	response["householdId"] = lastHouseholdUpdateId
 		
 
-	# membersdict = household.get('members')
-	# # sizeofmemberdict = len(membersdict)
-	# lastmember = mydb.lastMember.find_one()
-	# lastmemberId = lastmember.get('lastMemberId')
-	# for member in membersdict:
-	# 	lastMemberUpdateId = int(lastmemberId) + 1
-	# 	lastmemberId = lastMemberUpdateId
-	# 	member["memberId"] = "HH_"+str(lastHouseholdUpdateId)+"_IND_"+str(lastMemberUpdateId)
-	# 	print(member)
+
 	
 	print(household)
 	
@@ -147,39 +138,6 @@ def householdSubmit():
 @post('/assessmentSubmit')
 def assessmentSubmit():
 	assessment = request.json
-
-
-	# userid = assessment.get('userid')
-	# householdId = assessment.get('householdId')
-	# userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
-	
-
-	# numberofhouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
-	# numberOfHouseholdsINProgress = int(numberofhouseholdsINProgress) + 1
-
-	# numberofmembersINProgress = userfind.get('numberOfMembersINProgress')
-	# numberOfMembersINProgress = int(numberofmembersINProgress) + 1
-
-	# mycol = mydb["assessmentMetaData"]
-	# x = mycol.insert_one(assessment)
-	
-
-	# assessmentfind = mydb.temp_assessment.find_one({"householdId":householdId,"userid":userid})
-
-	# totalmemberCreated = assessmentfind.get('totalmemberCreated')
-	# totalmembertobestarted = assessmentfind.get('totalmemberTobeStarted')
-	# totalmemberTobeStarted = int(totalmembertobestarted) + 1
-
-	# if(totalmemberCreated == totalmemberTobeStarted):
-	# 	mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress": numberOfHouseholdsINProgress,"numberOfMembersINProgress":numberOfMembersINProgress}})
-	# else:
-	# 	mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfMembersINProgress":numberOfMembersINProgress}})
-
-
-	# mydb.temp_assessment.find_one_and_update({"householdId":householdId,"userid":userid},{"$set":{"totalmemberTobeStarted": totalmemberTobeStarted}})
-
-	
-
 
 	response = {}
 	response["msg"] = "Success"
@@ -334,9 +292,154 @@ def assessmentFinalSubmit():
 
 
 @route('/ysSurveyorStatus')
-def ncd_stress():
+def ysSurveyorStatus():
 	#data = get_stress_json()
 	return template('templates/ys_surveyStatus.tpl')
+
+@route('/ysSupervisorView')
+def ysSupervisorView():
+	#data = get_stress_json()
+	return template('templates/ys_supervisorStatus.tpl')
+
+@post('/householdCompletedInfo')
+def householdCompletedInfo():
+
+	requestData = request.json
+	userid = requestData.get('userid')
+
+	userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+
+	numberOfHouseholdsCompleted = userfind.get("numberOfHouseholdsCompleted")
+
+	numberOfMembersCompleted = userfind.get("numberOfMembersCompleted") 
+
+
+	response = {}
+	response["msg"] = "Success"
+	response["numberOfHouseholdsCompleted"] = numberOfHouseholdsCompleted
+	response["numberOfMembersCompleted"] = numberOfMembersCompleted
+
+	print(requestData)
+
+	return json.dumps(response)
+
+@post('/householdPendingInfo')
+def householdPendingInfo():
+
+	requestData = request.json
+	userid = requestData.get('userid')
+
+	userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+
+	myData = []
+
+	households = mydb.households.find({"createdUserId":userid,"householdInterviewStatus": { "$nin" : ['Completed'] }},{"_id":0,"householdId":1})
+
+	for x in households:
+		myData.append(x)
+
+
+	response = {}
+	response["msg"] = "Success"
+	response["data"] = myData
+	
+
+	print(requestData)
+
+	return json.dumps(response)
+
+@post('/householdInfo')
+def householdInfo():
+
+	requestData = request.json
+
+	userid = requestData.get('userid')
+	householdId = requestData.get('householdId')
+
+
+	householdfind = mydb.households.find_one({"householdId":householdId,"createdUserId":userid},{"_id":0})
+
+
+	response = {}
+	response["msg"] = "Success"
+	response["data"] = householdfind
+	
+
+	print(requestData)
+
+	return json.dumps(response)
+
+@post('/allusersdataInfo')
+def allusersdataInfo():
+	requestData = request.json
+
+	userid = requestData.get('userid')
+
+	
+
+	users = mydb.users.find({},{"_id":0})
+
+	households_completed = 0;
+	households_inprogress = 0;
+	households_tobestarted = 0;
+	members_completed = 0;
+	members_inprogress = 0;
+	members_tobestarted = 0;
+
+	for x in users:
+		numberofhouseholdsCompleted = x.get('numberOfHouseholdsCompleted')
+		numberofhouseholdsINProgress = x.get('numberOfHouseholdsINProgress')
+		numberofhouseholdsCreated = x.get('totalNumberOfHouseholdsCreated')
+
+		households_tobestarted += int(numberofhouseholdsCreated) - int(numberofhouseholdsINProgress) - int(numberofhouseholdsCompleted)
+		households_inprogress += int(numberofhouseholdsINProgress)
+		households_completed += int(numberofhouseholdsCompleted)
+
+		numberofmembersCompleted = x.get('numberOfMembersCompleted')
+		numberofmembersINProgress = x.get('numberOfMembersINProgress')
+		numberofmembersCreated = x.get('totalNumberOfMembersCreated')
+
+		members_tobestarted += int(numberofmembersCreated) - int(numberofmembersINProgress) - int(numberofmembersCompleted)
+		members_inprogress += int(numberofmembersINProgress)
+		members_completed += int(numberofmembersCreated)
+
+
+	
+
+
+	response = {}
+	response["msg"] = "Success"
+	response["data"] = ({"households_tobestarted":households_tobestarted,"households_inprogress":households_inprogress,"households_completed":households_completed,"members_tobestarted":members_tobestarted,"members_inprogress":members_inprogress,"members_completed":members_completed})
+	
+
+	print(requestData)
+
+	return json.dumps(response)
+
+@post('/userdataInfo')
+def userdataInfo():
+	requestData = request.json
+
+	userid = requestData.get('userid')
+
+	myData = []
+
+	users = mydb.users.find({},{"_id":0})
+
+	for x in users:
+		myData.append(x)
+
+
+	response = {}
+	response["msg"] = "Success"
+	response["data"] = myData
+	
+
+	print(requestData)
+
+	return json.dumps(response)
+
+
 
 @route('/yshouseholdContinue')
 def ncd_stress():

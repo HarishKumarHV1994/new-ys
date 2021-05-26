@@ -217,6 +217,7 @@ $("#spinner").fadeIn("slow");
           if (json.msg == "Success"){
             localStorage.setItem('user_name',user_name);
             localStorage.setItem('userid',json.userid);
+            localStorage.setItem('user_type',user_type);
             window.location.href = "/ysHome";
           }
           else{

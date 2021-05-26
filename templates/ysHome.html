@@ -101,7 +101,7 @@
               <div class="info">
                 
                
-                <a href="/logout">Logout</a>
+                <a id="logout">Logout</a>
                 
               </div>
             </div>
@@ -174,10 +174,22 @@
     localStorage.removeItem("no_rows");
     localStorage.removeItem("household_members");
   var user_name = localStorage.getItem("user_name");
+  var user_type = localStorage.getItem("user_type");
   // alert(user_name);
   if(!user_name){
     window.location.href = "/login";
   }
+  if(user_type == "Superviser"){
+    document.getElementById('SUPERVSIOR').style.display = 'block';
+  }
+  else{
+     document.getElementById('SUPERVSIOR').style.display = 'none';
+  }
+  $("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
+  });
 });
 </script>
 </body>

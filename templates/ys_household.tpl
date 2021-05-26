@@ -734,6 +734,7 @@ $(document).ready(function(){
   }
   if(householdid){
       $('#householdId').val(householdid);
+      $("#displayhouseholdid").html("Household Id: HH_"+householdid);
   }
  
 
@@ -1580,6 +1581,7 @@ $.ajax({
           if (json.msg == "Success"){
 
             $('#householdId').val(json.householdId);
+            $("#displayhouseholdid").html("Household Id: HH_"+json.householdId);
           }
        },
        error: function(data){
@@ -1785,6 +1787,12 @@ $.ajax({
 
 
 });
+
+$("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
+  });
  
 });
 
@@ -1866,6 +1874,7 @@ table.center {
             <div class="card card-login">
               <div class="card-header card-header-rose text-center">
                 <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">WHERE IS THE HOME LOCATED?</h4>
+                <h4 class="card-title" id="displayhouseholdid" style="padding-left: 3%; padding-right: 3%;"></h4>
                
               </div>
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
@@ -2386,7 +2395,7 @@ table.center {
           <a href="/ysHome">Go To Home</a>
           <br>
           <br>
-          <a href="/logout">Logout</a>
+          <a id="logout">Logout</a>
         </div>
       </div>
               

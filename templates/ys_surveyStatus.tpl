@@ -76,10 +76,10 @@ table {
                     <tr>
                         
                         <th>
-                            <center><p style="font-size: 1.3em;"><span id="macro_score" style=" font-size: 1.3em;">5</span></p></center>
+                            <center><p style="font-size: 1.3em;"><span id="macro_score" class="householdsCompleted" style=" font-size: 1.3em;"></span></p></center>
                         </th>
                         <th>
-                            <center><p style="font-size: 1.3em;"><span id="macro_fasibility" style=" font-size: 1.3em;">13</span></p></center>
+                            <center><p style="font-size: 1.3em;"><span id="macro_fasibility" class="individualsCompleted" style=" font-size: 1.3em;"></span></p></center>
                         </th>
                     </tr>
                     
@@ -111,7 +111,7 @@ table {
               </div>-->
              
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
-                  <table>
+                  <table id="housholdsData">
                     <tr>
                         <th>
                             <center><p style="padding-left: 15px; font-size: 1.3em;">HOUSEHOLD ID</p></center>
@@ -121,7 +121,7 @@ table {
                         </th>
                         
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         
                         <th>
                             <center><p style="font-size: 1.3em;"><span id="macro_score" style=" font-size: 1.3em;">HH_5</span></p></center>
@@ -156,7 +156,7 @@ table {
           </a></center>
                         </th>
                     </tr>
-                    
+                     -->
                  
                  
                  
@@ -177,7 +177,7 @@ table {
           <a href="/ysHome">Go To Home</a>
           <br>
           <br>
-          <a href="/logout">Logout</a>
+          <a id="logout">Logout</a>
         </div>
       </div>
               
@@ -206,6 +206,107 @@ table {
   <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+  <script>
+
+    $(document).ready(function(){
+      var user_name = localStorage.getItem("user_name");
+  
+  if(!user_name){
+    window.location.href = "/login";
+  }
+      var userid = localStorage.getItem("userid");
+
+    if(userid){
+      var requestData = { 
+      "userid": localStorage.getItem("userid")             
+      }
+      $.ajax({
+        type: "POST",
+        url: '/householdCompletedInfo',
+        data: JSON.stringify(requestData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            $(".householdsCompleted").html(json.numberOfHouseholdsCompleted);
+             $(".individualsCompleted").html(json.numberOfMembersCompleted);
+           
+            console.log("Success");
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+
+      $.ajax({
+        type: "POST",
+        url: '/householdPendingInfo',
+        data: JSON.stringify(requestData),
+        contentType: "application/json",
+        success: function (data) {
+          $("#spinner").fadeOut("slow");
+          console.log(data);
+          var json = $.parseJSON(data);
+          if (json.msg == "Success"){
+            var htmldata = "";
+            $.each(json.data, function(key,value) {       
+            htmldata += '<tr><th><center><p style="font-size: 1.3em;"><span id="macro_score" style="font-size: 1.3em;">'+value.householdId+'</span></p></center></th><th><center><button class="btn btn-rose btn-raised household" style="" >CONTINUE</button> <input type="hidden" name="householdId" value="'+value.householdId+'"></center></th></tr>';
+          
+          });
+            $("#housholdsData").html(htmldata);
+          }
+       },
+       error: function(data){
+        $("#spinner").fadeOut("slow");
+        alert("Technical Error!");
+       }
+
+     });
+}
+
+          $(document).on('click', '.household', function(){
+                var household = $(this).closest("tr").find("input[name='householdId']").val();
+                var request = { 
+                  "userid": localStorage.getItem("userid"),
+                  "householdId": household            
+                   }
+                   $.ajax({
+                    type: "POST",
+                    url: '/householdInfo',
+                    data: JSON.stringify(request),
+                    contentType: "application/json",
+                    success: function (data) {
+                      $("#spinner").fadeOut("slow");
+                      console.log(data);
+                      var json = $.parseJSON(data);
+                      if (json.msg == "Success"){        
+                        var url = "/yshouseholdContinue?householdId=" +json.data.householdId;
+                        window.location.href = url;
+                        console.log("Success");
+                      }
+                   },
+                   error: function(data){
+                    $("#spinner").fadeOut("slow");
+                    alert("Technical Error!");
+                   }
+
+                 });
+                // alert(v);
+             });
+
+          $("#logout").click(function(){
+    localStorage.clear();
+    location.reload();
+
+  });
+
+    });
+</script>
 </body>
 
 </html>
