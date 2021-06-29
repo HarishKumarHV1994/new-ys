@@ -17,7 +17,10 @@ from ys_data_json import *
 app = Bottle(__name__)
 
 # myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-myclient = pymongo.MongoClient("mongodb+srv://harishhv:harish007@newys.ibk0a.mongodb.net/test?retryWrites=true&w=majority")
+# myclient = pymongo.MongoClient("mongodb+srv://harishhv:harish007@newys.ibk0a.mongodb.net/test?retryWrites=true&w=majority")
+mongo_uri = "mongodb+srv://harishhv:" + urllib.parse.quote("harish007") + "@newys.ibk0a.mongodb.net/new_ys?retryWrites=true&w=majority"
+# print(mongo_uri)
+myclient = pymongo.MongoClient(mongo_uri)
 mydb = myclient["new_ys"]
 
 @app.route('/hello/<name>')
