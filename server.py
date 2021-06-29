@@ -7,6 +7,7 @@ import time
 import json
 import os
 from bson import json_util, ObjectId
+import urllib.parse
 
 # from config_vars import *
 #from all_functions import *
@@ -15,8 +16,9 @@ from ys_data_json import *
 
 app = Bottle(__name__)
 
-myclient = pymongo.MongoClient("mongodb+srv://harish:Harish@1944@newys.ibk0a.mongodb.net/test")
-mydb = myclient["new_ys"]
+mongo_uri = "mongodb+srv://harish:" + urllib.parse.quote("Harish@1944") + "@newys.ibk0a.mongodb.net/test"
+# print(mongo_uri)
+myclient = pymongo.MongoClient(mongo_uri)
 
 
 @app.route('/hello/<name>')

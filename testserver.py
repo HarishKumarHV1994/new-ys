@@ -7,6 +7,8 @@ import time
 import json
 import os
 from bson import json_util, ObjectId
+import urllib.parse
+
 
 # from config_vars import *
 #from all_functions import *
@@ -15,7 +17,10 @@ from ys_data_json import *
 
 app = Bottle(__name__)
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+# myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+mongo_uri = "mongodb+srv://harish:" + urllib.parse.quote("Harish@1944") + "@newys.ibk0a.mongodb.net/test"
+# print(mongo_uri)
+myclient = pymongo.MongoClient(mongo_uri)
 mydb = myclient["new_ys"]
 
 
@@ -32,13 +37,14 @@ def root():
 
 @post('/loginSubmit')
 def loginSubmit():
-	# print("hello")
+	# print(myclient.server_info())
 	user_name = request.forms.get('user_name')
 	user_password = request.forms.get('user_password')
 	user_type = request.forms.get('user_type')
 	latlong = request.forms.get('latlong')
 	timestamp = request.forms.get('timestamp')
-	userfind = mydb.users.find_one( { "role": user_type, "username": user_name,"password":user_password } )
+	
+	userfind = mydb.users.find_one({ "role": user_type, "username": user_name,"password":user_password })
 	# print(userfind)
 	userid = userfind.get('_id')
 
