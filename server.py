@@ -15,7 +15,7 @@ from ys_data_json import *
 
 app = Bottle(__name__)
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+myclient = pymongo.MongoClient("mongodb+srv://harish:Harish@1944@newys.ibk0a.mongodb.net/test")
 mydb = myclient["new_ys"]
 
 
