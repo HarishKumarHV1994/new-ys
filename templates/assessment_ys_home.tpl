@@ -277,7 +277,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
                       
                       % if y['qtype'] == 'text':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;" onchange="markAnswered('{{question_index}}','text')" value="abc">     
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;" onchange="markAnswered('{{question_index}}','text')">     
                       % end
 
                       % if y['qtype'] == 'num':
