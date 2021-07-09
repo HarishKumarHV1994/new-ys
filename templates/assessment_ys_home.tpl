@@ -50,55 +50,23 @@ var householdId;
       document.getElementById('q99.5_num_of_times').style.display = 'none'
       document.getElementById('q99.6_num_of_times').style.display = 'none'
       document.getElementById('q99.7_num_of_times').style.display = 'none'
+      document.getElementById('q_7.1_q').style.display = 'none'
+      document.getElementById('q_7.1_ig').style.display = 'none'
+      document.getElementById('q_7.1_k_q').style.display = 'none'
+        
+      document.getElementById('q_63.1_q').style.display = 'none'
+      document.getElementById('q_63.1_ig').style.display = 'none'
+      document.getElementById('q_63.1_k_q').style.display = 'none'
       
+      for(var i=0; i<json_data.data.length; i++){
+        
+        json_data.data[i].ans_required='true'
+        json_data.data[i].answered='N'
+        json_data.data[i].value=''     
+        
+    } 
 
-      /*document.getElementById('q_17_q').style.display = 'none'
-      document.getElementById('q_17_ig').style.display = 'none'
-
-      document.getElementById('q_19_q').style.display = 'none'
-      document.getElementById('q_19_ig').style.display = 'none'
-
-      document.getElementById('q_21_q').style.display = 'none'
-      document.getElementById('q_21_ig').style.display = 'none'
-
-      document.getElementById('q_23_q').style.display = 'none'
-      document.getElementById('q_23_ig').style.display = 'none'
-
-      document.getElementById('q_25_q').style.display = 'none'
-      document.getElementById('q_25_ig').style.display = 'none'
-
-      document.getElementById('q_27_q').style.display = 'none'
-      document.getElementById('q_27_ig').style.display = 'none'
-
-      document.getElementById('q_29_q').style.display = 'none'
-      document.getElementById('q_29_ig').style.display = 'none'
-
-      document.getElementById('q_31_q').style.display = 'none'
-      document.getElementById('q_31_ig').style.display = 'none'
-
-      document.getElementById('q_33_q').style.display = 'none'
-      document.getElementById('q_33_ig').style.display = 'none'
-
-      document.getElementById('q_35_q').style.display = 'none'
-      document.getElementById('q_35_ig').style.display = 'none'
-
-      document.getElementById('q_37_q').style.display = 'none'
-      document.getElementById('q_37_ig').style.display = 'none'
-
-      document.getElementById('q_39_q').style.display = 'none'
-      document.getElementById('q_39_ig').style.display = 'none'
-
-      document.getElementById('q_41_q').style.display = 'none'
-      document.getElementById('q_41_ig').style.display = 'none'
-
-      document.getElementById('q_43_q').style.display = 'none'
-      document.getElementById('q_43_ig').style.display = 'none'
-
-      document.getElementById('q_45_q').style.display = 'none'
-      document.getElementById('q_45_ig').style.display = 'none'
-      
-     
-      */
+    
 
 
       $(".save-later").click(function(){
@@ -309,12 +277,12 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
                       
                       % if y['qtype'] == 'text':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;" onkeyup="markAnswered('{{question_index}}','text')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;" onchange="markAnswered('{{question_index}}','text')" value="abc">     
                       % end
 
                       % if y['qtype'] == 'num':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" maxlength="10000000" onkeyup="checkValid('q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;"> 
+                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" maxlength="10000000" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;"> 
                       % end
                         
                       % if y['qtype'] == 'num_na':
@@ -322,40 +290,40 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
                         <button class="btn btn-round" id="q{{y['qid']}}_rad" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio_na('{{question_index}}')"><b>Not Applicable</b></button>
                         <button class="btn btn-round" id="q{{y['qid']}}_num_of_times" style="margin-bottom: 4px; white-space:normal;" style="display: none;" onclick="select_radio_num_Of_times('{{question_index}}')"><b>I want to enter number of times</b></button>
                         <p id="q_{{y['qid']}}_orbreak"><br>Or<br></p>
-                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="Number of times" maxlength="10000000" onkeyup="checkValid('q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;">  
+                        <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="Number of times" maxlength="10000000" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;">  
                       % end
                         
                       
                       % if y['qtype'] == 'bp':
                         <p id="q_{{y['qid']}}_sys_msg"></p>
                         <label for="q_{{y['qid']}}_sys_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Systolic:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_sys_data" name="q_{{y['qid']}}.1_data"  placeholder="Systolic" style="width: 50%;" onkeyup="markAnswered('{{question_index}}','bp_sys')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_sys_data" name="q_{{y['qid']}}.1_data"  placeholder="Systolic" style="width: 50%;" onchange="markAnswered('{{question_index}}','bp_sys')">
                         <p id="q_{{y['qid']}}.dia_msg"></p>
                         <label for="q_{{y['qid']}}_dia_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Diastolic:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 50%;" onkeyup="markAnswered('{{question_index}}','bp_dia')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 50%;" onchange="markAnswered('{{question_index}}','bp_dia')">
                       % end
                       
                       % if y['qtype'] == 'pair_num_yymm':
-                        <p id="q_{{y['qid']}}_yy_msg"></p>
+                        <p id="q_{{y['qid']}}_yy_msg"></p> 
                         <label for="q_{{y['qid']}}_yy_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Years:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_yy_data" name="q_{{y['qid']}}_yy_data"  placeholder="Years 0 to 100" style="width: 50%;" min="0" max="60" onkeyup="checkValid('q_{{y['qid']}}_yy_data', '99')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_yy_data" name="q_{{y['qid']}}_yy_data"  placeholder="Years 0 to 100" style="width: 50%;" min="0" max="60" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_yy_data', '99')">
                         <p id="q_{{y['qid']}}_mm_msg"></p>
                         <label for="q_{{y['qid']}}_mm_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Months:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Months 0 to 12" style="width: 50%;" min="0" max="11" onkeyup="checkValid('q_{{y['qid']}}_mm_data', '11')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Months 0 to 12" style="width: 50%;" min="0" max="11" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_mm_data', '11')">
                       % end
                         
                       % if y['qtype'] == 'time':
                         <p id="q_{{y['qid']}}_hh_msg"></p>
                         <label for="q_{{y['qid']}}_hh_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Hours:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_hh_data" name="q_{{y['qid']}}_hh_data"  placeholder="Hours 0 to 24" style="width: 50%;" min="0" max="23" onkeyup="checkValid('q_{{y['qid']}}_hh_data', '23')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_hh_data" name="q_{{y['qid']}}_hh_data"  placeholder="Hours 0 to 24" style="width: 50%;" min="0" max="23" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_hh_data', '23')">
                         <p id="q_{{y['qid']}}_mm_msg"></p>
                         <label for="q_{{y['qid']}}_mm_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Minutes:</label>
-                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Minutes 0 to 59" style="width: 50%;" min="0" max="59" onkeyup="checkValid('q_{{y['qid']}}_mm_data', '59')">
+                        <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Minutes 0 to 59" style="width: 50%;" min="0" max="59" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_mm_data', '59')">
                       % end
 
                       % if y['qtype'] == 'date':
                         <p id="q_{{y['qid']}}_msg"></p>
-                        <input type="date" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 50%;" onkeyup="markAnswered('{{question_index}}','date')">
+                        <input type="date" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 50%;" onchange="markAnswered('{{question_index}}','date')">  
                       % end
 
                       % if y['qtype'] == 'radio':
@@ -364,7 +332,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
                           <button class="btn btn-round" id="q{{y['qid']}}_{{z['aid']}}" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio('{{question_index}}', '{{z['aid']}}')"><b>{{z['value']}}</b></button>
                         % end 
                         <br> 
-                        <input class="form-control" type="text" name="q_{{y['qid']}}_others_data" id="q_{{y['qid']}}_others_data" placeholder="Specify others" style="width: 100%; display: none;">     
+                        <input class="form-control" type="text" name="q_{{y['qid']}}_others_data" id="q_{{y['qid']}}_others_data" placeholder="Specify others"  onchange="markAnswered('{{question_index}}','others')" style="width: 100%; display: none;">      
                       % end
 
                     </div>
