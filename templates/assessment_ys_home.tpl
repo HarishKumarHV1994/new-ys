@@ -278,7 +278,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
       <div class="card card-login">
         <div class="card-header card-header-rose text-center">
                 <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">{{data['heading']}}</h4>
-                <span class="card-title" style="float: left;padding-top: 7%;"id="houseid"></span><span class="card-title" style="text-align: right;float: right;padding-top: 7%;" id="memberid"></span>
+                <span class="card-title" style="padding-left: 3%;padding-top: 3%;"id="houseid"></span><span class="card-title" style="text-align: right;padding-right: 3%;padding-top: 3%;" id="memberid"></span>
               </div>
         </div>
         
