@@ -3,214 +3,14 @@ json_data = {"data":[{"qid":1,"qtype":"text","ph":"Enter Name","ques":{"english"
 
 var res = []
 
-function validatesection(section){
-    
-    //alert(section)
-    var data_payload = []
-    starting_question_idx=0;
-    ending_question_idx=0;
-    breakflag=false;
-    for(var i=0; i<json_data.data.length; i++){
-        
-        //alert(json_data.data[i].qid)
-        if (json_data.data[i].section == section){
-            if(starting_question_idx==0){
-                 //starting_question=json_data.data[i].qid
-                 starting_question_idx=i
-                 breakflag=true
-            }
-             
-        }else if(breakflag==true){
-            ending_question_idx=i-1
-            //ending_question=json_data.data[i-1].qid
-            break
-        }     
-        
-    } 
-    
-    var enterdata=[]
-    var selectdata=[]
-    
-   // alert("starting_question_idx"+starting_question_idx)
-    //alert("starting_question_idx"+ending_question_idx)
-    //Iterate through section questions
-    for(var i=starting_question_idx-1; i<=ending_question_idx; i++){
-        
-        var ques_type = json_data.data[i].qtype
 
-		if(json_data.data[i].mandatory == "True"){
-			if(ques_type == 'text'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
 
-				//json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-               // alert((json_data.data[i].qid).toString()+':text:'+val)
-				if(val.length == 0){
-					enterdata.push(json_data.data[i].qid)
-                    document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-                    //flag = 1
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-			}else if(ques_type == 'num'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				//json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-                //alert((json_data.data[i].qid).toString()+':num:'+val)
-				if(val =='' || parseInt(val) < 0 || parseInt(val) == NaN){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					enterdata.push(json_data.data[i].qid)
-                    //flag = 2
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-			}else if(ques_type == 'date'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				//json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-                //alert((json_data.data[i].qid).toString()+':date:'+val)
-				if(val.length == 0){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					enterdata.push(json_data.data[i].qid)
-                    //flag = 3
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-			}else if(ques_type == 'radio' || ques_type == 'f_radio'){
-				
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': json_data.data[i].selection_val})
-
-				//console.log(json_data.data[i].selection_val)
-                //alert((json_data.data[i].qid).toString()+':radio:'+val)
-				if(json_data.data[i].selection_val == undefined || json_data.data[i].selection_val.length == 0){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					selectdata.push(json_data.data[i].qid)
-                    //flag = 5
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-
-			}else if(ques_type == 'options'){
-				
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': json_data.data[i].selection_val})
-
-				//console.log(json_data.data[i].selection_val)
-                // alert((json_data.data[i].qid).toString()+':options:'+val)
-				if(json_data.data[i].selection_val == undefined || json_data.data[i].selection_val.length == 0){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					selectdata.push(json_data.data[i].qid)
-                    //flag = 4
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-
-			}else if(ques_type == 'pair_num_yymm'){
-				var yyval = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_yy_data').value
-                var mmval = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_mm_data').value
-                //q_{{y['qid']}}_sys_data
-
-				//json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-                //alert((json_data.data[i].qid).toString()+':num:'+val)
-				if(yyval =='' || parseInt(yyval) < 0 || parseInt(yyval) == NaN || mmval =='' || parseInt(mmval) < 0 || parseInt(mmval) == NaN){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					enterdata.push(json_data.data[i].qid)
-                    //flag = 2
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-            }else if(ques_type == 'pair_num_bp'){
-				var yyval = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_sys_data').value
-                var mmval = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_dia_data').value
-                //q_{{y['qid']}}_sys_data
-
-				//json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-                //alert((json_data.data[i].qid).toString()+':num:'+val)
-				if(yyval =='' || parseInt(yyval) < 0 || parseInt(yyval) == NaN || mmval =='' || parseInt(mmval) < 0 || parseInt(mmval) == NaN){
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "red"
-					enterdata.push(json_data.data[i].qid)
-                    //flag = 2
-				}else{
-                     document.getElementById('q_'+json_data.data[i].qid+'_q').style.color = "black"
-                }
-			}
-            //handle pairnummyy and pairnumbp
-		}else{
-			if(ques_type == 'text'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-			}else if(ques_type == 'num'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				//data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-			}
-		}
-        
-    }
-    
-    enterquestions=''
-    selectquestion=''
-    for(var i=0;i<enterdata.length;i++){
-        
-       // alert('enter'+i)
-        if(enterquestions==''){
-             enterquestions=enterdata[i].toString()
-        }else{
-             enterquestions=enterquestions+';'+enterdata[i].toString()
-        }
-       
-        //alert('enter'+enterdata[i])
-    }
-    
-    for(var i=0;i<selectdata.length;i++){
-        // alert('enter'+i)
-        if(selectquestion==''){
-             selectquestion=selectdata[i].toString()
-        }else{
-             selectquestion=selectquestion+';'+selectdata[i].toString()
-        }
-        //alert('select'+selectdata[i])
-    }
-    
-    if(enterquestions!=''){
-        
-        alert('Please enter right information for questions -->'+enterquestions)
-    }
-    
-    if(selectquestion!=''){
-        
-        alert('Please select right information for questions -->'+selectquestion)
-    }
-    if(enterquestions ==''&& selectquestion==''){
-        
-        alert("Thanks for entering all details. Please move down to next section")
-    }
-    //mandatory, it should have data or be selected.
-    // Set the selected value
-    
-    //alert(starting_question_idx-1)
-    //alert(ending_question_idx)
-}
-
-function checkValid(field_id, field_range){
+function checkValid(q_index, field_id, field_range){
 
 	//console.log(field_id, field_range)
 
+    var question_id = json_data.data[parseInt(q_index)]['qid']
+    //alert('questionID'+question_id)
     var val = document.getElementById(field_id).value
     //alert('val'+val)
     //alert('field_range'+field_range)
@@ -226,6 +26,65 @@ function checkValid(field_id, field_range){
         
         
     }
+    
+    // 27 
+    if(field_id == 'q_20_hh_data' && flag == true){
+        json_data.data[27].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_20_mm_data' && flag == true){
+        json_data.data[27].mmvalue=val
+    }
+    
+    if(field_id == 'q_22_hh_data' && flag == true){
+        json_data.data[29].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_22_mm_data' && flag == true){
+        json_data.data[29].mmvalue=val
+    }
+    
+    if(field_id == 'q_24_hh_data' && flag == true){
+        json_data.data[31].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_24_mm_data' && flag == true){
+        json_data.data[31].mmvalue=val
+    }
+    
+    if(field_id == 'q_25_hh_data' && flag == true){
+        json_data.data[32].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_25_mm_data' && flag == true){
+        json_data.data[32].mmvalue=val
+    }
+    
+    if(field_id == 'q_102_hh_data' && flag == true){
+        json_data.data[143].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_102_mm_data' && flag == true){
+        json_data.data[143].mmvalue=val
+    }
+    
+    if(field_id == 'q_103_hh_data' && flag == true){
+        json_data.data[144].hhvalue=val
+            
+    }
+    
+    if(field_id == 'q_103_mm_data' && flag == true){
+        json_data.data[144].mmvalue=val
+    }
+    
+    
+    
+    
     if(field_id == 'q_75_data' && flag == true){
         if(val>0){
             //document.getElementById('q_76_data').style.display = 'none'
@@ -233,11 +92,18 @@ function checkValid(field_id, field_range){
       		document.getElementById('q_76_ig').style.display = 'block'
             document.getElementById('q_76_k_q').style.display = 'block'
             document.getElementById('q_76_brk').style.display = 'block'
+            json_data.data[parseInt(q_index)+1].ans_required = "true"
+            json_data.data[parseInt(q_index)+1].value = "0"
+            document.getElementById('q_76_q').style.color='black'
+        document.getElementById('q_76_k_q').style.color = 'black'
         }else{
             document.getElementById('q_76_q').style.display = 'none'
       		document.getElementById('q_76_ig').style.display = 'none'
             document.getElementById('q_76_k_q').style.display = 'none'
             document.getElementById('q_76_brk').style.display = 'none'
+            json_data.data[parseInt(q_index)+1].ans_required = "false"
+            json_data.data[parseInt(q_index)+1].value = "-9"
+            //json_data.data[i].selection_val = val
         }
         
     }
@@ -248,11 +114,18 @@ function checkValid(field_id, field_range){
       		document.getElementById('q_78_ig').style.display = 'block'
             document.getElementById('q_78_k_q').style.display = 'block'
             document.getElementById('q_78_brk').style.display = 'block'
+            json_data.data[parseInt(q_index)+1].ans_required = "true"
+            json_data.data[parseInt(q_index)+1].value = "0"
+            document.getElementById('q_78_q').style.color='black'
+        document.getElementById('q_78_k_q').style.color = 'black'
         }else{
             document.getElementById('q_78_q').style.display = 'none'
       		document.getElementById('q_78_ig').style.display = 'none'
             document.getElementById('q_78_k_q').style.display = 'none'
             document.getElementById('q_78_brk').style.display = 'none'
+            json_data.data[parseInt(q_index)+1].ans_required = "false"
+            json_data.data[parseInt(q_index)+1].value = "-9"
+            //json_data.data[question_id+1].answer_reqd = "false"
         }
         
     }
@@ -263,11 +136,18 @@ function checkValid(field_id, field_range){
       		document.getElementById('q_84_ig').style.display = 'block'
             document.getElementById('q_84_k_q').style.display = 'block'
             document.getElementById('q_84_brk').style.display = 'block'
+            json_data.data[parseInt(q_index)+1].ans_required = "true"
+            json_data.data[parseInt(q_index)+1].value = "0"
+            document.getElementById('q_84_q').style.color='black'
+        document.getElementById('q_84_k_q').style.color = 'black'
         }else{
             document.getElementById('q_84_q').style.display = 'none'
       		document.getElementById('q_84_ig').style.display = 'none'
             document.getElementById('q_84_k_q').style.display = 'none'
             document.getElementById('q_84_brk').style.display = 'none'
+            json_data.data[parseInt(q_index)+1].ans_required = "false"
+            json_data.data[parseInt(q_index)+1].value = "-9"
+           // json_data.data[question_id+1].answer_reqd = "false"
         }
         
     }
@@ -278,11 +158,18 @@ function checkValid(field_id, field_range){
       		document.getElementById('q_86_ig').style.display = 'block'
             document.getElementById('q_86_k_q').style.display = 'block'
             document.getElementById('q_86_brk').style.display = 'block'
+            json_data.data[parseInt(q_index)+1].ans_required = "true"
+            json_data.data[parseInt(q_index)+1].value = "0"
+            document.getElementById('q_86_q').style.color='black'
+        document.getElementById('q_86_k_q').style.color = 'black'
         }else{
             document.getElementById('q_86_q').style.display = 'none'
       		document.getElementById('q_86_ig').style.display = 'none'
             document.getElementById('q_86_k_q').style.display = 'none'
             document.getElementById('q_86_brk').style.display = 'none'
+            json_data.data[parseInt(q_index)+1].ans_required = "false"
+            json_data.data[parseInt(q_index)+1].value = "-9"
+            //json_data.data[question_id+1].answer_reqd = "false"
         }
         
     }
@@ -290,11 +177,12 @@ function checkValid(field_id, field_range){
     if(flag==true){
         document.getElementById('q_'+question_id+'_q').style.color='green'
         document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
+        json_data.data[parseInt(q_index)].value = val
+        json_data.data[parseInt(q_index)].answered = "Y"
     }
     if(flag==false){
         alert('Please enter values <='+field_range)
     }
-    
     
 }
 
@@ -311,12 +199,33 @@ function select_radio_na(qid){
     document.getElementById('q'+question_id+'_num_of_times').style.display = 'block'
     var num_of_times_radio_element = document.getElementById('q'+question_id+'_num_of_times')
     num_of_times_radio_element.classList.remove("btn-rose")
+    json_data.data[parseInt(qid)].value="0"
+    json_data.data[parseInt(qid)].answered = "Y"
 }
 
 function markAnswered(qid,type){
     var question_id = json_data.data[parseInt(qid)]['qid']
     document.getElementById('q_'+question_id+'_q').style.color='green'
     document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
+    if(type == 'bp_dia'){
+        var val = document.getElementById('q_'+question_id+'_dia_data').value
+        json_data.data[parseInt(qid)].dia_value=val
+        
+    }
+    if(type == 'bp_sys'){
+        var val = document.getElementById('q_'+question_id+'_sys_data').value
+        json_data.data[parseInt(qid)].sys_value=val
+    }
+    if(type=='others'){
+        var val = document.getElementById('q_'+question_id+'_others_data').value
+        json_data.data[parseInt(qid)].others_data=val
+    }
+    if(type == 'date' || type == 'text'){
+        var val = document.getElementById('q_'+question_id+'_data').value
+        //alert("test or date")
+        json_data.data[parseInt(qid)].value=val
+    }
+    json_data.data[parseInt(qid)].answered = "Y"
     
     
 }
@@ -333,12 +242,17 @@ function select_radio_num_Of_times(qid){
     na_radio_element.classList.remove("btn-rose")
     document.getElementById('q_'+question_id+'_data').style.display = 'block'
     document.getElementById('q_'+question_id+'_orbreak').style.display = 'block'
+    json_data.data[parseInt(qid)].answered = "Y"
     
 }
 
 function select_radio(qid, element_id){
 
 	var question_id = json_data.data[parseInt(qid)]['qid']
+    json_data.data[parseInt(qid)].answered = "Y"
+    next_qid=0
+    //alert('qid'+qid)
+    //alert('question_id'+question_id)
     
     document.getElementById('q_'+question_id+'_q').style.color='green'
     document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
@@ -346,7 +260,8 @@ function select_radio(qid, element_id){
     var radio_element = document.getElementById('q'+question_id+'_'+element_id)
 	var element_count = json_data.data[parseInt(qid)]['ans'].length
 
-	json_data.data[parseInt(qid)].selection_val = parseInt(element_id)
+	//json_data.data[parseInt(qid)].selection_val = parseInt(element_id)
+    json_data.data[parseInt(qid)].value = parseInt(element_id)
 
 	for(var i=0; i<element_count; i++){
 		if((i+1) != parseInt(element_id)){
@@ -365,12 +280,19 @@ function select_radio(qid, element_id){
       		document.getElementById('q_2.2_ig').style.display = 'none'
             document.getElementById('q_2.2_k_q').style.display = 'none'
             document.getElementById('q_2.2_brk').style.display = 'none'
-            json_data.data[3].selection_val = "13/13/3333"
+            json_data.data[3].value = -9
+            json_data.data[3].ans_required = "false"
+            json_data.data[3].answered = "Y"
             
             document.getElementById('q_2.3_q').style.display = 'block'
       		document.getElementById('q_2.3_ig').style.display = 'block'
             document.getElementById('q_2.3_k_q').style.display = 'block'
             document.getElementById('q_2.3_brk').style.display = 'block'
+            document.getElementById('q_2.3_q').style.color='black'
+            document.getElementById('q_2.3_k_q').style.color = 'black'
+            json_data.data[4].ans_required = "true"
+            document.getElementById('q_2.3_data').value = '0'
+            json_data.data[4].answered = "N"
         }
         
         if(element_id==1){
@@ -379,12 +301,19 @@ function select_radio(qid, element_id){
       		document.getElementById('q_2.3_ig').style.display = 'none'
             document.getElementById('q_2.3_k_q').style.display = 'none'
             document.getElementById('q_2.3_brk').style.display = 'none'
-             json_data.data[4].selection_val = -9
+            json_data.data[4].value = -9
+            json_data.data[4].ans_required = "false"
+            json_data.data[4].answered = "Y"
             
             document.getElementById('q_2.2_q').style.display = 'block'
       		document.getElementById('q_2.2_ig').style.display = 'block'
             document.getElementById('q_2.2_k_q').style.display = 'block'
             document.getElementById('q_2.2_brk').style.display = 'block'
+            document.getElementById('q_2.2_q').style.color='black'
+            document.getElementById('q_2.2_k_q').style.color = 'black'
+            json_data.data[3].ans_required = "true"
+            document.getElementById('q_2.2_data').value = ''
+            json_data.data[3].answered = "N"
         }
         
        
@@ -393,9 +322,9 @@ function select_radio(qid, element_id){
     
      //Marital status
     
-    if(qid == 7){
+    if(qid == 7){ 
        
-        if(element_id==1 || element_id==4 || element_id==5 || element_id==6){
+        if(element_id==1 || element_id==4 || element_id==5 || element_id==6 || element_id==3){
             // Dont Show 2.2
            
             
@@ -403,6 +332,12 @@ function select_radio(qid, element_id){
       		document.getElementById('q_6_ig').style.display = 'block'
             document.getElementById('q_6_k_q').style.display = 'block'
             document.getElementById('q_6_brk').style.display = 'block'
+            document.getElementById('q_6_q').style.color='black'
+            document.getElementById('q_6_k_q').style.color = 'black'
+            document.getElementById('q_6_k_q').value=0
+            json_data.data[8].ans_required = "true"
+            json_data.data[8].value=0
+            json_data.data[8].answered = "N"
             
             if(element_id==1){
                 //To show only married indiviual question
@@ -410,86 +345,66 @@ function select_radio(qid, element_id){
       		document.getElementById('q_63_ig').style.display = 'block'
             document.getElementById('q_63_k_q').style.display = 'block'
             document.getElementById('q_63_brk').style.display = 'block'
-                
-                document.getElementById('q_63.1_q').style.display = 'block'
-      		document.getElementById('q_63.1_ig').style.display = 'block'
-            document.getElementById('q_63.1_k_q').style.display = 'block'
-            document.getElementById('q_63.1_brk').style.display = 'block'
-                
+            document.getElementById('q_63_q').style.color='black'
+            document.getElementById('q_63_k_q').style.color = 'black'
+                json_data.data[70].ans_required = "true"
+                json_data.data[70].answered = "Y"
+                json_data.data[70].value = -9
+        
                 
             }else{
-                document.getElementById('q_63_q').style.display = 'none'
+            document.getElementById('q_63_q').style.color='black'
+            document.getElementById('q_63_k_q').style.color = 'black'
+            document.getElementById('q_63_q').style.display = 'none'
       		document.getElementById('q_63_ig').style.display = 'none'
             document.getElementById('q_63_k_q').style.display = 'none'
             document.getElementById('q_63_brk').style.display = 'none'
-                json_data.data[70].selection_val = -9
+                json_data.data[70].ans_required = "false"
+                json_data.data[70].answered = "N"
                 
-                document.getElementById('q_63.1_q').style.display = 'none'
-      		document.getElementById('q_63.1_ig').style.display = 'none'
-            document.getElementById('q_63.1_k_q').style.display = 'none'
-            document.getElementById('q_63.1_brk').style.display = 'none'
-                json_data.data[71].selection_val = 'Not applicable'
+           
             }
         }
         
         if(element_id==2){
             // Dont Show 2.3
+            document.getElementById('q_6_q').style.color='black'
+            document.getElementById('q_6_k_q').style.color = 'black'
+            document.getElementById('q_6_k_q').value=0
             document.getElementById('q_6_q').style.display = 'none'
       		document.getElementById('q_6_ig').style.display = 'none'
             document.getElementById('q_6_k_q').style.display = 'none'
             document.getElementById('q_6_brk').style.display = 'none'
-            json_data.data[parseInt(qid+1)].selection_val = -9
+            json_data.data[8].ans_required = "false"
+            json_data.data[8].value=-9
+            json_data.data[8].answered = "Y"
             
+            document.getElementById('q_63_q').style.color='black'
+            document.getElementById('q_63_k_q').style.color = 'black'
             document.getElementById('q_63_q').style.display = 'none'
       		document.getElementById('q_63_ig').style.display = 'none'
             document.getElementById('q_63_k_q').style.display = 'none'
-            document.getElementById('q_63_brk').style.display = 'none'
-            json_data.data[70].selection_val = -9
+            document.getElementById('q_63_brk').style.display = 'none' 
+            json_data.data[70].ans_required = "false"
+            json_data.data[70].answered = "N"
             
-             document.getElementById('q_63.1_q').style.display = 'none'
-      		document.getElementById('q_63.1_ig').style.display = 'none'
-            document.getElementById('q_63.1_k_q').style.display = 'none'
-            document.getElementById('q_63.1_brk').style.display = 'none'
-                json_data.data[71].selection_val = 'Not applicable'
+
             
             
         }  
     }
-    
-    //Occupation
-    if(qid == 9){
-       
-        if(element_id== 11){
-            // Dont Show 2.2
-           
-            
-            document.getElementById('q_7.1_q').style.display = 'block'
-      		document.getElementById('q_7.1_ig').style.display = 'block'
-            document.getElementById('q_7.1_k_q').style.display = 'block'
-            document.getElementById('q_7.1_brk').style.display = 'block'
-            document.getElementById('q_7.1_brk').style.display = 'block'
-            
-            
-        }else{
-            // Dont Show 2.3
-            document.getElementById('q_7.1_q').style.display = 'none'
-      		document.getElementById('q_7.1_ig').style.display = 'none'
-            document.getElementById('q_7.1_k_q').style.display = 'none'
-            document.getElementById('q_7.1_brk').style.display = 'none'
-            
-            json_data.data[parseInt(qid+1)].selection_val = 'none'
-        }  
-    }
-    
-     
     
     
     //Religion
     if(qid == 11){
         if(element_id== 7){
             document.getElementById('q_8_others_data').style.display ='block'
+              
+              json_data.data[11].ans_required = "true"
         }else{
             document.getElementById('q_8_others_data').style.display ='none'
+             
+              json_data.data[11].ans_required = "false"
         }
     }
     //Nutrition - Fruits
@@ -499,18 +414,28 @@ function select_radio(qid, element_id){
             // Dont Show 2.2
            
             
+            document.getElementById('q_15_q').style.color='black'
+            document.getElementById('q_15_k_q').style.color = 'black'
+            document.getElementById('q_15_k_q').value=0
+            json_data.data[17].ans_required = "false"
+            json_data.data[17].value=-9
             document.getElementById('q_15_q').style.display = 'none'
       		document.getElementById('q_15_ig').style.display = 'none'
             document.getElementById('q_15_k_q').style.display = 'none'
             document.getElementById('q_15_brk').style.display = 'none'
-            
-            json_data.data[parseInt(qid+1)].selection_val = -9
+            json_data.data[17].answered = "Y"
         }else{
             // Dont Show 2.3
             document.getElementById('q_15_q').style.display = 'block'
       		document.getElementById('q_15_ig').style.display = 'block'
             document.getElementById('q_15_k_q').style.display = 'block'
             document.getElementById('q_15_brk').style.display = 'block'
+            document.getElementById('q_15_q').style.color='black'
+            document.getElementById('q_15_k_q').style.color = 'black'
+            document.getElementById('q_15_k_q').value=0
+            json_data.data[17].ans_required = "true"
+            json_data.data[17].value=0
+            json_data.data[17].answered = "N"
         }  
     }
     
@@ -520,19 +445,28 @@ function select_radio(qid, element_id){
         if(element_id== 1){
             // Dont Show 2.2
            
-            
+            document.getElementById('q_17_q').style.color='black'
+            document.getElementById('q_17_k_q').style.color = 'black'
+            document.getElementById('q_17_k_q').value=0
             document.getElementById('q_17_q').style.display = 'none'
       		document.getElementById('q_17_ig').style.display = 'none'
             document.getElementById('q_17_k_q').style.display = 'none'
             document.getElementById('q_17_brk').style.display = 'none'
-            
-            json_data.data[parseInt(qid+1)].selection_val = -9
+            json_data.data[20].ans_required = "false"
+            json_data.data[20].value=-9
+            json_data.data[20].answered = "Y"
         }else{
             // Dont Show 2.3
             document.getElementById('q_17_q').style.display = 'block'
       		document.getElementById('q_17_ig').style.display = 'block'
             document.getElementById('q_17_k_q').style.display = 'block'
             document.getElementById('q_17_brk').style.display = 'block'
+            document.getElementById('q_17_q').style.color='black'
+            document.getElementById('q_17_k_q').style.color = 'black'
+            document.getElementById('q_17_k_q').value=0
+            json_data.data[20].ans_required = "true"
+            json_data.data[20].value=0
+            json_data.data[20].answered = "N"
         }  
     }
     
@@ -540,24 +474,38 @@ function select_radio(qid, element_id){
     if(qid == 26 ){
        
         if(element_id== 1){
-            // Dont Show 2.2
+            // Dont Show
            
             
+            document.getElementById('q_20_q').style.color='black'
+            document.getElementById('q_20_k_q').style.color = 'black'
+            document.getElementById('q_20_hh_data').value=0
+            document.getElementById('q_20_mm_data').value=0
             document.getElementById('q_20_q').style.display = 'none'
       		document.getElementById('q_20_ig').style.display = 'none'
             document.getElementById('q_20_k_q').style.display = 'none'
             document.getElementById('q_20_brk').style.display = 'none'
+            json_data.data[27].ans_required = "false"
+            json_data.data[27].hhvalue=-9
+            json_data.data[27].mmvalue=-9
+            json_data.data[27].answered = "Y"
             
-            //json_data.data[parseInt(qid+1)].selection_val_hh = -9
-            //json_data.data[parseInt(qid+1)].selection_val_mm = -9
         }else{
-            // Dont Show 2.3
+            // Show
             document.getElementById('q_20_q').style.display = 'block'
       		document.getElementById('q_20_ig').style.display = 'block'
             document.getElementById('q_20_k_q').style.display = 'block'
             document.getElementById('q_20_brk').style.display = 'block'
+            document.getElementById('q_20_q').style.color='black'
+            document.getElementById('q_20_k_q').style.color = 'black'
+            document.getElementById('q_20_hh_data').value=0
+            document.getElementById('q_20_mm_data').value=0
+            json_data.data[27].ans_required = "true"
+            json_data.data[27].answered = "N"
+            
         }  
     }
+    //Moderate Physical activities
     
     if(qid == 28 ){
        
@@ -565,10 +513,18 @@ function select_radio(qid, element_id){
             // Dont Show 2.2
            
             
+            document.getElementById('q_22_q').style.color='black'
+            document.getElementById('q_22_k_q').style.color = 'black'
+            document.getElementById('q_22_hh_data').value=0
+            document.getElementById('q_22_mm_data').value=0
             document.getElementById('q_22_q').style.display = 'none'
       		document.getElementById('q_22_ig').style.display = 'none'
             document.getElementById('q_22_k_q').style.display = 'none'
             document.getElementById('q_22_brk').style.display = 'none'
+            json_data.data[29].ans_required = "false"
+            json_data.data[29].hhvalue=-9
+            json_data.data[29].mmvalue=-9
+            json_data.data[29].answered = "Y"
             
             //json_data.data[parseInt(qid+1)].selection_val_hh = -9
             //json_data.data[parseInt(qid+1)].selection_val_mm = -9
@@ -578,6 +534,12 @@ function select_radio(qid, element_id){
       		document.getElementById('q_22_ig').style.display = 'block'
             document.getElementById('q_22_k_q').style.display = 'block'
             document.getElementById('q_22_brk').style.display = 'block'
+            document.getElementById('q_22_q').style.color='black'
+            document.getElementById('q_22_k_q').style.color = 'black'
+            document.getElementById('q_22_hh_data').value=0
+            document.getElementById('q_22_mm_data').value=0
+            json_data.data[29].ans_required = "true"
+            json_data.data[29].answered = "N"
         }  
     }
     
@@ -586,37 +548,52 @@ function select_radio(qid, element_id){
         if(element_id== 1){
             // Dont Show 2.2
            
-            
+            document.getElementById('q_24_q').style.color='black'
+            document.getElementById('q_24_k_q').style.color = 'black'
+            document.getElementById('q_24_hh_data').value=0
+            document.getElementById('q_24_mm_data').value=0
             document.getElementById('q_24_q').style.display = 'none'
       		document.getElementById('q_24_ig').style.display = 'none'
             document.getElementById('q_24_k_q').style.display = 'none'
             document.getElementById('q_24_brk').style.display = 'none'
+            json_data.data[31].ans_required = "false"
+            json_data.data[31].hhvalue=-9
+            json_data.data[31].mmvalue=-9
+            json_data.data[31].answered = "Y"
             
-            //json_data.data[parseInt(qid+1)].selection_val_hh = -9
-            //json_data.data[parseInt(qid+1)].selection_val_mm = -9
         }else{
             // Dont Show 2.3
             document.getElementById('q_24_q').style.display = 'block'
       		document.getElementById('q_24_ig').style.display = 'block'
             document.getElementById('q_24_k_q').style.display = 'block'
             document.getElementById('q_24_brk').style.display = 'block'
+            document.getElementById('q_24_q').style.color='black'
+            document.getElementById('q_24_k_q').style.color = 'black'
+            document.getElementById('q_24_hh_data').value=0
+            document.getElementById('q_24_mm_data').value=0
+            json_data.data[31].ans_required = "true"
+            json_data.data[31].answered = "N"
         }  
     }
     
     //Tobacco
      if(qid == 33 ){
-       
+       next_qid=parseInt(qid)
         if(element_id== 1){
             // Dont Show 2.2
            
             for(var i=27; i<=34; i++){
                 
-               next_qid=next_qid+1  
+               next_qid=next_qid+1
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'    
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
-                json_data.data[next_qid].selection_val = -9
+                json_data.data[next_qid].ans_required = "false"
+                json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                 
             }
             
@@ -633,6 +610,10 @@ function select_radio(qid, element_id){
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
                 document.getElementById('q_'+i+'_brk').style.display = 'block'
+                 document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
                 //json_data.data[next_qid].selection_val = -9
                 
             }
@@ -645,17 +626,22 @@ function select_radio(qid, element_id){
     
     //Smokeless tobacco
      if(qid == 42 ){
-       next_qid=qid
+       next_qid=parseInt(qid)
         if(element_id== 1){
             
            
             for(var i=36; i<=42; i++){
                // alert(i)
                 next_qid=next_qid+1  
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'  
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
+                json_data.data[next_qid].ans_required = "false"
+                json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                 //json_data.data[next_qid].selection_val = -9
                  //alert("i later"+i)
             }
@@ -668,28 +654,34 @@ function select_radio(qid, element_id){
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
                 document.getElementById('q_'+i+'_brk').style.display = 'block'
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
                 
             }
-            
-            
-            
             
         }  
     }
     
     //Alcohol
      if(qid == 50 ){
-       next_qid=qid
+       next_qid=parseInt(qid)
         if(element_id== 1){
             
            
             for(var i=44; i<=57; i++){
                 //alert(i)
                 next_qid=next_qid+1  
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'  
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
+                json_data.data[next_qid].ans_required = "false"
+                json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                 //json_data.data[next_qid].selection_val = -9
                  //alert("i later"+i)
             }
@@ -700,10 +692,14 @@ function select_radio(qid, element_id){
             
             for(var i=44; i<=57; i++){
                 next_qid=next_qid+1 
-                document.getElementById('q_'+i+'_q').style.display = 'block'
+                 document.getElementById('q_'+i+'_q').style.display = 'block'
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
                 document.getElementById('q_'+i+'_brk').style.display = 'block'
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
                 
             }
             
@@ -715,17 +711,22 @@ function select_radio(qid, element_id){
     
     //Drug
      if(qid == 65 ){
-       next_qid=qid
+       next_qid=parseInt(qid)
         if(element_id== 2){
             
            
             for(var i=59; i<=60; i++){
                 //alert(i)
                 next_qid=next_qid+1  
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'  
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
+                json_data.data[next_qid].ans_required = "false"
+                json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                 //json_data.data[next_qid].selection_val = -9
                  //alert("i later"+i)
             }
@@ -736,10 +737,14 @@ function select_radio(qid, element_id){
             
             for(var i=59; i<=60; i++){
                 next_qid=next_qid+1 
-                document.getElementById('q_'+i+'_q').style.display = 'block'
+                 document.getElementById('q_'+i+'_q').style.display = 'block'
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
                 document.getElementById('q_'+i+'_brk').style.display = 'block'
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
                 
             }
             
@@ -758,56 +763,112 @@ function select_radio(qid, element_id){
       		    document.getElementById('q_62_ig').style.display = 'block'
                 document.getElementById('q_62_k_q').style.display = 'block'
                 document.getElementById('q_62_brk').style.display = 'block'
+            document.getElementById('q_62_q').style.color='black'
+                document.getElementById('q_62_k_q').style.color = 'black'
+                json_data.data[69].ans_required = "true"
+                json_data.data[69].answered = "N"
             
             document.getElementById('q_64_q').style.display = 'block'
       		    document.getElementById('q_64_ig').style.display = 'block'
                 document.getElementById('q_64_k_q').style.display = 'block'
                 document.getElementById('q_64_brk').style.display = 'block'
+            document.getElementById('q_64_q').style.color='black'
+                document.getElementById('q_64_k_q').style.color = 'black'
+            json_data.data[72].ans_required = "true"
+            json_data.data[72].answered = "N"
             
             document.getElementById('q_64.1_q').style.display = 'block'
       		    document.getElementById('q_64.1_ig').style.display = 'block'
                 document.getElementById('q_64.1_k_q').style.display = 'block'
                 document.getElementById('q_64.1_brk').style.display = 'block'
+            document.getElementById('q_64.1_q').style.color='black'
+                document.getElementById('q_64.1_k_q').style.color = 'black'
+            json_data.data[73].ans_required = "true"
+            json_data.data[73].answered = "N"
             
             
                 
         }else{
+            document.getElementById('q_62_q').style.color='black'
+                document.getElementById('q_62_k_q').style.color = 'black'
             document.getElementById('q_62_q').style.display = 'none'
       		    document.getElementById('q_62_ig').style.display = 'none'
                 document.getElementById('q_62_k_q').style.display = 'none'
                 document.getElementById('q_62_brk').style.display = 'none'
-            json_data.data[69].selection_val = -9
+            json_data.data[69].ans_required = "false"
+                json_data.data[69].value = -9
+            json_data.data[69].answered = "Y"
             
-             document.getElementById('q_64_q').style.display = 'none'
+            document.getElementById('q_64_q').style.color='black'
+                document.getElementById('q_64_k_q').style.color = 'black' 
+            document.getElementById('q_64_q').style.display = 'none'
       		    document.getElementById('q_64_ig').style.display = 'none'
                 document.getElementById('q_64_k_q').style.display = 'none'
                 document.getElementById('q_64_brk').style.display = 'none'
-            json_data.data[72].selection_val = 4
             
-             document.getElementById('q_64.1_q').style.display = 'none'
+            json_data.data[72].ans_required = "false"
+                json_data.data[72].value = -9
+            json_data.data[72].answered = "Y"
+            
+            document.getElementById('q_64.1_q').style.color='black'
+                document.getElementById('q_64.1_k_q').style.color = 'black' 
+            document.getElementById('q_64.1_q').style.display = 'none'
       		    document.getElementById('q_64.1_ig').style.display = 'none'
                 document.getElementById('q_64.1_k_q').style.display = 'none'
                 document.getElementById('q_64.1_brk').style.display = 'none'
             
-            json_data.data[73].selection_val = -9
+            
+            json_data.data[73].ans_required = "false"
+                json_data.data[73].value = -9
+            json_data.data[73].answered = "Y"
             
         }
         
     }
     
- //Sexual - premarital-extramarital
+  //Pregnancy
+    if(qid==72){
+        if(element_id== 1){
+                document.getElementById('q_64.1_q').style.display = 'block'
+      		    document.getElementById('q_64.1_ig').style.display = 'block'
+                document.getElementById('q_64.1_k_q').style.display = 'block'
+                document.getElementById('q_64.1_brk').style.display = 'block'
+                document.getElementById('q_64.1_q').style.color='black'
+                document.getElementById('q_64.1_k_q').style.color = 'black'
+                json_data.data[73].ans_required = "true"
+            json_data.data[73].answered = "N"
+        }else{
+                document.getElementById('q_64.1_q').style.color='black'
+                document.getElementById('q_64.1_k_q').style.color = 'black'
+                json_data.data[73].ans_required = "false" 
+                document.getElementById('q_64.1_q').style.display = 'none'
+      		    document.getElementById('q_64.1_ig').style.display = 'none'
+                document.getElementById('q_64.1_k_q').style.display = 'none'
+                document.getElementById('q_64.1_brk').style.display = 'none'
+               json_data.data[73].value = -9
+            json_data.data[73].answered = "Y"
+        }
+        
+    }
+    
+    //Sexual - premarital-extramarital
     if(qid==74){
-        next_qid=qid
+        next_qid=parseInt(qid)
         if(element_id== 2 || element_id== 3){
             //Dont dispaly 66- 69
             
             for(var i=66; i<=69; i++){
                 //alert(i)
                 next_qid=next_qid+1  
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'  
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
+                json_data.data[next_qid].ans_required = "false"
+                json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                // json_data.data[next_qid].selection_val = -9
                  //alert("i later"+i)
             }
@@ -816,72 +877,77 @@ function select_radio(qid, element_id){
             
             for(var i=66; i<=69; i++){
                 next_qid=next_qid+1 
-                document.getElementById('q_'+i+'_q').style.display = 'block'
+                 document.getElementById('q_'+i+'_q').style.display = 'block'
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
                 document.getElementById('q_'+i+'_brk').style.display = 'block'
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
                 
             }
         }
     }
     
-    //Sexual - premarital-extramarital - pregnancy
-    if(qid==72){
-        if(element_id== 1){
-            document.getElementById('q_64.1_q').style.display = 'block'
-      		    document.getElementById('q_64.1_ig').style.display = 'block'
-                document.getElementById('q_64.1_k_q').style.display = 'block'
-                document.getElementById('q_64.1_brk').style.display = 'block'
-        }else{
-            document.getElementById('q_64.1_q').style.display = 'none'
-      		    document.getElementById('q_64.1_ig').style.display = 'none'
-                document.getElementById('q_64.1_k_q').style.display = 'none'
-                document.getElementById('q_64.1_brk').style.display = 'none'
-        }
-        
-    }
+   
     
     
     //Gambling
      if(qid==79){
        //If No --> Hide 71-74
-         next_qid=qid
+         next_qid=parseInt(qid)
         if(element_id== 2){
             //Dont dispaly 66- 69
             for(var i=71; i<=74; i++){
                 //alert(i)
-                next_qid=next_qid+1  
+                next_qid=next_qid+1
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'  
                 document.getElementById('q_'+i+'_q').style.display = 'none'
       		    document.getElementById('q_'+i+'_ig').style.display = 'none'
                 document.getElementById('q_'+i+'_k_q').style.display = 'none'
                 document.getElementById('q_'+i+'_brk').style.display = 'none'
+                 json_data.data[next_qid].ans_required = "false"
+                 json_data.data[next_qid].value = -9
+                json_data.data[next_qid].answered = "Y"
                 
                 
                // json_data.data[next_qid].selection_val = -9
                  //alert("i later"+i)
             }
-            document.getElementById('q_71.1_q').style.display = 'none'
+                document.getElementById('q_71.1_q').style.color='black'
+                document.getElementById('q_71.1_k_q').style.color = 'black'
+                document.getElementById('q_71.1_q').style.display = 'none'
       		    document.getElementById('q_71.1_ig').style.display = 'none'
                 document.getElementById('q_71.1_k_q').style.display = 'none'
                 document.getElementById('q_71.1_brk').style.display = 'none'
+                json_data.data[81].ans_required = "false"
+                json_data.data[81].value = -9
+            json_data.data[81].answered = "Y"
+            
         }else{
             for(var i=71; i<=74; i++){
                 next_qid=next_qid+1 
                 document.getElementById('q_'+i+'_q').style.display = 'block'
       		    document.getElementById('q_'+i+'_ig').style.display = 'block'
                 document.getElementById('q_'+i+'_k_q').style.display = 'block'
-                document.getElementById('q_'+i+'_brk').style.display = 'block'       
+                document.getElementById('q_'+i+'_brk').style.display = 'block'
+                document.getElementById('q_'+i+'_q').style.color='black'
+                document.getElementById('q_'+i+'_k_q').style.color = 'black'
+                json_data.data[next_qid].ans_required = "true"
+                json_data.data[next_qid].answered = "N"
             }
-            document.getElementById('q_71.1_q').style.display = 'block'
+                document.getElementById('q_71.1_q').style.display = 'block'
       		    document.getElementById('q_71.1_ig').style.display = 'block'
                 document.getElementById('q_71.1_k_q').style.display = 'block'
                 document.getElementById('q_71.1_brk').style.display = 'block'
+                document.getElementById('q_71.1_q').style.color='black'
+                document.getElementById('q_71.1_k_q').style.color = 'black'
+                json_data.data[81].ans_required = "true"
+            json_data.data[81].answered = "N"
         }
      }
-    
-    //Till here
-    
-    
     
 
     
@@ -893,93 +959,38 @@ function select_radio(qid, element_id){
             document.getElementById('q_84_others_data').style.display ='block'
         }else{
             document.getElementById('q_84_others_data').style.display ='none'
+            json_data.data[108].answered = "Y"
         }
     }
     
+    // Family Planning - Others (redundant others question to be removed from json or hidden)
+     if(qid == 70){
+        if(element_id== 9){
+            document.getElementById('q_63_others_data').style.display ='block'
+        }else{
+            document.getElementById('q_63_others_data').style.display ='none'
+            json_data.data[70].answered = "Y"
+        }
+    }
+    
+    // Occupation - Others (redundant others question to be removed from json or the question made hidden)
+     if(qid == 9){
+        if(element_id== 11){
+            document.getElementById('q_7_others_data').style.display ='block'
+        }else{
+            document.getElementById('q_7_others_data').style.display ='none'
+            json_data.data[9].answered = "Y"
+        }
+    }
      
-    //Handle skip from here
-    //Non suicidal
-    
-    
-    
-    
-    //Tech use
     
     if(qid == 135){
         if(element_id== 6){
             document.getElementById('q_100_others_data').style.display ='block'
         }else{
             document.getElementById('q_100_others_data').style.display ='none'
+            json_data.data[135].answered = "Y"
         }
-    }
-    
-    if(qid==136){
-        if(element_id== 2){
-                document.getElementById('q_101.1_q').style.display = 'none'
-      		    document.getElementById('q_101.1_ig').style.display = 'none'
-                document.getElementById('q_101.1_k_q').style.display = 'none'
-                document.getElementById('q_101.1_brk').style.display = 'none'
-            
-                document.getElementById('q_101.2_q').style.display = 'none'
-      		    document.getElementById('q_101.2_ig').style.display = 'none'
-                document.getElementById('q_101.2_k_q').style.display = 'none'
-                document.getElementById('q_101.2_brk').style.display = 'none'
-            
-                document.getElementById('q_101.3_q').style.display = 'none'
-      		    document.getElementById('q_101.3_ig').style.display = 'none'
-                document.getElementById('q_101.3_k_q').style.display = 'none'
-                document.getElementById('q_101.3_brk').style.display = 'none'
-            
-                document.getElementById('q_101.4_q').style.display = 'none'
-      		    document.getElementById('q_101.4_ig').style.display = 'none'
-                document.getElementById('q_101.4_k_q').style.display = 'none'
-                document.getElementById('q_101.4_brk').style.display = 'none'
-            
-                document.getElementById('q_101.5_q').style.display = 'none'
-      		    document.getElementById('q_101.5_ig').style.display = 'none'
-                document.getElementById('q_101.5_k_q').style.display = 'none'
-                document.getElementById('q_101.5_brk').style.display = 'none'
-            
-                document.getElementById('q_101.6_q').style.display = 'none'
-      		    document.getElementById('q_101.6_ig').style.display = 'none'
-                document.getElementById('q_101.6_k_q').style.display = 'none'
-                document.getElementById('q_101.6_brk').style.display = 'none'
-            
-        
-        }else{
-            
-            document.getElementById('q_101.1_q').style.display = 'block'
-      		    document.getElementById('q_101.1_ig').style.display = 'block'
-                document.getElementById('q_101.1_k_q').style.display = 'block'
-                document.getElementById('q_101.1_brk').style.display = 'block'
-            
-                document.getElementById('q_101.2_q').style.display = 'block'
-      		    document.getElementById('q_101.2_ig').style.display = 'block'
-                document.getElementById('q_101.2_k_q').style.display = 'block'
-                document.getElementById('q_101.2_brk').style.display = 'block'
-            
-                document.getElementById('q_101.3_q').style.display = 'block'
-      		    document.getElementById('q_101.3_ig').style.display = 'block'
-                document.getElementById('q_101.3_k_q').style.display = 'block'
-                document.getElementById('q_101.3_brk').style.display = 'block'
-            
-                document.getElementById('q_101.4_q').style.display = 'block'
-      		    document.getElementById('q_101.4_ig').style.display = 'block'
-                document.getElementById('q_101.4_k_q').style.display = 'block'
-                document.getElementById('q_101.4_brk').style.display = 'block'
-            
-                document.getElementById('q_101.5_q').style.display = 'block'
-      		    document.getElementById('q_101.5_ig').style.display = 'block'
-                document.getElementById('q_101.5_k_q').style.display = 'block'
-                document.getElementById('q_101.5_brk').style.display = 'block'
-            
-                document.getElementById('q_101.6_q').style.display = 'block'
-      		    document.getElementById('q_101.6_ig').style.display = 'block'
-                document.getElementById('q_101.6_k_q').style.display = 'block'
-                document.getElementById('q_101.6_brk').style.display = 'block'
-            
-        }
-        
     }
     
     //Health and health seeking behaviour
@@ -988,8 +999,136 @@ function select_radio(qid, element_id){
             document.getElementById('q_115_others_data').style.display ='block'
         }else{
             document.getElementById('q_115_others_data').style.display ='none'
+             json_data.data[161].answered = "Y"
         }
     }
+    
+    if(qid==136){
+        if(element_id== 2){
+                document.getElementById('q_101.1_q').style.color='black'
+                document.getElementById('q_101.1_k_q').style.color = 'black'
+                document.getElementById('q_101.1_q').style.display = 'none'
+      		    document.getElementById('q_101.1_ig').style.display = 'none'
+                document.getElementById('q_101.1_k_q').style.display = 'none'
+                document.getElementById('q_101.1_brk').style.display = 'none'
+                json_data.data[137].ans_required = "false"
+                json_data.data[137].value = -9
+                json_data.data[137].answered = "Y"
+            
+                
+                document.getElementById('q_101.2_q').style.color='black'
+                document.getElementById('q_101.2_k_q').style.color = 'black'
+                json_data.data[138].ans_required = "false"
+                json_data.data[138].value = -9
+                document.getElementById('q_101.2_q').style.display = 'none'
+      		    document.getElementById('q_101.2_ig').style.display = 'none'
+                document.getElementById('q_101.2_k_q').style.display = 'none'
+                document.getElementById('q_101.2_brk').style.display = 'none'
+            json_data.data[138].answered = "Y"
+            
+                document.getElementById('q_101.3_q').style.color='black'
+                document.getElementById('q_101.3_k_q').style.color = 'black'
+                json_data.data[139].ans_required = "false"
+                json_data.data[139].value = -9
+                document.getElementById('q_101.3_q').style.display = 'none'
+      		    document.getElementById('q_101.3_ig').style.display = 'none'
+                document.getElementById('q_101.3_k_q').style.display = 'none'
+                document.getElementById('q_101.3_brk').style.display = 'none'
+            json_data.data[139].answered = "Y"
+            
+                document.getElementById('q_101.4_q').style.color='black'
+                document.getElementById('q_101.4_k_q').style.color = 'black'
+                json_data.data[140].ans_required = "false"
+                json_data.data[140].value = -9
+                document.getElementById('q_101.4_q').style.display = 'none'
+      		    document.getElementById('q_101.4_ig').style.display = 'none'
+                document.getElementById('q_101.4_k_q').style.display = 'none'
+                document.getElementById('q_101.4_brk').style.display = 'none'
+            json_data.data[140].answered = "Y"
+            
+                document.getElementById('q_101.5_q').style.color='black'
+                document.getElementById('q_101.5_k_q').style.color = 'black'
+                json_data.data[141].ans_required = "false"
+                json_data.data[141].value = -9
+                document.getElementById('q_101.5_q').style.display = 'none'
+      		    document.getElementById('q_101.5_ig').style.display = 'none'
+                document.getElementById('q_101.5_k_q').style.display = 'none'
+                document.getElementById('q_101.5_brk').style.display = 'none'
+            json_data.data[141].answered = "Y"
+            
+                document.getElementById('q_101.6_q').style.color='black'
+                document.getElementById('q_101.6_k_q').style.color = 'black'
+                json_data.data[142].ans_required = "false"
+                json_data.data[142].value = -9
+                document.getElementById('q_101.6_q').style.display = 'none'
+      		    document.getElementById('q_101.6_ig').style.display = 'none'
+                document.getElementById('q_101.6_k_q').style.display = 'none'
+                document.getElementById('q_101.6_brk').style.display = 'none'
+            json_data.data[142].answered = "Y"
+            
+        
+        }else{
+            
+                document.getElementById('q_101.1_q').style.display = 'block'
+      		    document.getElementById('q_101.1_ig').style.display = 'block'
+                document.getElementById('q_101.1_k_q').style.display = 'block'
+                document.getElementById('q_101.1_brk').style.display = 'block'
+                document.getElementById('q_101.1_q').style.color='black'
+                document.getElementById('q_101.1_k_q').style.color = 'black'
+                json_data.data[137].ans_required = "true"
+            json_data.data[137].answered = "N"
+        
+            
+                document.getElementById('q_101.2_q').style.display = 'block'
+      		    document.getElementById('q_101.2_ig').style.display = 'block'
+                document.getElementById('q_101.2_k_q').style.display = 'block'
+                document.getElementById('q_101.2_brk').style.display = 'block'
+                document.getElementById('q_101.2_q').style.color='black'
+                document.getElementById('q_101.2_k_q').style.color = 'black'
+                json_data.data[138].ans_required = "true"
+            json_data.data[138].answered = "N"
+            
+                document.getElementById('q_101.3_q').style.display = 'block'
+      		    document.getElementById('q_101.3_ig').style.display = 'block'
+                document.getElementById('q_101.3_k_q').style.display = 'block'
+                document.getElementById('q_101.3_brk').style.display = 'block'
+               document.getElementById('q_101.3_q').style.color='black'
+                document.getElementById('q_101.3_k_q').style.color = 'black'
+                json_data.data[139].ans_required = "true"
+            json_data.data[139].answered = "N"
+            
+                document.getElementById('q_101.4_q').style.display = 'block'
+      		    document.getElementById('q_101.4_ig').style.display = 'block'
+                document.getElementById('q_101.4_k_q').style.display = 'block'
+                document.getElementById('q_101.4_brk').style.display = 'block'
+                document.getElementById('q_101.4_q').style.color='black'
+                document.getElementById('q_101.4_k_q').style.color = 'black'
+                json_data.data[140].ans_required = "true"
+             json_data.data[140].answered = "N"
+            
+                document.getElementById('q_101.5_q').style.display = 'block'
+      		    document.getElementById('q_101.5_ig').style.display = 'block'
+                document.getElementById('q_101.5_k_q').style.display = 'block'
+                document.getElementById('q_101.5_brk').style.display = 'block'
+                document.getElementById('q_101.5_q').style.color='black'
+                document.getElementById('q_101.5_k_q').style.color = 'black'
+                json_data.data[141].ans_required = "true"
+             json_data.data[141].answered = "N"
+            
+                document.getElementById('q_101.6_q').style.display = 'block'
+      		    document.getElementById('q_101.6_ig').style.display = 'block'
+                document.getElementById('q_101.6_k_q').style.display = 'block'
+                document.getElementById('q_101.6_brk').style.display = 'block'
+                document.getElementById('q_101.6_q').style.color='black'
+                document.getElementById('q_101.6_k_q').style.color = 'black'
+                json_data.data[142].ans_required = "true"
+             json_data.data[142].answered = "N"
+            
+        }
+        
+    }
+    
+    
     
     
     //If the answer for 4th question is 2 (Single), then the 5th question should be skipped
@@ -997,204 +1136,45 @@ function select_radio(qid, element_id){
 	
 }
 
-function calculate_score(){
 
-	var work_stress_msg = [
-		{
-			"msg": "You are not experiencing any significant level of work-stress.",
-			"score": "less or equal to 48"
-		},
-		{
-			"msg": "Your work-stress level is <span style='color: #FBC02D; font-weight: 550;'>MILD</span>.",
-			"score": "between 48 - 59"
-		},
-		{
-			"msg": "Your work-stress level is <span style='color: #FF5722; font-weight: 550;'>MODERATE</span>.",
-			"score": "between 60 - 73"
-		},
-		{
-			"msg": "Your work-stress level is <span style='color: #D32F2F; font-weight: 550;'>SEVERE</span>.",
-			"score": "more than 73"
-		}
-	]
-
-	var symptoms_msg = [
-		{
-			"msg": "You do not have any symptoms suggestive of work-stress.</span>",
-			"score": "less or equal to 16"
-		},
-		{
-			"msg": "The symptoms suggestive of work-stress level is <span style='color: #FBC02D; font-weight: 550;'>MILD</span>.",
-			"score": "between 16 - 29"
-		},
-		{
-			"msg": "The symptoms suggestive of work-stress level is <span style='color: #FF5722; font-weight: 550;'>MODERATE</span>.",
-			"score": "between 30 - 36"
-		},
-		{
-			"msg": "The symptoms suggestive of work-stress level is <span style='color: #D32F2F; font-weight: 550;'>SEVERE</span>.",
-			"score": "more than 36"
-		}
-	]
-
-	work_stress_score = 0
-	symptoms_score = 0
-
-	//work_stress_ques = 14 - 45
-	//symptoms_ques = 46 - 61
-
-	for(var i=13; i<45; i++){
-		if("selection_val" in json_data.data[i] && json_data.data[i].scoring_required == "True"){
-			aid = parseInt(json_data.data[i].selection_val)
-			work_stress_score += parseInt(json_data.data[i].ans[aid - 1].value_id)
-		}
-	}
-
-	for(var i=45; i<61; i++){
-		if("selection_val" in json_data.data[i] && json_data.data[i].scoring_required == "True"){
-			aid = parseInt(json_data.data[i].selection_val)
-			symptoms_score += parseInt(json_data.data[i].ans[aid - 1].value_id)
-		}
-	}
-
-	console.log(work_stress_score, symptoms_score)
-
-	msgs = {"work_stress": "", "symptoms": ""}
-
-	if(work_stress_score <= 48){
-		msgs.work_stress = work_stress_msg[0].msg
-	}else if(work_stress_score > 48 && work_stress_score <= 59){
-		msgs.work_stress = work_stress_msg[1].msg
-	}else if(work_stress_score > 59 && work_stress_score <= 73){
-		msgs.work_stress = work_stress_msg[2].msg
-	}else if(work_stress_score > 73){
-		msgs.work_stress = work_stress_msg[3].msg
-	}
-
-	if(symptoms_score <= 16){
-		msgs.symptoms = symptoms_msg[0].msg
-	}else if(symptoms_score > 16 && symptoms_score <= 29){
-		msgs.symptoms = symptoms_msg[1].msg
-	}else if(symptoms_score > 29 && symptoms_score <= 36){
-		msgs.symptoms = symptoms_msg[2].msg
-	}else if(symptoms_score > 36){
-		msgs.symptoms = symptoms_msg[3].msg
-	}
-
-	return msgs
-
+function on_saveForLater(){
+    // Assign the IND ID
+    json_data.indId = 'test'
+    // Assign the updateTimeStamp
+    json_data.updatedTime = 'dd/mm/yyyy hh:ss'
+     // Assign the status
+    json_data.status = 'WorkInProgress'
+    //Assign the rest of the metadata to the json
+    json_data.metadata="metadata information"
+    //Save the json and navigate to the relevant page
+     document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
+    
+    
 }
-
 function on_submit(){
 	var flag = 0
 
 	var data_payload = []
+    var questions_to_be_answered = []
+    questions_to_be_answered = ""
 
 	for(var i=0; i<json_data.data.length; i++){
 		
 		var ques_type = json_data.data[i].qtype
+        //If the question has ans_required == true and answered == N, then that question must be answered by the user.
+        //Else the submission of json data should happen
+        
+        if(json_data.data[i].ans_required == "true" && json_data.data[i].answered == "N" && (json_data.data[i].qid!='7.1' || json_data.data[i].qid!='63.1')){
+            questions_to_be_answered = questions_to_be_answered + json_data.data[i].qid + ";"
+            flag=1;
+        }
 
-		if(json_data.data[i].mandatory == "True"){
-			if(ques_type == 'text'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-				if(val.length == 0){
-					flag = 1
-				}
-			}else if(ques_type == 'num'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-				if(parseInt(val) < 0 || parseInt(val) == NaN){
-					flag = 2
-				}
-			}else if(ques_type == 'date'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-				if(val.length == 0){
-					flag = 3
-				}
-			}else if(ques_type == 'radio'){
-				
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': json_data.data[i].selection_val})
-
-				//console.log(json_data.data[i].selection_val)
-
-				if(json_data.data[i].selection_val == undefined || json_data.data[i].selection_val.length == 0){
-					flag = 5
-				}
-
-			}else if(ques_type == 'pair_num_yymm'){
-                //Capture numbe of years and months
-                //q_{{y['qid']}}_yy_data
-				var yy_val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_yy_data').value
-                var mm_val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_mm_data').value
-
-				json_data.data[i].selection_val_yy = yy_val
-                json_data.data[i].selection_val_mm = mm_val
-                
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val_yy': yy_val, 'selection_val_mm':mm_val})
-                
-
-				if(parseInt(yy_val) < 0 || parseInt(yy_val) == NaN){
-					flag = 2
-				}
-                if(parseInt(mm_val) < 0 || parseInt(mm_val) == NaN){
-					flag = 2
-				}
-			}else if(ques_type == 'pair_num_bp'){
-                //Capture numbe of systolic and diabolic
-                //q_{{y['qid']}}_sys_data
-				var sys_val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_sys_data').value
-                var dia_val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_dia_data').value
-
-				json_data.data[i].selection_val_sys = sys_val
-                json_data.data[i].selection_val_dia =dia_val
-                
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val_sys': sys_val, 'selection_val_dia':dia_val})
-                
-
-				if(parseInt(sys_val) < 0 || parseInt(sys_val) == NaN){
-					flag = 2
-				}
-                if(parseInt(dia_val) < 0 || parseInt(dia_val) == NaN){
-					flag = 2
-				}
-		}else{
-			if(ques_type == 'text'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-			}else if(ques_type == 'num'){
-				var val = document.getElementById('q_'+(json_data.data[i].qid).toString()+'_data').value
-
-				json_data.data[i].selection_val = val
-
-				data_payload.push({'qid': json_data.data[i].qid, 'selection_val': val})
-
-			}
-		}
-
-	}
     }
 
 	if(flag == 0){
+         document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
+        alert("All answered")
+        
         
         //alert(json_data);
 
@@ -1204,7 +1184,7 @@ function on_submit(){
 		localStorage.setItem('_stress_app_work_stress_msg', scores.work_stress)
 		localStorage.setItem('_stress_app_symptoms_msg', scores.symptoms)*/
 		
-		document.getElementById('done_spinner').style.display = 'block'
+		/*document.getElementById('done_spinner').style.display = 'block'
 
 		var xhttp = new XMLHttpRequest();
 	    xhttp.onreadystatechange = function() {
@@ -1217,11 +1197,11 @@ function on_submit(){
 	    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    xhttp.send('data='+encodeURIComponent(JSON.stringify(data_payload)));
 
-	    console.log(JSON.stringify(data_payload))
+	    console.log(JSON.stringify(data_payload))*/
 	    
 
 	}else if(flag == 1){
-		alert('Please answer all the text questions')
+		alert('Please provide your response for the questions : '+ questions_to_be_answered)
 	}else if(flag == 2){
 		alert('Please answer all the numeric questions')
 	}else if(flag == 3){
