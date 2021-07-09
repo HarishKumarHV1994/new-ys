@@ -274,9 +274,13 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
         <div class="col-md-3">
           <span class="card-title" style="float: left;padding-top: 7%;"id="houseid"></span><span class="card-title" style="text-align: right;float: right;padding-top: 7%;" id="memberid"></span>
         </div>
-       
-        
       </div>
+      <div class="card card-login">
+        <div class="card-header card-header-rose text-center">
+                <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">{{data['heading']}}</h4>
+              </div>
+        </div>
+        
       <div id="ques_data" style="display: block;">                   
       
       % for x in data['sections']:
