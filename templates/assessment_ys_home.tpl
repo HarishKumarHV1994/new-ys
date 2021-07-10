@@ -294,9 +294,9 @@ function on_saveForLater(){
 	    };
 	    xhttp.open("POST", "/assessmentSaveLater", true);
 	    xhttp.setRequestHeader("Content-type", "application/json");
-	    xhttp.send('data='+(JSON.stringify(data_payload)));
+	    xhttp.send('data='+(JSON.stringify(json_data)));
 
-	    console.log(JSON.stringify(data_payload))
+	    console.log(JSON.stringify(json_data))
       
 		
     
