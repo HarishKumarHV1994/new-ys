@@ -85,12 +85,12 @@ var householdId;
            
 var latlong = latitude+","+longitude;
 var member = "IND_"+memberId;
-var household = "HH_"+householdId;
-json_data.householdId = household;
-json_data.updatedTime=timestamp;
-json_data.memberId=member;
-json_data.userid=localStorage.getItem("userid");
-json_data.location=latlong;
+//var household = "HH_"+householdId;
+//json_data.householdId = household;
+//json_data.updatedTime=timestamp;
+//json_data.memberId=member;
+//json_data.userid=localStorage.getItem("userid");
+//json_data.location=latlong;
 
 var assessmentMetaData={
       "householdId":household,
@@ -107,7 +107,7 @@ console.log(assessmentMetaData);
 $.ajax({
         type: "POST",
         url: '/assessmentSaveLater',
-        data: JSON.stringify(json_data),
+        data: JSON.stringify(assessmentMetaData),
         contentType: "application/json",
         success: function (data) {
           $("#spinner").fadeOut("slow");
