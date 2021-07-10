@@ -41,8 +41,10 @@ var householdId;
       householdId = GetUrlParameter('householdId');
       var member = "IND_"+memberId;
       var household = "HH_"+householdId;
-      $('#houseid').html("Household_ID : "+household);
-      $('#memberid').html("Member_ID : "+member);
+      document.getElementById('houseid').innerHTML = household
+      document.getElementById('memberid').innerHTML = member
+      //$('#houseid').html("Household_ID : "+household);
+      //$('#memberid').html("Member_ID : "+member);
 
       document.getElementById('q99.1_num_of_times').style.display = 'none'
       document.getElementById('q99.2_num_of_times').style.display = 'none'
