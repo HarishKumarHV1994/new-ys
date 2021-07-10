@@ -274,7 +274,7 @@ function on_saveForLater(){
     json_data.userid=localStorage.getItem("userid");
     json_data.location=latlong;
   
-     //document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
+     document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
     
     
       
@@ -290,7 +290,7 @@ function on_saveForLater(){
 	    };
 	    xhttp.open("POST", "/assessmentSaveLater", true);
 	    xhttp.setRequestHeader("Content-type", "application/json");
-	    xhttp.send('data='JSON.stringify(data_payload));
+	    xhttp.send('data=',JSON.stringify(data_payload));
 
 	    console.log(JSON.stringify(data_payload))
     
