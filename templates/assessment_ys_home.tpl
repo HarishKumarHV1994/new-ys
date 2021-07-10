@@ -441,7 +441,7 @@ function on_saveForLater(){
         <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
             <button class="btn btn-rose btn-raised" style="" id="final_submit">Submit</button>
-            <!-- <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center> -->
+            <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center>
           <!--</a>-->
           <br>
           <a href="/ysHome">Go To Home</a>
