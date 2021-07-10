@@ -248,7 +248,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
-    
+    //alert("location2")
   latitude= position.coords.latitude;
     document.getElementById('lat').value=latitude
     
@@ -259,6 +259,13 @@ function showPosition(position) {
    
      document.getElementById('tps').value=timeatlocation
     
+     alert("document.getElementById('lat').value"+document.getElementById('lat').value)
+    alert("document.getElementById('lon').value"+document.getElementById('lon').value)
+    alert("document.getElementById('tps').value"+document.getElementById('tps').value)
+ 
+   
+  
+     
 }
 
 function on_saveForLater(){
