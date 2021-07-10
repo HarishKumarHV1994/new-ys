@@ -233,8 +233,23 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
     
 } 
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    alert('navigotor geolocation not working')
+    //x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  latitude= position.coords.latitude;
+  longitude = position.coords.longitude;
+  timestamp=position.timestamp;
+}
+
 function on_saveForLater(){
-    latlongtimestamp();
+    getLocation();
     var latlong = latitude+","+longitude;
     var member = "IND_1"+memberId;
     var household = "HH_1"+householdId;
