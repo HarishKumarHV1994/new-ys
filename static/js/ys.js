@@ -1136,20 +1136,8 @@ function select_radio(qid, element_id){
 }
 
 
-function on_saveForLater(){
-    // Assign the IND ID
-    json_data.indId = 'test'
-    // Assign the updateTimeStamp
-    json_data.updatedTime = 'dd/mm/yyyy hh:ss'
-     // Assign the status
-    json_data.status = 'WorkInProgress'
-    //Assign the rest of the metadata to the json
-    json_data.metadata="metadata information"
-    //Save the json and navigate to the relevant page
-     document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
-    
-    
-}
+
+
 function on_submit(){
 	var flag = 0
 
