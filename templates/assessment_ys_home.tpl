@@ -279,20 +279,7 @@ function on_saveForLater(){
     
       
 		
-      document.getElementById('done_spinner').style.display = 'block'
-
-		var xhttp = new XMLHttpRequest();
-	    xhttp.onreadystatechange = function() {
-	        if (this.readyState == 4 && this.status == 200) {
-	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
-	        }
-	    };
-	    xhttp.open("POST", "/assessmentSaveLater", true);
-	    xhttp.setRequestHeader("Content-type", "application/json");
-	    xhttp.send('data=',JSON.stringify(data_payload));
-
-	    console.log(JSON.stringify(data_payload))
+    
     
     
 }
