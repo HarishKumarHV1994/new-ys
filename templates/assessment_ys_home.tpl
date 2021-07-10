@@ -69,7 +69,7 @@ var householdId;
     
 
 
-      $(".save-later").click(function(){
+      $(".save-later1234").click(function(){
 
    memberId = GetUrlParameter('memberId');
    householdId = GetUrlParameter('householdId');
@@ -231,7 +231,31 @@ function latlongtimestamp() {
   
 navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,{timeout:1000});
     
-}     
+} 
+
+function on_saveForLater(){
+    latlongtimestamp();
+    var latlong = latitude+","+longitude;
+    var member = "IND_1"+memberId;
+    var household = "HH_1"+householdId;
+    json_data.householdId = household;
+    json_data.updatedTime=timestamp;
+    json_data.memberId=member;
+    json_data.userid=localStorage.getItem("userid");
+    json_data.location=latlong;
+    // Assign the IND ID
+    //json_data.indId = 'test'
+    // Assign the updateTimeStamp
+    //json_data.updatedTime = 'dd/mm/yyyy hh:ss'
+     // Assign the status
+    //json_data.status = 'WorkInProgress'
+    //Assign the rest of the metadata to the json
+    //json_data.metadata="metadata information"
+    //Save the json and navigate to the relevant page
+     document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
+    
+    
+}
   
   </script> 
 
@@ -350,7 +374,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
                 
               <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-             <button class="btn btn-rose btn-raised save-later" style="" >SAVE FOR LATER</button>
+             <button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>  
                       
             <center> <p  style="font-weight: 800; padding-left: 15px; font-size: 1.0em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
@@ -372,6 +396,7 @@ navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,
           <br>
           <a href="/ysHome">Go To Home</a>
             <br>
+            <center><p style="padding-left: 15px; font-size: 0.5em;">JSON DATA: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
           <br>
           <a id="logout">Logout</a>
           <!--<br>
