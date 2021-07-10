@@ -244,9 +244,17 @@ function getLocation() {
 }
 
 function showPosition(position) {
+    
   latitude= position.coords.latitude;
+    document.getElementById('lat').value=latitude
+    
   longitude = position.coords.longitude;
-  timestamp=position.timestamp;
+     document.getElementById('lon').value=longitude
+    
+  timeatlocation=position.timestamp;
+   
+     document.getElementById('tps').value=timeatlocation
+    
 }
 
 function on_saveForLater(){
