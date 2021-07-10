@@ -43,6 +43,8 @@ var householdId;
       var household = "HH_"+householdId;
       document.getElementById('houseid').innerHTML = household
       document.getElementById('memberid').innerHTML = member
+      
+      
       //$('#houseid').html("Household_ID : "+household);
       //$('#memberid').html("Member_ID : "+member);
 
