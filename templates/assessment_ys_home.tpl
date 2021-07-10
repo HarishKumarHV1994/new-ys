@@ -74,7 +74,7 @@ var householdId;
     
 
 
-      $(".save-later1234").click(function(){
+      $(".save-later").click(function(){
 
    memberId = GetUrlParameter('memberId');
    householdId = GetUrlParameter('householdId');
@@ -424,8 +424,8 @@ function on_saveForLater(){
                 
               <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-             <button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>  
-                      
+             <!--<button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>  -->
+              <button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>         
             <center> <p  style="font-weight: 800; padding-left: 15px; font-size: 1.0em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
           
