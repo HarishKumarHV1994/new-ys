@@ -65,6 +65,7 @@ var householdId;
         json_data.data[i].value=''     
         
     } 
+     navigator.geolocation.getCurrentPosition(showPosition); 
 
     
 
@@ -249,24 +250,18 @@ function showPosition(position) {
 }
 
 function on_saveForLater(){
-    getLocation();
-    var latlong = latitude+","+longitude;
+    //getLocation();
+    var today = new Date();
+    var savetime=today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var latlong = document.getElementById('lat').value+","+document.getElementById('lon').value;
     var member = "IND_1"+memberId;
     var household = "HH_1"+householdId;
     json_data.householdId = household;
-    json_data.updatedTime=timestamp;
+    json_data.updatedTime=savetime;
     json_data.memberId=member;
     json_data.userid=localStorage.getItem("userid");
     json_data.location=latlong;
-    // Assign the IND ID
-    //json_data.indId = 'test'
-    // Assign the updateTimeStamp
-    //json_data.updatedTime = 'dd/mm/yyyy hh:ss'
-     // Assign the status
-    //json_data.status = 'WorkInProgress'
-    //Assign the rest of the metadata to the json
-    //json_data.metadata="metadata information"
-    //Save the json and navigate to the relevant page
+   
      document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
     
     
@@ -276,7 +271,10 @@ function on_saveForLater(){
 
 </head>
 
-<body class="login-page sidebar-collapse">         
+<body class="login-page sidebar-collapse">
+ <input type="hidden" name="lat" id ="lat">    
+    <input type="hidden" name="lon" id ="lon">
+    <input type="hidden" name="tps" id ="tps">   
   
   <!-- <div class="page-header header-filter" style="background-image: url(''); background-size: cover; background-position: top center;"> -->
     <div class="container">
