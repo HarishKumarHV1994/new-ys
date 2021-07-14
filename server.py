@@ -162,6 +162,357 @@ def assessmentSubmit():
 
 	return json.dumps(response)
 
+@app.post('/assessmentSaveLaterJS')
+def assessmentSaveLaterJS():
+
+    assessment_data = request.forms.get('data')
+    time_stamp = time.time()
+    householdId = ""
+    memberId = ""
+    userid = ""
+    updatedTime = ""
+    location = ""
+    metadata={}
+
+    try:
+        assessment_data = json.loads(assessment_data)
+        # Check if the assessment data for the HH and MM exists. If yes, then update the record. If not, then insert the record
+        
+        metadata = assessment_data[189]
+        
+        
+        
+        subelements = metadata['metadata']
+        householdId = subelements['householdId']
+        memberId = subelements["memberId"]
+        userid = subelements["userid"]
+        updatedTime = subelements["updatedTime"]
+        location =subelements["location"]
+        status = subelements["status"]
+        metadataRec={"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location,"status":status}
+        
+        #data = {"data":assessment_data,"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location}
+        #mycol = mydb["dummy"]
+        #y=mycol.drop()
+        #x = mycol.insert_one(data)
+        
+        assessmentforMember = mydb.assessmentData.find_one({ "memberId":memberId,"householdId":householdId})
+        if(assessmentforMember == None ):
+            print("Insert")
+            #Insert into Assessment data tablee
+            data = {"data":assessment_data,"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location,"status":status}
+            mydb.assessmentData.insert_one(data)
+            #Insert into Assessment metadata table
+            mydb.assessmentMetaData.insert_one(metadataRec)
+            #Update at the user level information with numbr of members in progress to +1
+            userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+            numberOfMembersINProgress = userfind.get('numberOfMembersINProgress')
+            numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+            numberOfMembersINProgress = int(numberOfMembersINProgress) + 1
+            print(numberOfMembersINProgress)
+            mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfMembersINProgress":numberOfMembersINProgress}})
+            #Check the user if the status of this household is already In progress. if yes, numberOfHouseholdsINProgress will remain same, If no numberOfHouseholdsINProgress will be +1
+            householdfind=mydb.households.find_one({"householdId" : householdId})
+            print("householdfind")
+            householdstatus=householdfind.get("householdInterviewStatus")
+            print("householdstatus"+householdstatus)
+            if(householdstatus != 'InProgress'):
+                print("inhousehold Progress")
+                numberOfHouseholdsINProgress = int(numberOfHouseholdsINProgress) + 1
+                mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+            #Update the household record at household level and at member level
+            #Update the household record to in progress. update the member level record to in progress
+            mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"InProgress"}})
+            print("inhousehold updated")
+            mydb.households.find_one_and_update({"householdId" : householdId, "members": { "$elemMatch": { "memberId": memberId } } },{"$set":{"members.$.memberInterviewStatus":"InProgress", "members.$.modified_timestamp":updatedTime, "members.$.location":location}})
+            print("inhousehold member updated")
+            
+        else:
+            print("Update")
+            #Update assessment data table
+            data = {"data":assessment_data}
+            mydb.assessmentData.find_one_and_update({"memberId":memberId,"householdId":householdId},{"$set":{"data":assessment_data,"updatedTime":updatedTime,"location":location,"userid":userid}})
+            #Update medatadata table
+            mydb.assessmentMetaData.find_one_and_update({"memberId":memberId,"householdId":householdId},{"$set":{"memberInterviewStatus":"InProgress","updatedTime":updatedTime,"location":location}})
+            #Update the household record at household level and at member level
+            #Update the household record to in progress. update the member level record to in progress
+            mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"InProgress"}})
+            mydb.households.find_one_and_update({"householdId" : householdId, "members": { "$elemMatch": { "memberId": memberId } } },{"$set":{"members.$.memberInterviewStatus":"InProgress", "members.$.modified_timestamp":updatedTime, "members.$.location":location}})
+            #No changes in the User level record as the update would have already been taken care of
+            
+            
+    except Exception as e:
+        print(e)
+    return {'status': 'ok'}
+
+@app.post('/assessmentFinalSubmitJS')
+def assessmentFinalSubmitJS():
+
+    assessment_data = request.forms.get('data')
+    time_stamp = time.time()
+    householdId = ""
+    memberId = ""
+    userid = ""
+    updatedTime = ""
+    location = ""
+    metadata={}
+
+    try:
+        assessment_data = json.loads(assessment_data)
+        # Check if the assessment data for the HH and MM exists. If yes, then update the record. If not, then insert the record
+        
+        metadata = assessment_data[189]
+        
+        
+        
+        subelements = metadata['metadata']
+        householdId = subelements['householdId']
+        memberId = subelements["memberId"]
+        userid = subelements["userid"]
+        updatedTime = subelements["updatedTime"]
+        location =subelements["location"]
+        status = subelements["status"]
+        metadataRec={"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location,"status":status}
+        
+        #data = {"data":assessment_data,"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location}
+        #mycol = mydb["dummy"]
+        #y=mycol.drop()
+        #x = mycol.insert_one(data)
+                 
+        assessmentforMember = mydb.assessmentData.find_one({ "memberId":memberId,"householdId":householdId})
+        if(assessmentforMember == None ):
+            #Insert into assessment data
+            print("Insert")
+            #Insert into Assessment data tablee
+            data = {"data":assessment_data,"householdId":householdId,"memberId":memberId,"userid":userid,"updatedTime":updatedTime,"location":location,"status":status}
+            mydb.assessmentData.insert_one(data)
+            #Insert into Assessment metadata table
+            mydb.assessmentMetaData.insert_one(metadataRec)
+            #As it is a first time entry, then at user level, numberOfMembersCompleted will be +1
+            userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+            numberOfMembersCompleted = userfind.get('numberOfMembersCompleted')
+            numberOfMembersINProgress = userfind.get('numberOfMembersINProgress')
+            numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+            numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+            print("Before Change")
+            print(numberOfMembersCompleted)
+            print(numberOfMembersINProgress)
+            print(numberOfHouseholdsCompleted)
+            print(numberOfHouseholdsINProgress)    
+                
+            
+            numberOfMembersCompleted = numberOfMembersCompleted + 1
+            mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfMembersCompleted":numberOfMembersCompleted}})
+            #For the user , at household level, if this is the only member, then numberOfHouseholdsCompleted will be + numberOfHouseholdsCompleted
+            #If it more than 1 member and the other member is not started or is in progress, then numberOfHouseholdsINProgress will be + numberOfHouseholdsINProgress
+            
+            
+                
+            print("About to strt entry into user for house")
+            
+            householdfind=mydb.households.find_one({"householdId" : householdId})
+            householdInterviewStatus=householdfind.get("householdInterviewStatus")
+            actualmembers = householdfind.get("members")
+            print("length of actual members") 
+            print(len(actualmembers)) 
+            members=[]
+            memberIndex=0
+            for y in actualmembers:
+                if(y['agein15to30'] =='Yes'):
+                    member={'memberId':y['memberId'],'memberInterviewStatus':y['memberInterviewStatus']}
+                    members.append(member)
+            print("length of members") 
+            print(len(members))
+            
+            if (len(members) == 1):
+                userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+                numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+                numberOfHouseholdsCompleted=numberOfHouseholdsCompleted + 1
+                print(numberOfHouseholdsCompleted)
+                mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsCompleted":numberOfHouseholdsCompleted}})
+                #Update the information at households object 
+                mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"Completed","completedLocation":location,"completed_timestamp":updatedTime}})
+                print("inhousehold updated")
+                mydb.households.find_one_and_update({"householdId" : householdId, "members": { "$elemMatch": { "memberId": memberId } } },{"$set":{"members.$.memberInterviewStatus":"Completed", "members.$.modified_timestamp":updatedTime, "members.$.location":location,"members.$.completed_timestamp":updatedTime}})
+                print('Done with the single member insert')
+            else:
+                print("To be done if members >1")
+                #If the other members are also completed, then numberOfHouseholdsCompleted will be +1
+                #Update the member level status to completed
+                mydb.households.find_one_and_update({"householdId" : householdId, "members": { "$elemMatch": { "memberId": memberId } } },{"$set":{"members.$.memberInterviewStatus":"Completed", "members.$.modified_timestamp":updatedTime, "members.$.location":location,"members.$.completed_timestamp":updatedTime}})
+                householdCompletedToBeincremented = True
+                userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+                numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+                numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+                #Loop through the members in household and see if all are completed.
+                
+                householdfind=mydb.households.find_one({"householdId" : householdId})
+                householdInterviewStatus=householdfind.get("householdInterviewStatus")
+                actualmembers = householdfind.get("members")
+                print("length of actual members") 
+                print(len(actualmembers)) 
+                members=[]
+                memberIndex=0
+                for y in actualmembers:
+                    if(y['agein15to30'] =='Yes'):
+                        member={'memberId':y['memberId'],'memberInterviewStatus':y['memberInterviewStatus']}
+                        members.append(member)
+                print("length of members") 
+                print(len(members))
+                
+                for y in members:
+                    print(y['memberInterviewStatus'])
+                    if(y['memberInterviewStatus'] != 'Completed'):
+                        householdCompletedToBeincremented = False
+                        break
+                #If all are completed and household interview status is IN progress, then no of households completed should be made +1
+                #If the previous household status was "INProgress", then the inprogress count should be made -1
+                if(householdCompletedToBeincremented ==  True and householdInterviewStatus == 'InProgress'):
+                    numberOfHouseholdsCompleted = numberOfHouseholdsCompleted + 1
+                    numberOfHouseholdsINProgress = numberOfHouseholdsINProgress - 1
+                    mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsCompleted":numberOfHouseholdsCompleted,"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                    print("householdCompletedToBeincremented ==  True and householdInterviewStatus == InProgress")
+                
+                #If all are completed and household interview status is To be started, then no of households completed should be made +1
+                #NO change in the in progress count for that user
+                if(householdCompletedToBeincremented ==  True and householdInterviewStatus == 'TobeStarted'):
+                    numberOfHouseholdsCompleted = numberOfHouseholdsCompleted + 1
+                    mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsCompleted":numberOfHouseholdsCompleted}})
+                    print("householdCompletedToBeincremented ==  True and householdInterviewStatus == TobeStarted")
+                
+                if(householdCompletedToBeincremented ==  False and householdInterviewStatus == 'TobeStarted'):
+                    numberOfHouseholdsINProgress = numberOfHouseholdsINProgress + 1
+                    mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                    print("householdCompletedToBeincremented ==  False and householdInterviewStatus == TobeStarted")
+                    
+                if(householdCompletedToBeincremented ==  False and householdInterviewStatus == 'InProgress'):
+                    #numberOfHouseholdsINProgress = numberOfHouseholdsINProgress + 1
+                    #mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                    print("householdCompletedToBeincremented ==  False and householdInterviewStatus == InProgress --> Do nothing")
+                    
+                
+                #If all members are completed, then household should be marked completed in teh households table
+                if(householdCompletedToBeincremented ==  True):
+                    mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"Completed","completedLocation":location,"completed_timestamp":updatedTime}})
+                    print("householdCompletedToBeincremented ==  True")
+                else:
+                    #If all members are not completed, then household should be marked InProgress in the households table
+                    mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"InProgress"}})
+                    print("householdCompletedToBeincremented ==  false")
+            userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+            numberOfMembersCompleted = userfind.get('numberOfMembersCompleted')
+            numberOfMembersINProgress = userfind.get('numberOfMembersINProgress')
+            numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+            numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+            print("After Change")
+            print(numberOfMembersCompleted)
+            print(numberOfMembersINProgress)
+            print(numberOfHouseholdsCompleted)
+            print(numberOfHouseholdsINProgress)        
+        else:
+            print("Update the record to Completed")
+            #Update assessment data table and metadata table
+            data = {"data":assessment_data}
+            mydb.assessmentData.find_one_and_update({"memberId":memberId,"householdId":householdId},{"$set":{"data":assessment_data,"updatedTime":updatedTime,"location":location,"userid":userid,"status":"Completed","completedLocation":location,"completed_timestamp":updatedTime}})
+            print("Updated assessment")
+            #Update medatadata table
+            mydb.assessmentMetaData.find_one_and_update({"memberId":memberId,"householdId":householdId},{"$set":{"memberInterviewStatus":"Completed","updatedTime":updatedTime,"location":location,"completed_timestamp":updatedTime}})
+            #Update the member level status to completed
+            print("Updated metadata")
+            mydb.households.find_one_and_update({"householdId" : householdId, "members": { "$elemMatch": { "memberId": memberId } } },{"$set":{"members.$.memberInterviewStatus":"Completed", "members.$.modified_timestamp":updatedTime, "members.$.location":location,"members.$.completed_timestamp":updatedTime}})
+            print("Updated households.memberid")
+            #Incrememnt numberOfMembersCompleted to + 1  and numberOfMembersINProgress to numberOfMembersINProgress - 1 
+            userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+            numberOfMembersCompleted = userfind.get('numberOfMembersCompleted')
+            numberOfMembersINProgress=userfind.get('numberOfMembersINProgress')
+            numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+            numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+            print("Before Change")
+            print(numberOfMembersCompleted)
+            print(numberOfMembersINProgress)
+            print(numberOfHouseholdsCompleted)
+            print(numberOfHouseholdsINProgress)  
+            
+            numberOfMembersCompleted = numberOfMembersCompleted + 1
+            numberOfMembersINProgress = numberOfMembersINProgress - 1
+            print(numberOfMembersCompleted)
+            mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfMembersCompleted":numberOfMembersCompleted,"numberOfMembersINProgress":numberOfMembersINProgress}})
+            print("Updated numberOfMembersCompleted and numberOfMembersINProgress")
+            
+            householdfind=mydb.households.find_one({"householdId" : householdId})
+            householdInterviewStatus=householdfind.get("householdInterviewStatus")
+            actualmembers = householdfind.get("members")
+            print("length of actual members") 
+            print(len(actualmembers)) 
+            members=[]
+            memberIndex=0
+            for y in actualmembers:
+                if(y['agein15to30'] =='Yes'):
+                    member={'memberId':y['memberId'],'memberInterviewStatus':y['memberInterviewStatus']}
+                    members.append(member)
+            print("length of members") 
+            print(len(members))
+            
+            householdCompletedToBeincremented = True
+            
+            
+            for y in members:
+                print(y['memberInterviewStatus'])
+                if(y['memberInterviewStatus'] != 'Completed'):
+                    householdCompletedToBeincremented = False
+                    break
+            
+            #If all are completed and household interview status is IN progress, then no of households completed should be made +1
+            #If the previous household status was "INProgress", then the inprogress count should be made -1
+            if(householdCompletedToBeincremented ==  True and householdInterviewStatus == 'InProgress'):
+                numberOfHouseholdsCompleted = numberOfHouseholdsCompleted + 1
+                numberOfHouseholdsINProgress = numberOfHouseholdsINProgress - 1
+                mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsCompleted":numberOfHouseholdsCompleted,"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                print("householdCompletedToBeincremented ==  True and householdInterviewStatus == InProgress")
+
+            #If all are completed and household interview status is To be started, then no of households completed should be made +1
+            #NO change in the in progress count for that user
+            if(householdCompletedToBeincremented ==  True and householdInterviewStatus == 'TobeStarted'):
+                numberOfHouseholdsCompleted = numberOfHouseholdsCompleted + 1
+                mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsCompleted":numberOfHouseholdsCompleted}})
+                print("householdCompletedToBeincremented ==  True and householdInterviewStatus == TobeStarted")
+            
+            if(householdCompletedToBeincremented ==  False and householdInterviewStatus == 'TobeStarted'):
+                numberOfHouseholdsINProgress = numberOfHouseholdsINProgress + 1
+                mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                print("householdCompletedToBeincremented ==  False and householdInterviewStatus == TobeStarted")
+
+            if(householdCompletedToBeincremented ==  False and householdInterviewStatus == 'InProgress'):
+                #numberOfHouseholdsINProgress = numberOfHouseholdsINProgress + 1
+                #mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfHouseholdsINProgress":numberOfHouseholdsINProgress}})
+                print("householdCompletedToBeincremented ==  False and householdInterviewStatus == InProgress --> Do nothing")
+
+            #If all members are completed, then household should be marked completed in teh households table
+            if(householdCompletedToBeincremented ==  True):
+                mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"Completed","completedLocation":location,"completed_timestamp":updatedTime}})
+                print("householdCompletedToBeincremented ==  true")
+            else:
+                #If all members are not completed, then household should be marked InProgress in the households table
+                mydb.households.find_one_and_update({"householdId" : householdId},{"$set":{"modified_user":userid,"modified_timestamp":updatedTime,"householdInterviewStatus":"InProgress"}})
+                print("householdCompletedToBeincremented ==  False")
+            
+            userfind = mydb.users.find_one( { "_id" : ObjectId(userid)})
+            numberOfMembersCompleted = userfind.get('numberOfMembersCompleted')
+            numberOfMembersINProgress=userfind.get('numberOfMembersINProgress')
+            numberOfHouseholdsCompleted = userfind.get('numberOfHouseholdsCompleted')
+            numberOfHouseholdsINProgress = userfind.get('numberOfHouseholdsINProgress')
+            print("After Change")
+            print(numberOfMembersCompleted)
+            print(numberOfMembersINProgress)
+            print(numberOfHouseholdsCompleted)
+            print(numberOfHouseholdsINProgress)
+            print("Completed Update")
+    except Exception as e:
+        print(e)
+    return {'status': 'ok'}
+
+
+
 @app.post('/assessmentSaveLater')
 def assessmentSaveLater():
 	assessment = request.json
@@ -446,11 +797,55 @@ def userdataInfo():
 
 
 
-@app.route('/yshouseholdContinue')
+@app.route('/yshouseholdContinue123')
 def ncd_stress():
 	#data = get_stress_json()
 	return template('templates/ys_household_continue.tpl')
 
+@app.route('/ysAssessmentContinue/<headerparams>')
+def ncd_yuvaspandanaContinue(headerparams):
+    print('here')
+    print(headerparams)
+    x = headerparams.split("^")
+    memberID = x[1]
+    householdID = x[0]
+    print(memberID)
+    print(householdID)
+    print('here after getting member and hh')
+    data = get_ys_json()
+    assessmentforMember = mydb.assessmentData.find_one({ "memberId":memberID,"householdId":householdID})
+
+    assessmentdata = assessmentforMember['data']
+    print(assessmentdata[0]['value'])
+    #question_data_rec = question_data['data']
+    #print(question_data_rec[0]['ph'])
+    q_ind=0
+    for y in data["data"]:
+        y["ans_required"]=assessmentdata[q_ind]['ans_required']
+        y["answered"]=assessmentdata[q_ind]['answered']
+        if(assessmentdata[q_ind]['qtype'] == 'time'):
+            y["hhvalue"]=assessmentdata[q_ind]['hhvalue']
+            y["mmvalue"]=assessmentdata[q_ind]['mmvalue']
+        if(assessmentdata[q_ind]['qtype'] == 'bp'):
+            y["sys_value"]=assessmentdata[q_ind]['sys_value']
+            y["dia_value"]=assessmentdata[q_ind]['dia_value']
+        if(assessmentdata[q_ind]['qtype'] == 'radio'):
+            y["others_data"]=assessmentdata[q_ind]['others_data']
+            y["value"]=assessmentdata[q_ind]['value']
+        if(assessmentdata[q_ind]['qtype'] == 'text' or assessmentdata[q_ind]['qtype'] == 'num' or assessmentdata[q_ind]['qtype'] == 'radio'):
+            y["value"]=assessmentdata[q_ind]['value']
+        #print(q_ind)
+        q_ind = q_ind+1
+    
+    print('Done adding details')
+    
+    response = {}
+    response["msg"] = "Success"
+    response["data"] = data
+    
+    #data = get_ys_json()
+
+    return template('templates/assessment_ys_home_Edit.tpl', data=data)
 
 #Use this
 @app.route('/ysAssessment')
