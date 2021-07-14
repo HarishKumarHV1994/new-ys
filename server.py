@@ -797,7 +797,7 @@ def userdataInfo():
 
 
 
-@app.route('/yshouseholdContinue123')
+@app.route('/yshouseholdContinue')
 def ncd_stress():
 	#data = get_stress_json()
 	return template('templates/ys_household_continue.tpl')
