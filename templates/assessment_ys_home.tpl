@@ -66,7 +66,18 @@ var householdId;
         
         json_data.data[i].ans_required='true'
         json_data.data[i].answered='N'
-        json_data.data[i].value=''     
+        json_data.data[i].value=''
+        if(json_data.data[i].qtype == 'bp'){
+            json_data.data[i].sys_value=''
+            json_data.data[i].dia_value=''
+        }
+        if(json_data.data[i].qtype == 'time'){
+            json_data.data[i].hhvalue=''
+            json_data.data[i].mmvalue=''
+        }
+        if(json_data.data[i].qtype == 'radio'){
+            json_data.data[i].others_data=''
+        }
         
     } 
      navigator.geolocation.getCurrentPosition(showPosition); 
@@ -74,7 +85,7 @@ var householdId;
     
 
 
-      $(".save-later").click(function(){
+      $(".save-later1234").click(function(){
 
    memberId = GetUrlParameter('memberId');
    householdId = GetUrlParameter('householdId');
@@ -85,13 +96,10 @@ var householdId;
            
 var latlong = latitude+","+longitude;
 var member = "IND_"+memberId;
-//var household = "HH_"+householdId;
-//json_data.householdId = household;
-//json_data.updatedTime=timestamp;
-//json_data.memberId=member;
-//json_data.userid=localStorage.getItem("userid");
-//json_data.location=latlong;
 
+var assessmentData=$('input[name="assessmentdatajson"]').val();
+
+var assessmentDataJson = JSON.parse(assessmentData)
 var assessmentMetaData={
       "householdId":household,
       "memberId":member,
@@ -100,9 +108,6 @@ var assessmentMetaData={
 
 }
 
-
-// alert(no_rows);
-console.log(assessmentMetaData);
 
 $.ajax({
         type: "POST",
@@ -226,83 +231,7 @@ function GetUrlParameter(sParam)
     function handle_errors(error) {  
     console.log(error);
 }
-function handle_geolocation_query(position){  
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-    timestamp = position.timestamp; 
-    // alert(latitude);
-}
-function latlongtimestamp() {
-  
-navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors,{timeout:1000});
-    
-} 
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    alert('navigotor geolocation not working')
-    //x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-    //alert("location2")
-  latitude= position.coords.latitude;
-    document.getElementById('lat').value=latitude
-    
-  longitude = position.coords.longitude;
-     document.getElementById('lon').value=longitude
-    
-  timeatlocation=position.timestamp;
-   
-     document.getElementById('tps').value=timeatlocation
-    
-     alert("document.getElementById('lat').value"+document.getElementById('lat').value)
-    alert("document.getElementById('lon').value"+document.getElementById('lon').value)
-    alert("document.getElementById('tps').value"+document.getElementById('tps').value)
- 
-   
-  
-     
-}
-
-function on_saveForLater(){
-    //getLocation();
-    var today = new Date();
-    var savetime=today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var latlong = document.getElementById('lat').value+","+document.getElementById('lon').value;
-    var member = "IND_1"+memberId;
-    var household = "HH_1"+householdId;
-    json_data.householdId = household;
-    json_data.updatedTime=savetime;
-    json_data.memberId=member;
-    json_data.userid=localStorage.getItem("userid");
-    json_data.location=latlong;
-  
-     document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
-    
-     document.getElementById('done_spinner').style.display = 'block'
-
-		var xhttp = new XMLHttpRequest();
-	    xhttp.onreadystatechange = function() {
-	        if (this.readyState == 4 && this.status == 200) {
-	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
-	        }
-	    };
-	    xhttp.open("POST", "/assessmentSaveLater", true);
-	    xhttp.setRequestHeader("Content-type", "application/json");
-	    xhttp.send('data='+(JSON.stringify(json_data)));
-
-	    console.log(JSON.stringify(json_data))
-      
-		
-    
-    
-    
-}
   
   </script> 
 
@@ -311,7 +240,7 @@ function on_saveForLater(){
 <body class="login-page sidebar-collapse">
  <input type="hidden" name="lat" id ="lat">    
     <input type="hidden" name="lon" id ="lon">
-    <input type="hidden" name="tps" id ="tps">   
+    <input type="hidden" name="tps" id ="tps">    
   
   <!-- <div class="page-header header-filter" style="background-image: url(''); background-size: cover; background-position: top center;"> -->
     <div class="container">
@@ -329,7 +258,8 @@ function on_saveForLater(){
               </div>
         </div>
         
-      <div id="ques_data" style="display: block;">                   
+      <div id="ques_data" style="display: block;">
+          <input type="hidden" name="assessmentdatajson" id ="assessmentdatajson">
       
       % for x in data['sections']:
           % question_index=0
@@ -424,8 +354,8 @@ function on_saveForLater(){
                 
               <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-             <!--<button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>  -->
-              <button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>         
+             <!--<button class="btn btn-rose btn-raised save-later" style="" >SAVE FOR LATER</button> -->
+              <button class="btn btn-rose btn-raised save-later" style=""  onclick="on_saveForLater()">SAVE FOR LATER</button>     
             <center> <p  style="font-weight: 800; padding-left: 15px; font-size: 1.0em; display: block; color: green;">Once you have answered the questions, the questions turn to green colour. Please verify in the section if all the questions are green, hence indicating they are answered
                   </p></center>  
           
@@ -440,13 +370,13 @@ function on_saveForLater(){
       <div class="row" style="margin-top: 15px; margin-bottom: 50px;">
         <div class="col-md-6 ml-auto mr-auto text-center">
            <!--<a href="/home">-->
-            <button class="btn btn-rose btn-raised" style="" id="final_submit">Submit</button>
+            <button class="btn btn-rose btn-raised" style="" id="final_submit" onclick="on_submitNew()">Submit</button>
             <center><img id="done_spinner" src="img/spinner.gif" style="width: 75px; display: none;"></center>
           <!--</a>-->
           <br>
           <a href="/ysHome">Go To Home</a>
             <br>
-            <center><p style="padding-left: 15px; font-size: 0.5em;">JSON DATA: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
+            <!--<center><p style="padding-left: 15px; font-size: 0.5em;">JSON DATA: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>-->
           <br>
           <a id="logout">Logout</a>
           <!--<br>
