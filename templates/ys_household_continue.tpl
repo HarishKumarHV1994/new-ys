@@ -505,10 +505,10 @@ var members;
             index += 1;
             buttontag = '';
             if(item.memberInterviewStatus == 'TobeStarted'){
-              buttontag += '<button class="btn btn-rose btn-raised progress-btn" style="" >START INTERVIEW</button>';
+              buttontag += '<button class="btn btn-rose btn-raised start-btn" style="">START INTERVIEW</button>';
             }
            if(item.memberInterviewStatus == 'InProgress'){
-              buttontag += '<button class="btn btn-rose btn-raised progress-btn" style="" >CONTINUE INTERVIEW</button>';
+              buttontag += '<button class="btn btn-rose btn-raised continue-btn" style="">CONTINUE INTERVIEW</button>';
             }
             if(item.memberInterviewStatus == 'Completed'){
               buttontag += '<button class="btn btn-success btn-raised progress-btn" style="" disabled>COMPLETE</button>';
@@ -568,7 +568,7 @@ $("#localeid").html("Locale : " +locale);
 
     });
 
-      $(document).on('click', '.progress-btn', function(){
+      $(document).on('click', '.start-btn', function(){
                 var memberid = $(this).closest("tr").find("input[name='memberid']").val();
                 var houseid = $('#houseid').val();
                 
@@ -577,9 +577,76 @@ $("#localeid").html("Locale : " +locale);
                 // alert(memberId[1]  +" "+ householdId[1]);
                 var url = "/ysAssessment?memberId=" + memberId[1] + "&householdId=" + householdId[1];
             window.location.href = url;
-
-
        });
+    
+    
+     $(document).on('click', '.continue-btn', function(){
+                var memberid = $(this).closest("tr").find("input[name='memberid']").val();
+                var houseid = $('#houseid').val();
+                
+                var memberId = memberid.split("IND_");
+                var householdId = houseid.split("HH_");
+                var headerparams = houseid+'^'+memberid
+                // alert(memberId[1]  +" "+ householdId[1]);
+                var url = "/ysAssessmentContinue/"+headerparams+"?memberId=" + memberId[1] + "&householdId=" + householdId[1];
+            window.location.href = url;
+       });
+    
+    
+    
+    
+    
+   $(document).on('click', '.continue-btn1234', function(){
+
+         var memberid = $(this).closest("tr").find("input[name='memberid']").val();
+         var houseid = $('#houseid').val();
+         console.log('////////');
+         console.log(houseid);
+         console.log(memberid);
+         console.log('////////');
+         var memberId = memberid.split("IND_");
+         var householdId = houseid.split("HH_");
+         var url = "/ysAssessmentContinue?memberId=" + memberId[1] + "&householdId=" + householdId[1];
+         var url1 = "/ysAssessment?memberId=" + memberId[1] + "&householdId=" + householdId[1];
+        setTimeout(function() {
+        
+            var assessmentMetaData={
+                  "memberid":memberid,
+                  "houseid":houseid
+            }
+
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(assessmentMetaData),
+                    contentType: "application/json",
+                    success: function (data) {
+                      $("#spinner").fadeOut("slow");
+                      console.log('########');
+                      //console.log(data);
+                      console.log('#######');
+                      var json = $.parseJSON(data);
+                      if (json.msg == "Success"){
+                          dataobj = json.data
+                           console.log(dataobj);
+                          localStorage.setItem('data',JSON.stringify(dataobj));
+                          window.location.href = url1;
+                        //console.log("Success");
+                        //window.history.back();
+                      }
+                   },
+                   error: function(data){
+                    $("#spinner").fadeOut("slow");
+                    alert("Technical Error!");
+                   }
+
+                 });
+
+        },
+        2000);
+      });
+    
+     
 
       $("#logout").click(function(){
     localStorage.clear();
@@ -608,6 +675,12 @@ function GetUrlParameter(sParam)
         }
     }
 }
+    
+    function continueAssessment(hhID, indID){
+        
+        //alert('hhid')
+        //alert('IndID'+IndID)
+    }
 
 
 
@@ -647,7 +720,7 @@ table {
     <div class="container">
 
       <div id="ques_data" style="display: block;">
-     
+        
         <div class="row" style="margin-top: 75px;">
           <div class="col-md-6 ml-auto mr-auto" >
             <div class="card card-login">
@@ -661,7 +734,7 @@ table {
                 
               <div class="card-body" style="padding-top: 15px; padding-bottom: 15px;">
                   
-                  <table>
+                  <table>    
                     <tr>
                         <th>
                             <center><p style="padding-left: 15px; font-size: 1.0em;" id="districtid"></p></center>
@@ -679,13 +752,13 @@ table {
                         <th>
                             <center><p style="padding-left: 15px; font-size: 1.0em;" id="localeid"></p></center>
                         </th>
-                    </tr>
+                    </tr>  
                     
                  
                  
                  
                  
-                </table>
+                </table>  
                   
                   
                 
@@ -700,7 +773,7 @@ table {
                 <h4 class="card-title" style="padding-left: 3%; padding-right: 3%;">FAMILY INFORMATION</h4>
                
               </div>
-              </div>
+              </div>  
               
              
               <div id="familydata"></div>
