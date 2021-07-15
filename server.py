@@ -212,6 +212,8 @@ def assessmentSaveLaterJS():
             print(numberOfMembersINProgress)
             mydb.users.find_one_and_update({"_id" : ObjectId(userid)},{"$set":{"numberOfMembersINProgress":numberOfMembersINProgress}})
             #Check the user if the status of this household is already In progress. if yes, numberOfHouseholdsINProgress will remain same, If no numberOfHouseholdsINProgress will be +1
+            print(householdId)
+            print(memberId)
             householdfind=mydb.households.find_one({"householdId" : householdId})
             print("householdfind")
             householdstatus=householdfind.get("householdInterviewStatus")
@@ -816,11 +818,14 @@ def ncd_yuvaspandanaContinue(headerparams):
     assessmentforMember = mydb.assessmentData.find_one({ "memberId":memberID,"householdId":householdID})
 
     assessmentdata = assessmentforMember['data']
-    print(assessmentdata[0]['value'])
+    #print(assessmentdata[0]['value'])
     #question_data_rec = question_data['data']
     #print(question_data_rec[0]['ph'])
     q_ind=0
     for y in data["data"]:
+       
+        #print(assessmentdata[q_ind]['value'])
+        #print(assessmentdata[q_ind]['qid'])
         y["ans_required"]=assessmentdata[q_ind]['ans_required']
         y["answered"]=assessmentdata[q_ind]['answered']
         if(assessmentdata[q_ind]['qtype'] == 'time'):
@@ -832,11 +837,25 @@ def ncd_yuvaspandanaContinue(headerparams):
         if(assessmentdata[q_ind]['qtype'] == 'radio'):
             y["others_data"]=assessmentdata[q_ind]['others_data']
             y["value"]=assessmentdata[q_ind]['value']
-        if(assessmentdata[q_ind]['qtype'] == 'text' or assessmentdata[q_ind]['qtype'] == 'num' or assessmentdata[q_ind]['qtype'] == 'radio'):
+            #print(assessmentdata[q_ind]['qid'])
+        if(assessmentdata[q_ind]['qtype'] == 'text' or assessmentdata[q_ind]['qtype'] == 'num' or assessmentdata[q_ind]['qtype'] == 'date'):
             y["value"]=assessmentdata[q_ind]['value']
+        if(assessmentdata[q_ind]['qtype'] == 'num_na'):
+             y["value"]=assessmentdata[q_ind]['value']
+            
+        
         #print(q_ind)
         q_ind = q_ind+1
     
+    #for y in data["data"]:
+        #print('//////')
+        #print(y["qtype"])
+        #print(y["qid"])
+        #print(y)
+        #if(y["qtype"] == 'radio'):
+            #print(y["value"])
+            
+            
     print('Done adding details')
     
     response = {}
