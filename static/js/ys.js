@@ -179,11 +179,12 @@ function checkValid(q_index, field_id, field_range){
         document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
         json_data.data[parseInt(q_index)].value = val
         json_data.data[parseInt(q_index)].answered = "Y"
+        json_data.data[parseInt(q_index)].ans_required = "true"
     }
     if(flag==false){
         alert('Please enter values <='+field_range)
     }
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
 }
 
@@ -202,7 +203,8 @@ function select_radio_na(qid){
     num_of_times_radio_element.classList.remove("btn-rose")
     json_data.data[parseInt(qid)].value="0"
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
 }
 
 function markAnswered(qid,type){
@@ -228,7 +230,8 @@ function markAnswered(qid,type){
         json_data.data[parseInt(qid)].value=val
     }
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
     
 }  
@@ -246,7 +249,8 @@ function select_radio_num_Of_times(qid){
     document.getElementById('q_'+question_id+'_data').style.display = 'block'
     document.getElementById('q_'+question_id+'_orbreak').style.display = 'block'
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
 }
 
@@ -254,6 +258,7 @@ function select_radio(qid, element_id){
 
 	var question_id = json_data.data[parseInt(qid)]['qid']
     json_data.data[parseInt(qid)].answered = "Y"
+    json_data.data[parseInt(qid)].ans_required = "true"
     next_qid=0
     //alert('qid'+qid)
     //alert('question_id'+question_id)
@@ -405,10 +410,12 @@ function select_radio(qid, element_id){
             document.getElementById('q_8_others_data').style.display ='block'
               
               json_data.data[11].ans_required = "true"
+              json_data.data[11].answered = "Y"
         }else{
             document.getElementById('q_8_others_data').style.display ='none'
              
-              json_data.data[11].ans_required = "false"
+              json_data.data[11].ans_required = "true"
+              json_data.data[11].answered = "Y"
         }
     }
     //Nutrition - Fruits
@@ -421,13 +428,13 @@ function select_radio(qid, element_id){
             document.getElementById('q_15_q').style.color='black'
             document.getElementById('q_15_k_q').style.color = 'black'
             document.getElementById('q_15_k_q').value=0
-            json_data.data[17].ans_required = "false"
-            json_data.data[17].value=-9
+            json_data.data[18].ans_required = "false"
+            json_data.data[18].value=-9
             document.getElementById('q_15_q').style.display = 'none'
       		document.getElementById('q_15_ig').style.display = 'none'
             document.getElementById('q_15_k_q').style.display = 'none'
             document.getElementById('q_15_brk').style.display = 'none'
-            json_data.data[17].answered = "Y"
+            json_data.data[18].answered = "Y"
         }else{
             // Dont Show 2.3
             document.getElementById('q_15_q').style.display = 'block'
@@ -437,9 +444,9 @@ function select_radio(qid, element_id){
             document.getElementById('q_15_q').style.color='black'
             document.getElementById('q_15_k_q').style.color = 'black'
             document.getElementById('q_15_k_q').value=0
-            json_data.data[17].ans_required = "true"
-            json_data.data[17].value=0
-            json_data.data[17].answered = "N"
+            json_data.data[18].ans_required = "true"
+            json_data.data[18].value=0
+            json_data.data[18].answered = "N"
         }  
     }
     
@@ -961,9 +968,12 @@ function select_radio(qid, element_id){
     if(qid == 108){
         if(element_id== 6){
             document.getElementById('q_84_others_data').style.display ='block'
+            json_data.data[108].answered = "Y"
+            json_data.data[108].ans_required = "true"
         }else{
             document.getElementById('q_84_others_data').style.display ='none'
             json_data.data[108].answered = "Y"
+            json_data.data[108].ans_required = "true"
         }
     }
     
@@ -971,9 +981,12 @@ function select_radio(qid, element_id){
      if(qid == 70){
         if(element_id== 9){
             document.getElementById('q_63_others_data').style.display ='block'
+             json_data.data[70].answered = "Y"
+             json_data.data[70].ans_required = "true"
         }else{
             document.getElementById('q_63_others_data').style.display ='none'
             json_data.data[70].answered = "Y"
+             json_data.data[70].ans_required = "true"
         }
     }
     
@@ -981,9 +994,12 @@ function select_radio(qid, element_id){
      if(qid == 9){
         if(element_id== 11){
             document.getElementById('q_7_others_data').style.display ='block'
+            json_data.data[9].answered = "Y"
+            json_data.data[9].ans_required = "true"
         }else{
             document.getElementById('q_7_others_data').style.display ='none'
             json_data.data[9].answered = "Y"
+            json_data.data[9].ans_required = "true"
         }
     }
      
@@ -991,9 +1007,12 @@ function select_radio(qid, element_id){
     if(qid == 135){
         if(element_id== 6){
             document.getElementById('q_100_others_data').style.display ='block'
+            json_data.data[135].answered = "Y"
+            json_data.data[135].ans_required = "true"
         }else{
             document.getElementById('q_100_others_data').style.display ='none'
             json_data.data[135].answered = "Y"
+            json_data.data[135].ans_required = "true"
         }
     }
     
@@ -1001,9 +1020,12 @@ function select_radio(qid, element_id){
     if(qid == 161){
         if(element_id== 9){
             document.getElementById('q_115_others_data').style.display ='block'
+            json_data.data[161].answered = "Y"
+            json_data.data[161].ans_required = "true"
         }else{
             document.getElementById('q_115_others_data').style.display ='none'
              json_data.data[161].answered = "Y"
+             json_data.data[161].ans_required = "true"
         }
     }
     
@@ -1028,7 +1050,7 @@ function select_radio(qid, element_id){
       		    document.getElementById('q_101.2_ig').style.display = 'none'
                 document.getElementById('q_101.2_k_q').style.display = 'none'
                 document.getElementById('q_101.2_brk').style.display = 'none'
-            json_data.data[138].answered = "Y"
+                json_data.data[138].answered = "Y"
             
                 document.getElementById('q_101.3_q').style.color='black'
                 document.getElementById('q_101.3_k_q').style.color = 'black'
@@ -1133,7 +1155,7 @@ function select_radio(qid, element_id){
     }
     
     
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
     //If the answer for 4th question is 2 (Single), then the 5th question should be skipped
     
@@ -1161,17 +1183,21 @@ function on_submitNew(){
         //If the question has ans_required == true and answered == N, then that question must be answered by the user.
         //Else the submission of json data should happen
         
-        if(json_data.data[i].ans_required == "true" && json_data.data[i].answered == "N" && (json_data.data[i].qid!='7.1' || json_data.data[i].qid!='63.1')){
-            questions_to_be_answered = questions_to_be_answered + json_data.data[i].qid + ";"
-            flag=1;
+        if(json_data.data[i].ans_required == "true" && json_data.data[i].answered == "N" ){
+            if(json_data.data[i].qid =='7.1' || json_data.data[i].qid == '63.1') {
+             //Do nothing   
+             }else{
+                 questions_to_be_answered = questions_to_be_answered + json_data.data[i].qid + ";"
+                 flag=1;
+            }
         }
 
     }
     //For testing
-	flag = 0
+	//flag = 0
     if(flag == 0){
          //document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
-        alert("All answered")
+        alert("All questions are answered")
         for(var i=0; i<json_data.data.length; i++){
         var ques_type = json_data.data[i].qtype
         if(ques_type == 'text' || ques_type == 'num' || ques_type == 'num_na' || ques_type == 'date'){
@@ -1232,7 +1258,9 @@ function on_submitNew(){
 	    
 
 	}else if(flag == 1){
-		alert('Please provide your response for the questions : '+ questions_to_be_answered)
+		var message = 'Please provide your response for the questions : '+ questions_to_be_answered
+        document.getElementById('jsondata').innerHTML = message
+        
 	}else if(flag == 2){
 		alert('Please answer all the numeric questions')
 	}else if(flag == 3){
@@ -1374,7 +1402,7 @@ function on_saveForLater(){
 	    
     
 
-	    console.log(JSON.stringify(data_payload))    
+	    //console.log(JSON.stringify(data_payload))    
 }
 
 function getLocation() {
@@ -1423,5 +1451,8 @@ function GetUrlParameter(sParam){
         }
     }
 }
+
+
+
 
 
