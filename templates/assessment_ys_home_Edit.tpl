@@ -39,17 +39,105 @@
       var household = householdId;
       document.getElementById('houseid').innerHTML = household
       document.getElementById('memberid').innerHTML = member
-      
+      document.getElementById('jsondata').innerHTML = json_data.data[0].qid
+      //i=0
+        
+      //document.getElementById('jsondata').innerHTML = json_data.data[0].answered  
     //j=1
        //json_data=document.getElementById("json_value").value
         for(var i=0; i<json_data.data.length; i++){
         
         var question_id = json_data.data[i]['qid']
-        /*if(json_data.data[i].ans_required=='false'){
+        var h_answered = document.getElementById('q_'+question_id+'_h_answered')  
+        //alert()
+        if (h_answered != null){
+            json_data.data[i].answered = document.getElementById('q_'+question_id+'_h_answered').value
+            //alert('h_answered'+json_data.data[i].h_answered)
+        } else {
+            //alert('h answered null')
+            json_data.data[i].answered = 'N'
+        }
+            
+        var h_ans_required = document.getElementById('q_'+question_id+'_h_ans_required')  
+        if (h_ans_required != null){
+            json_data.data[i].ans_required = document.getElementById('q_'+question_id+'_h_ans_required').value
+            //alert('h_ans_required'+json_data.data[i].ans_required)
+        } else {
+            
+            json_data.data[i].ans_required = 'true'
+        }
+        
+         var ques_type = json_data.data[i].qtype
+         if(ques_type == 'text' || ques_type == 'date'){
+           var h_data = document.getElementById('q_'+question_id+'_h_data')
+           if (h_data != null){
+                json_data.data[i].value = document.getElementById('q_'+question_id+'_h_data').value
+                //alert('h_data'+json_data.data[i].value)
+            } else {
+                json_data.data[i].value = ''
+            }
+        }
+            
+         if( ques_type == 'num' || ques_type == 'num_na' || ques_type == 'radio' ){
+           var h_data = document.getElementById('q_'+question_id+'_h_data')
+           if (h_data != null){
+                json_data.data[i].value = parseInt(document.getElementById('q_'+question_id+'_h_data').value)
+                //alert('h_data'+json_data.data[i].value)
+            } else {
+                json_data.data[i].value = 0
+            }
+        }
+        
+        if(ques_type == 'bp'){
+            var h_dia = document.getElementById('q_'+question_id+'_h_dia_data')
+            var h_sys = document.getElementById('q_'+question_id+'_h_sys_data')
+           if (h_dia != null){
+                json_data.data[i].dia_value = document.getElementById('q_'+question_id+'_h_dia_data').value
+            } else {
+                json_data.data[i].dia_value = 0
+            }
+            
+            if (h_sys != null){
+                json_data.data[i].sys_value = document.getElementById('q_'+question_id+'_h_sys_data').value
+            } else {
+                json_data.data[i].sys_value = 0
+            }
+            
+        }
+        
+        if(ques_type == 'time'){
+             var h_mm = document.getElementById('q_'+question_id+'_h_mm_data')
+             var h_hh = document.getElementById('q_'+question_id+'_h_hh_data')
+           if (h_mm != null){
+                json_data.data[i].mmvalue = document.getElementById('q_'+question_id+'_h_mm_data').value
+            } else {
+                json_data.data[i].mmvalue = 0
+            }
+            
+            if (h_hh != null){
+                json_data.data[i].hhvalue = document.getElementById('q_'+question_id+'_h_hh_data').value
+            } else {
+                json_data.data[i].hhvalue = 0
+            }
+        }
+        
+        if(ques_type == 'radio'){
+           var h_others = document.getElementById('q_'+question_id+'_h_others_data')
+           if (h_others != null){
+                json_data.data[i].others_data = document.getElementById('q_'+question_id+'_h_others_data').value
+            } else {
+                json_data.data[i].others_data = ''
+            }
+        }
+            
+            
+            
+        if(json_data.data[i].ans_required=='false'){
             document.getElementById('q_'+question_id+'_q').style.display = 'none'
             document.getElementById('q_'+question_id+'_ig').style.display = 'none'
             document.getElementById('q_'+question_id+'_k_q').style.display = 'none'   
-        }*/
+        }
+       
         
         /*if(json_data.data[i].ans_required=='true' && json_data.data[i].answered=='Y'){
             document.getElementById('q_'+question_id+'_q').style.color='green'
@@ -76,9 +164,16 @@
       document.getElementById('q_7.1_ig').style.display = 'none'
       document.getElementById('q_7.1_k_q').style.display = 'none'
         
-        document.getElementById('q_63.1_q').style.display = 'none'
+      document.getElementById('q_63.1_q').style.display = 'none'
       document.getElementById('q_63.1_ig').style.display = 'none'
       document.getElementById('q_63.1_k_q').style.display = 'none'
+      json_data.data[10].value = 'Not Required'
+      json_data.data[10].answered = 'Y'
+      json_data.data[10].ans_required = 'false'
+      json_data.data[71].value = 'Not Required'
+      json_data.data[71].answered = 'Y'
+      json_data.data[71].ans_required = 'false'
+
 
       
 
@@ -265,11 +360,12 @@ function checkValid(q_index, field_id, field_range){
         document.getElementById('q_'+question_id+'_k_q').style.color = 'green'
         json_data.data[parseInt(q_index)].value = val
         json_data.data[parseInt(q_index)].answered = "Y"
+        json_data.data[parseInt(q_index)].ans_required = "true"
     }
     if(flag==false){
         alert('Please enter values <='+field_range)
     }
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
 }
 
@@ -288,7 +384,8 @@ function select_radio_na(qid){
     num_of_times_radio_element.classList.remove("btn-rose")
     json_data.data[parseInt(qid)].value="0"
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
 }
 
 function markAnswered(qid,type){
@@ -314,7 +411,8 @@ function markAnswered(qid,type){
         json_data.data[parseInt(qid)].value=val
     }
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
     
 }  
@@ -332,7 +430,8 @@ function select_radio_num_Of_times(qid){
     document.getElementById('q_'+question_id+'_data').style.display = 'block'
     document.getElementById('q_'+question_id+'_orbreak').style.display = 'block'
     json_data.data[parseInt(qid)].answered = "Y"
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    json_data.data[parseInt(qid)].ans_required = "true"
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
 }
 
@@ -340,6 +439,7 @@ function select_radio(qid, element_id){
 
 	var question_id = json_data.data[parseInt(qid)]['qid']
     json_data.data[parseInt(qid)].answered = "Y"
+    json_data.data[parseInt(qid)].ans_required = "true"
     next_qid=0
     //alert('qid'+qid)
     //alert('question_id'+question_id)
@@ -491,10 +591,12 @@ function select_radio(qid, element_id){
             document.getElementById('q_8_others_data').style.display ='block'
               
               json_data.data[11].ans_required = "true"
+              json_data.data[11].answered = "Y"
         }else{
             document.getElementById('q_8_others_data').style.display ='none'
              
-              json_data.data[11].ans_required = "false"
+              json_data.data[11].ans_required = "true"
+              json_data.data[11].answered = "Y"
         }
     }
     //Nutrition - Fruits
@@ -507,13 +609,13 @@ function select_radio(qid, element_id){
             document.getElementById('q_15_q').style.color='black'
             document.getElementById('q_15_k_q').style.color = 'black'
             document.getElementById('q_15_k_q').value=0
-            json_data.data[17].ans_required = "false"
-            json_data.data[17].value=-9
+            json_data.data[18].ans_required = "false"
+            json_data.data[18].value=-9
             document.getElementById('q_15_q').style.display = 'none'
       		document.getElementById('q_15_ig').style.display = 'none'
             document.getElementById('q_15_k_q').style.display = 'none'
             document.getElementById('q_15_brk').style.display = 'none'
-            json_data.data[17].answered = "Y"
+            json_data.data[18].answered = "Y"
         }else{
             // Dont Show 2.3
             document.getElementById('q_15_q').style.display = 'block'
@@ -523,9 +625,9 @@ function select_radio(qid, element_id){
             document.getElementById('q_15_q').style.color='black'
             document.getElementById('q_15_k_q').style.color = 'black'
             document.getElementById('q_15_k_q').value=0
-            json_data.data[17].ans_required = "true"
-            json_data.data[17].value=0
-            json_data.data[17].answered = "N"
+            json_data.data[18].ans_required = "true"
+            json_data.data[18].value=0
+            json_data.data[18].answered = "N"
         }  
     }
     
@@ -1047,9 +1149,12 @@ function select_radio(qid, element_id){
     if(qid == 108){
         if(element_id== 6){
             document.getElementById('q_84_others_data').style.display ='block'
+            json_data.data[108].answered = "Y"
+            json_data.data[108].ans_required = "true"
         }else{
             document.getElementById('q_84_others_data').style.display ='none'
             json_data.data[108].answered = "Y"
+            json_data.data[108].ans_required = "true"
         }
     }
     
@@ -1057,9 +1162,12 @@ function select_radio(qid, element_id){
      if(qid == 70){
         if(element_id== 9){
             document.getElementById('q_63_others_data').style.display ='block'
+             json_data.data[70].answered = "Y"
+             json_data.data[70].ans_required = "true"
         }else{
             document.getElementById('q_63_others_data').style.display ='none'
             json_data.data[70].answered = "Y"
+             json_data.data[70].ans_required = "true"
         }
     }
     
@@ -1067,9 +1175,12 @@ function select_radio(qid, element_id){
      if(qid == 9){
         if(element_id== 11){
             document.getElementById('q_7_others_data').style.display ='block'
+            json_data.data[9].answered = "Y"
+            json_data.data[9].ans_required = "true"
         }else{
             document.getElementById('q_7_others_data').style.display ='none'
             json_data.data[9].answered = "Y"
+            json_data.data[9].ans_required = "true"
         }
     }
      
@@ -1077,9 +1188,12 @@ function select_radio(qid, element_id){
     if(qid == 135){
         if(element_id== 6){
             document.getElementById('q_100_others_data').style.display ='block'
+            json_data.data[135].answered = "Y"
+            json_data.data[135].ans_required = "true"
         }else{
             document.getElementById('q_100_others_data').style.display ='none'
             json_data.data[135].answered = "Y"
+            json_data.data[135].ans_required = "true"
         }
     }
     
@@ -1087,9 +1201,12 @@ function select_radio(qid, element_id){
     if(qid == 161){
         if(element_id== 9){
             document.getElementById('q_115_others_data').style.display ='block'
+            json_data.data[161].answered = "Y"
+            json_data.data[161].ans_required = "true"
         }else{
             document.getElementById('q_115_others_data').style.display ='none'
              json_data.data[161].answered = "Y"
+             json_data.data[161].ans_required = "true"
         }
     }
     
@@ -1114,7 +1231,7 @@ function select_radio(qid, element_id){
       		    document.getElementById('q_101.2_ig').style.display = 'none'
                 document.getElementById('q_101.2_k_q').style.display = 'none'
                 document.getElementById('q_101.2_brk').style.display = 'none'
-            json_data.data[138].answered = "Y"
+                json_data.data[138].answered = "Y"
             
                 document.getElementById('q_101.3_q').style.color='black'
                 document.getElementById('q_101.3_k_q').style.color = 'black'
@@ -1219,7 +1336,7 @@ function select_radio(qid, element_id){
     }
     
     
-    document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
+    //document.getElementById('assessmentdatajson').value=JSON.stringify(json_data)
     
     //If the answer for 4th question is 2 (Single), then the 5th question should be skipped
     
@@ -1247,17 +1364,21 @@ function on_submitNew(){
         //If the question has ans_required == true and answered == N, then that question must be answered by the user.
         //Else the submission of json data should happen
         
-        if(json_data.data[i].ans_required == "true" && json_data.data[i].answered == "N" && (json_data.data[i].qid!='7.1' || json_data.data[i].qid!='63.1')){
-            questions_to_be_answered = questions_to_be_answered + json_data.data[i].qid + ";"
-            flag=1;
+        if(json_data.data[i].ans_required == "true" && json_data.data[i].answered == "N" ){
+            if(json_data.data[i].qid =='7.1' || json_data.data[i].qid == '63.1') {
+             //Do nothing   
+             }else{
+                 questions_to_be_answered = questions_to_be_answered + json_data.data[i].qid + ";"
+                 flag=1;
+            }
         }
 
     }
     //For testing
-	flag = 0
+	//flag = 0
     if(flag == 0){
          //document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
-        //alert("All answered")
+        alert("All questions are answered")
         for(var i=0; i<json_data.data.length; i++){
         var ques_type = json_data.data[i].qtype
         if(ques_type == 'text' || ques_type == 'num' || ques_type == 'num_na' || ques_type == 'date'){
@@ -1318,7 +1439,9 @@ function on_submitNew(){
 	    
 
 	}else if(flag == 1){
-		alert('Please provide your response for the questions : '+ questions_to_be_answered)
+		var message = 'Please provide your response for the questions : '+ questions_to_be_answered
+        document.getElementById('jsondata').innerHTML = message
+        
 	}else if(flag == 2){
 		alert('Please answer all the numeric questions')
 	}else if(flag == 3){
@@ -1355,8 +1478,8 @@ function on_submit(){
     }
 
 	if(flag == 0){
-        // document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
-        //alert("All answered")
+        //document.getElementById('jsondata').innerHTML = JSON.stringify(json_data)
+        alert("All answered")
         
         
         //alert(json_data);
@@ -1460,7 +1583,7 @@ function on_saveForLater(){
 	    
     
 
-	    console.log(JSON.stringify(data_payload))    
+	    //console.log(JSON.stringify(data_payload))    
 }
 
 function getLocation() {
@@ -1518,7 +1641,7 @@ function GetUrlParameter(sParam){
     <input type="hidden" name="lat" id ="lat">    
     <input type="hidden" name="lon" id ="lon">
     <input type="hidden" name="tps" id ="tps">
-    <input type="hidden" name="assessmentdatajson" id ="assessmentdatajson">
+    <input type="hidden" name="assessmentdatajson" id ="assessmentdatajson" value={{data}}>
     
   
   <!-- <div class="page-header header-filter" style="background-image: url(''); background-size: cover; background-position: top center;"> -->
@@ -1549,10 +1672,13 @@ function GetUrlParameter(sParam){
                         <p id="q_{{y['qid']}}_q" style="font-weight: 400; padding-left: 15px; font-size: 1em; display: block; color:green;">
                             {{y['qid']}} . {{!y['ques']['english']}} 
                         </p>
+                        <input type="hidden" id="q_{{y['qid']}}_h_ans_required" name="q_{{y['qid']}}_h_ans_required" value="{{y['ans_required']}}">
+                        <input type="hidden" id="q_{{y['qid']}}_h_answered" name="q_{{y['qid']}}_h_answered" value="{{y['answered']}}">
                     % else:
                         <p id="q_{{y['qid']}}_q" style="font-weight: 400; padding-left: 15px; font-size: 1em; display: block;">
                             {{y['qid']}} . {{!y['ques']['english']}} 
                         </p>
+                        
                     %  end
                     % if y['answered'] == 'Y':
                         <p id="q_{{y['qid']}}_k_q" style="font-weight: 400; padding-left: 15px; font-size: 1em; display: block; color:green;">
@@ -1571,6 +1697,8 @@ function GetUrlParameter(sParam){
                         % if y['ans_required'] == 'true' and y['answered'] == 'Y':
                             <p id="q_{{y['qid']}}_msg"></p>
                             <input type="text" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 100%;" onchange="markAnswered('{{question_index}}','text')" value="{{y['value']}}">
+                            <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="{{y['value']}}">
+                            
                         % end
                         % if y['ans_required'] == 'true' and y['answered'] == 'N':
                             <p id="q_{{y['qid']}}_msg"></p>
@@ -1587,6 +1715,7 @@ function GetUrlParameter(sParam){
                         % if y['ans_required'] == 'true' and y['answered'] == 'Y':
                             <p id="q_{{y['qid']}}_msg"></p>
                             <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" maxlength="10000000" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_data', '{{y['range']}}')" value="{{y['value']}}" style="width: 50%;">
+                            <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="{{y['value']}}">
                         % end
                         % if y['ans_required'] == 'true' and y['answered'] == 'N':
                             <p id="q_{{y['qid']}}_msg"></p>
@@ -1608,16 +1737,18 @@ function GetUrlParameter(sParam){
                         % end
                         % if y['answered'] == 'Y':
                             <p id="q_{{y['qid']}}_msg"></p>
-                            % if {{y['value']}}== '0':
+                            % if int(y['value']) == 0:
                                 <button class="btn btn-round btn-rose" id="q{{y['qid']}}_rad" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio_na('{{question_index}}')"><b>Not Applicable</b></button>
                                 <button class="btn btn-round " id="q{{y['qid']}}_num_of_times" style="margin-bottom: 4px; white-space:normal;" style="display: none;" onclick="select_radio_num_Of_times('{{question_index}}')"><b>I want to enter number of times</b></button>
                                 <p id="q_{{y['qid']}}_orbreak"><br>Or<br></p>
                                 <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="Number of times" maxlength="10000000" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_data', '{{y['range']}}')" value="0" style="width: 50%;">
+                                <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="0">
                             % else:
                                 <button class="btn btn-round" id="q{{y['qid']}}_rad" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio_na('{{question_index}}')"><b>Not Applicable</b></button>
                                 <button class="btn btn-round btn-rose" id="q{{y['qid']}}_num_of_times" style="margin-bottom: 4px; white-space:normal;" style="display: none;" onclick="select_radio_num_Of_times('{{question_index}}')"><b>I want to enter number of times</b></button>
                                 <p id="q_{{y['qid']}}_orbreak"><br>Or<br></p>
                                 <input type="number" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="Number of times" maxlength="10000000" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_data', '{{y['range']}}')" value="{{y['value']}}" style="width: 50%;">
+                                <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="{{y['value']}}">
                             % end
                         % end
                         
@@ -1639,7 +1770,9 @@ function GetUrlParameter(sParam){
                             <input type="text" class="form-control" id="q_{{y['qid']}}_sys_data" name="q_{{y['qid']}}.1_data"  placeholder="Systolic" style="width: 50%;" onchange="markAnswered('{{question_index}}','bp_sys')" value="{{y['sys_value']}}">
                             <p id="q_{{y['qid']}}.dia_msg"></p>
                             <label for="q_{{y['qid']}}_dia_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Diastolic:</label>
-                            <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 50%;" onchange="markAnswered('{{question_index}}','bp_dia')" value="{{y['dia_value']}}"> 
+                            <input type="text" class="form-control" id="q_{{y['qid']}}_dia_data" name="q_{{y['qid']}}.2_data"  placeholder="Diastolic" style="width: 50%;" onchange="markAnswered('{{question_index}}','bp_dia')" value="{{y['dia_value']}}">
+                            <input type="hidden" id="q_{{y['qid']}}_h_sys_data" name="q_{{y['qid']}}_h_sys_data" value="{{y['sys_value']}}">
+                            <input type="hidden" id="q_{{y['qid']}}_h_dia_data" name="q_{{y['qid']}}_h_dia_data" value="{{y['dia_value']}}">
                         % end
                       % end
                         <!-- To be looked into -->
@@ -1660,6 +1793,9 @@ function GetUrlParameter(sParam){
                                 <p id="q_{{y['qid']}}_mm_msg"></p>
                                 <label for="q_{{y['qid']}}_mm_data" style="font-weight: 200; padding-left: 15px; font-size: 1em; display: block;">Minutes:</label>
                                 <input type="text" class="form-control" id="q_{{y['qid']}}_mm_data" name="q_{{y['qid']}}_mm_data"  placeholder="Minutes 0 to 59" style="width: 50%;" min="0" max="59" onchange="checkValid('{{question_index}}','q_{{y['qid']}}_mm_data', '59')" value="{{y['mmvalue']}}">
+                                <input type="hidden" id="q_{{y['qid']}}_h_hh_data" name="q_{{y['qid']}}_h_hh_data" value="{{y['hhvalue']}}">
+                                <input type="hidden" id="q_{{y['qid']}}_h_mm_data" name="q_{{y['qid']}}_h_mm_data" value="{{y['mmvalue']}}">
+                                
                             % end
                         % end
                         % if y['ans_required'] == 'false':
@@ -1676,6 +1812,7 @@ function GetUrlParameter(sParam){
                          % if y['ans_required'] == 'true' and y['answered'] == 'Y':
                             <p id="q_{{y['qid']}}_msg"></p>
                             <input type="date" class="form-control" id="q_{{y['qid']}}_data" name="q_{{y['qid']}}_data"  placeholder="{{y['ph']}}" style="width: 50%;" onchange="markAnswered('{{question_index}}','date')" value="{{y['value']}}">
+                            <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="{{y['value']}}">
                         % end
                         % if y['ans_required'] == 'true' and y['answered'] == 'N':
                             <p id="q_{{y['qid']}}_msg"></p>
@@ -1690,17 +1827,19 @@ function GetUrlParameter(sParam){
                       % if y['qtype'] == 'radio':
                         % if y['ans_required'] == 'true':
                             % if y['answered'] == 'Y':
+                                <input type="hidden" id="q_{{y['qid']}}_h_data" name="q_{{y['qid']}}_h_data" value="{{y['value']}}">
                                 <p id="q_{{y['qid']}}_msg"></p>
                                 % for z in y['ans']:
-                                    % if y['value']== z['aid']:
+                                    % if int(z['aid']) == int(y['value']):
                                         <button class="btn btn-round btn-rose" id="q{{y['qid']}}_{{z['aid']}}" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio('{{question_index}}', '{{z['aid']}}')"><b>{{z['value']}}</b></button>
                                     % else:
                                         <button class="btn btn-round" id="q{{y['qid']}}_{{z['aid']}}" style="margin-bottom: 4px; white-space:normal;" onclick="select_radio('{{question_index}}', '{{z['aid']}}')"><b>{{z['value']}}</b></button>
-                                    %end
+                                    % end
                                 % end 
                                 % if 'others_data' in y and y['others_data'] != "":
                                     <br> 
-                                    <input class="form-control" type="text" name="q_{{y['qid']}}_others_data" id="q_{{y['qid']}}_others_data" placeholder="Specify others"  onchange="markAnswered('{{question_index}}','others')" style="width: 100%;" value="{{y['others_data']}}"> 
+                                    <input class="form-control" type="text" name="q_{{y['qid']}}_others_data" id="q_{{y['qid']}}_others_data" placeholder="Specify others"  onchange="markAnswered('{{question_index}}','others')" style="width: 100%;" value="{{y['others_data']}}">
+                                    <input type="hidden" id="q_{{y['qid']}}_h_others_data" name="q_{{y['qid']}}_h_others_data" value="{{y['others_data']}}">
                                 % else:
                                      <br> 
                                     <input class="form-control" type="text" name="q_{{y['qid']}}_others_data" id="q_{{y['qid']}}_others_data" placeholder="Specify others"  onchange="markAnswered('{{question_index}}','others')" style="width: 100%; display: none;">
@@ -1754,7 +1893,7 @@ function GetUrlParameter(sParam){
           <!--</a>-->
           <br>
           
-             <!--<center><p style="padding-left: 15px; font-size: 0.5em;">JSON DATA: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>-->
+             <center><p style="padding-left: 15px; font-size: 0.5em;">Message: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
             
             <a href="/ysHome">Go To Home</a>
             <br>
