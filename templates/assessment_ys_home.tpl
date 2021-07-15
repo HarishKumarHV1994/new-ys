@@ -38,7 +38,7 @@ var householdId;
   }
 
       memberId = GetUrlParameter('memberId');
-      householdId = GetUrlParameter('householdId');
+      householdId = GetUrlParameter('householdId');  
       var member = "IND_"+memberId;
       var household = "HH_"+householdId;
       document.getElementById('houseid').innerHTML = household
@@ -61,6 +61,12 @@ var householdId;
       document.getElementById('q_63.1_q').style.display = 'none'
       document.getElementById('q_63.1_ig').style.display = 'none'
       document.getElementById('q_63.1_k_q').style.display = 'none'
+      json_data.data[10].value = 'Not Required'
+      json_data.data[10].answered = 'Y'
+      json_data.data[10].ans_required = 'false'
+      json_data.data[71].value = 'Not Required'
+      json_data.data[71].answered = 'Y'
+      json_data.data[71].ans_required = 'false'
       
       for(var i=0; i<json_data.data.length; i++){
         
@@ -85,118 +91,9 @@ var householdId;
     
 
 
-      $(".save-later1234").click(function(){
+      
 
-   memberId = GetUrlParameter('memberId');
-   householdId = GetUrlParameter('householdId');
-        latlongtimestamp();
-
-        setTimeout(function() {
-               
-           
-var latlong = latitude+","+longitude;
-var member = "IND_"+memberId;
-
-var assessmentData=$('input[name="assessmentdatajson"]').val();
-
-var assessmentDataJson = JSON.parse(assessmentData)
-var assessmentMetaData={
-      "householdId":household,
-      "memberId":member,
-      "userid": localStorage.getItem("userid"),
-      "updatedTime":timestamp
-
-}
-
-
-$.ajax({
-        type: "POST",
-        url: '/assessmentSaveLater',
-        data: JSON.stringify(assessmentMetaData),
-        contentType: "application/json",
-        success: function (data) {
-          $("#spinner").fadeOut("slow");
-          console.log(data);
-          var json = $.parseJSON(data);
-          if (json.msg == "Success"){
-            // console.log(members);
-            localStorage.setItem('household_members',JSON.stringify(json));          
-            console.log("Success");
-             window.history.back();
-          }
-       },
-       error: function(data){
-        $("#spinner").fadeOut("slow");
-        alert("Technical Error!");
-       }
-
-     });
-
-
-
-},
-2000);
-
-
-
-
-      });
-
-      $("#final_submit").click(function(){
-
-        memberId = GetUrlParameter('memberId');
-        householdId = GetUrlParameter('householdId');
-
-        latlongtimestamp();
-
-        setTimeout(function() {
-               
-           
-var latlong = latitude+","+longitude;
-var member = "IND_"+memberId;
-var household = "HH_"+householdId;
-
-var assessmentMetaData={
-      "householdId":household,
-      "memberId":member,
-      "userid": localStorage.getItem("userid"),
-      "completeLocation" : latlong,
-      "updatedTime":timestamp
-
-}
-
-// alert(no_rows);
-console.log(assessmentMetaData);
-
-$.ajax({
-        type: "POST",
-        url: '/assessmentFinalSubmit',
-        data: JSON.stringify(assessmentMetaData),
-        contentType: "application/json",
-        success: function (data) {
-          $("#spinner").fadeOut("slow");
-          console.log(data);
-          var json = $.parseJSON(data);
-          if (json.msg == "Success"){
-            localStorage.setItem('household_members',JSON.stringify(json));
-            window.history.back();
-          }
-       },
-       error: function(data){
-        $("#spinner").fadeOut("slow");
-        alert("Technical Error!");
-       }
-
-     });
-
-
-
-},
-2000);
-
-
-
-      });
+      
 
       $("#logout").click(function(){
     localStorage.clear();
@@ -206,8 +103,8 @@ $.ajax({
 
 
 
-    });
-
+    }); 
+ 
 function GetUrlParameter(sParam)
 
 {
@@ -237,7 +134,7 @@ function GetUrlParameter(sParam)
 
 </head>
 
-<body class="login-page sidebar-collapse">
+<body class="login-page sidebar-collapse">  
  <input type="hidden" name="lat" id ="lat">    
     <input type="hidden" name="lon" id ="lon">
     <input type="hidden" name="tps" id ="tps">    
@@ -376,9 +273,9 @@ function GetUrlParameter(sParam)
           <br>
           <a href="/ysHome">Go To Home</a>
             <br>
-            <!--<center><p style="padding-left: 15px; font-size: 0.5em;">JSON DATA: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>-->
+            <center><p style="padding-left: 15px; font-size: 0.5em;">Message <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
           <br>
-          <a id="logout">Logout</a>
+          <a id="logout">Logout</a>  
           <!--<br>
           <a href="/logout">Logout</a> -->
         </div>
@@ -404,3 +301,4 @@ function GetUrlParameter(sParam)
 </body>
 
 </html>
+
