@@ -1240,7 +1240,8 @@ function on_submitNew(){
 	    xhttp.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200) {
 	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
+	          //window.location.href = '/ysSurveyorStatus'
+              window.location.href =  '/yshouseholdContinue?householdId=' +household
 	        }
 	    };
 	    xhttp.open("POST", "/assessmentFinalSubmitJS", true);
@@ -1254,7 +1255,7 @@ function on_submitNew(){
         
         
         
-        
+       
 	    
 
 	}else if(flag == 1){
@@ -1392,7 +1393,8 @@ function on_saveForLater(){
 	    xhttp.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200) {
 	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
+	          //window.location.href = '/ysSurveyorStatus'
+              window.location.href =  '/yshouseholdContinue?householdId=' +household
 	        }
 	    };
 	    xhttp.open("POST", "/assessmentSaveLaterJS", true);
@@ -1451,6 +1453,9 @@ function GetUrlParameter(sParam){
         }
     }
 }
+
+
+
 
 
 
