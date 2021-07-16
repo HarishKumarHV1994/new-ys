@@ -511,7 +511,7 @@ var members;
               buttontag += '<button class="btn btn-rose btn-raised continue-btn" style="">CONTINUE INTERVIEW</button>';
             }
             if(item.memberInterviewStatus == 'Completed'){
-              buttontag += '<button class="btn btn-success btn-raised progress-btn" style="" disabled>COMPLETE</button>';
+              buttontag += '<button class="btn btn-success btn-raised view-btn" style="">COMPLETE -  VIEW</button>';
             }
             if(item.memberInterviewStatus == 'Not Applicable'){
               buttontag += '<button class="btn btn-info btn-raised progress-btn" style="" disabled>NOT APPLICABLE</button>';
@@ -592,6 +592,17 @@ $("#localeid").html("Locale : " +locale);
             window.location.href = url;
        });
     
+    $(document).on('click', '.view-btn', function(){
+                var memberid = $(this).closest("tr").find("input[name='memberid']").val();
+                var houseid = $('#houseid').val();
+                
+                var memberId = memberid.split("IND_");
+                var householdId = houseid.split("HH_");
+                var headerparams = houseid+'^'+memberid
+                // alert(memberId[1]  +" "+ householdId[1]);
+                var url = "/ysAssessmentView/"+headerparams+"?memberId=" + memberId[1] + "&householdId=" + householdId[1];
+            window.location.href = url;
+       });
     
     
     
@@ -938,3 +949,4 @@ table {
 </body>
 
 </html>
+
