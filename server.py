@@ -866,6 +866,61 @@ def ncd_yuvaspandanaContinue(headerparams):
 
     return template('templates/assessment_ys_home_Edit.tpl', data=data)
 
+
+@app.route('/ysAssessmentView/<headerparams>')
+def ncd_yuvaspandanaView(headerparams):
+    #print('here')
+    #print(headerparams)
+    x = headerparams.split("^")
+    memberID = x[1]
+    householdID = x[0]
+    print(memberID)
+    print(householdID)
+    print('here after getting member and hh')
+    data = get_ys_json()
+    assessmentforMember = mydb.assessmentData.find_one({ "memberId":memberID,"householdId":householdID})
+
+    assessmentdata = assessmentforMember['data']
+    #print(assessmentdata[0]['value'])
+    #question_data_rec = question_data['data']
+    #print(question_data_rec[0]['ph'])
+    q_ind=0
+    for y in data["data"]:
+       
+        #print(assessmentdata[q_ind]['value'])
+        #print(assessmentdata[q_ind]['qid'])
+        y["ans_required"]=assessmentdata[q_ind]['ans_required']
+        y["answered"]=assessmentdata[q_ind]['answered']
+        if(assessmentdata[q_ind]['qtype'] == 'time'):
+            y["hhvalue"]=assessmentdata[q_ind]['hhvalue']
+            y["mmvalue"]=assessmentdata[q_ind]['mmvalue']
+        if(assessmentdata[q_ind]['qtype'] == 'bp'):
+            y["sys_value"]=assessmentdata[q_ind]['sys_value']
+            y["dia_value"]=assessmentdata[q_ind]['dia_value']
+        if(assessmentdata[q_ind]['qtype'] == 'radio'):
+            y["others_data"]=assessmentdata[q_ind]['others_data']
+            y["value"]=assessmentdata[q_ind]['value']
+            #print(assessmentdata[q_ind]['qid'])
+        if(assessmentdata[q_ind]['qtype'] == 'text' or assessmentdata[q_ind]['qtype'] == 'num' or assessmentdata[q_ind]['qtype'] == 'date'):
+            y["value"]=assessmentdata[q_ind]['value']
+        if(assessmentdata[q_ind]['qtype'] == 'num_na'):
+             y["value"]=assessmentdata[q_ind]['value']
+            
+        
+        #print(q_ind)
+        q_ind = q_ind+1
+            
+            
+    print('Done adding details')
+    
+    response = {}
+    response["msg"] = "Success"
+    response["data"] = data
+    
+    #data = get_ys_json()
+
+    return template('templates/assessment_ys_home_view.tpl', data=data)
+
 #Use this
 @app.route('/ysAssessment')
 def ncd_yuvaspandana():
