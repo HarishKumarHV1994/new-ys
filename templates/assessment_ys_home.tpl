@@ -34,7 +34,7 @@ var householdId;
       var user_name = localStorage.getItem("user_name");
   
   if(!user_name){
-    window.location.href = "/login";
+    window.location.href = "/login";    
   }
 
       memberId = GetUrlParameter('memberId');
@@ -273,7 +273,7 @@ function GetUrlParameter(sParam)
           <br>
           <a href="/ysHome">Go To Home</a>
             <br>
-            <center><p style="padding-left: 15px; font-size: 0.5em;">Message <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
+            <center><p style="padding-left: 15px; font-size: 1em;">Message:<span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.0em;"></span></p></center>
           <br>
           <a id="logout">Logout</a>  
           <!--<br>
@@ -284,10 +284,10 @@ function GetUrlParameter(sParam)
     </div>   
 
 
-    </div>
+    </div>    
     
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>   
   <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
   <script src="../assets/js/plugins/moment.min.js"></script>
@@ -301,4 +301,5 @@ function GetUrlParameter(sParam)
 </body>
 
 </html>
+
 
