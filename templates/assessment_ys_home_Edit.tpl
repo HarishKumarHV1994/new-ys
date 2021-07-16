@@ -1421,7 +1421,8 @@ function on_submitNew(){
 	    xhttp.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200) {
 	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
+	          //window.location.href = '/ysSurveyorStatus'
+            window.location.href =  '/yshouseholdContinue?householdId=' +household
 	        }
 	    };
 	    xhttp.open("POST", "/assessmentFinalSubmitJS", true);
@@ -1573,7 +1574,8 @@ function on_saveForLater(){
 	    xhttp.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200) {
 	          //console.log(this.responseText);
-	          window.location.href = '/ysSurveyorStatus'
+	          //window.location.href = '/ysSurveyorStatus'
+             window.location.href =  '/yshouseholdContinue?householdId=' +household
 	        }
 	    };
 	    xhttp.open("POST", "/assessmentSaveLaterJS", true);
@@ -1893,7 +1895,7 @@ function GetUrlParameter(sParam){
           <!--</a>-->
           <br>
           
-             <center><p style="padding-left: 15px; font-size: 0.5em;">Message: <span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.2em;"></span></p></center>
+             <center><p style="padding-left: 15px; font-size: 1em;">Message:<span id="jsondata" style="font-weight: bold; padding-left: 15px; font-size: 1.0em;"></span></p></center>
             
             <a href="/ysHome">Go To Home</a>
             <br>
